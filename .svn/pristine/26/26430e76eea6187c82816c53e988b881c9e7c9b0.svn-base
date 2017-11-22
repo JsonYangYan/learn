@@ -1,0 +1,133 @@
+<?php
+/**
+ * 关于普通选择题相关操作
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/7/30
+ * Time: 17:15
+ */
+
+namespace Home\Model;
+use Think\Model;
+class TpchoiceanswerModel extends  Model{
+
+    /**
+     * yan
+     * 根据某个选择题、在某个月份、中各个选项、在总提交中所占的比例
+     * @param $currentdate
+     * @return mixed
+     */
+    public function getOneQuestionOneMonthScale($areaName,$queId, $currentdate) {
+        if($areaName!=="襄阳市"){
+            $sql = "SELECT c.*,d.* FROM
+                                (
+                                    SELECT COUNT(*) school_num
+                                    FROM tpschoolinfor
+                                    WHERE schoolArean = '$areaName' AND userTime LIKE '$currentdate%' AND state =1
+                                ) AS d,
+                                (
+                                    SELECT a.autoId,a.queId,a.choiceContent,COUNT(*) AS check_sum
+                                    FROM tpchoice a
+                                      LEFT JOIN tpchoiceanswer b
+                                      ON a.autoId = b.choiceId
+                                    WHERE a.queId = $queId AND b.schoolId IN(SELECT autoId
+                                    FROM tpschoolinfor
+                                    WHERE schoolArean = '$areaName' AND userTime LIKE '$currentdate%' AND state =1)AND b.userTime LIKE '$currentdate%'
+                                    GROUP BY a.autoId
+                                ) AS c
+                      ";
+        }else{
+            $sql = "
+                SELECT c.*,d.* FROM
+                                (
+                                    SELECT COUNT(*) school_num
+                                    FROM tpschoolinfor
+                                    WHERE userTime LIKE '$currentdate%' AND state =1
+                                ) AS d,
+                                (
+                                    SELECT a.autoId,a.queId,a.choiceContent,COUNT(*) AS check_sum
+                                    FROM tpchoice a
+                                      LEFT JOIN tpchoiceanswer b
+                                      ON a.autoId = b.choiceId
+                                    WHERE a.queId = $queId AND b.userTime LIKE '$currentdate%'
+                                    GROUP BY a.autoId
+                                ) AS c
+                      ";
+        }
+
+       $result = M()->query($sql);
+        $result_arr = array();
+       foreach ($result as $k=>$v) {
+            $arr["name"] = $v["choiceContent"];
+            $check_sum = $v["check_sum"];
+            $school_sum = $v["school_num"];
+            $score = round(($check_sum / $school_sum) * 100 ,2);
+            $arr["value"] = $score;
+            array_push($result_arr,$arr);
+       }
+       return $result_arr;
+    }
+
+    /**
+     * 得到上个月选择题，并且把学校id换成本月的
+     * @param $schoolId 上个月的学校id
+     * @param $autoId 本月的学校id
+     * @return mixed
+     * @author yyn
+     */
+    public function getChoiceAnswerBySchoolId($schoolId,$autoId){
+        $result = M("Tpchoiceanswer")
+            ->field("queId,is_checked,choiceId,$autoId as schoolId")
+            ->where("schoolId = $schoolId")->select();
+        return $result;
+    }
+
+    /**
+     * 将选择题答案存到临时表中
+     * @param $choiceArray
+     * @author yyn
+     */
+    public function addChoiceAnswer($choiceArray) {
+        M("Tpchoiceanswer_temp")->addAll($choiceArray);
+    }
+
+    /**
+     * 根据学校的id删除临时表中选择题答案
+     * @author yyn
+     */
+    public function deleteChoiceAnswerBySchoolId($schoolId){
+        M("Tpchoiceanswer_temp")->where("schoolId = $schoolId")->delete();
+    }
+
+    /**
+     * 删除正式表中选择题的答案
+     * @param $schoolId
+     * @author yyn
+     */
+    public function deleteTrueChoiceAnswerBySchoolId($schoolId){
+        M("Tpchoiceanswer")->where("schoolId = $schoolId")->delete();
+    }
+
+
+    /**
+     * 将选择题答案存到正式表中
+     * @param $choiceArray
+     * @author yyn
+     */
+    public function addToTrueChoiceAnswer($choiceArray){
+        M("Tpchoiceanswer")->addAll($choiceArray);
+    }
+
+    /**
+     * 将临时表中的数据取出，然后保存到正式表中
+     * @param $schoolId
+     * @return mixed
+     * @author yyn
+     */
+    public function getTempChoiceAnswerBySchoolId($schoolId){
+        $result = M("Tpchoiceanswer_temp")
+            ->field("queId,is_checked,choiceId,schoolId")
+            ->where("schoolId = $schoolId")->select();
+        return $result;
+    }
+}

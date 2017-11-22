@@ -1,0 +1,62 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/11/7
+ * Time: 20:03
+ */
+namespace Home\Service;
+
+use Think\Model;
+class TpSchoolinforService extends Model{
+
+    /**
+     * 用户登录常态页时，返回学校信息，这个方法包括了从上个月复制一份试卷到本月份
+     * @param $username
+     * @return mixed
+     * @author yyn
+     */
+    public function getTpSchoolByUserName($username) {
+        //检查本月份是否有记录
+        $result = D("Tpschoolinfor","Model")->getLatestSchoolByUserName($username);
+        $timestamp = strtotime($result["userTime"]);
+        if (date("Y-m",$timestamp) != date("Y-m",time())){
+            $result = D("Tpschoolinfor","Model")->getNewStateSchoolByUserName($username);
+            //没有记录，复制上个月的一份到tschoolinfor
+            $autoId = D("Tpschoolinfor","Model")->addSchoolUser($result);//返回学校id
+            //把答案从上个月正式表中复制一份到这个月的临时表中
+            //复制选择题到临时表
+            $schoolId = $result["autoId"];//上个月的学校id
+            $choiceAnawer = D("Tpchoiceanswer")->getChoiceAnswerBySchoolId($schoolId,$autoId);
+            D("Tpchoiceanswer")->addChoiceAnswer($choiceAnawer);
+            //填空题复制一份
+            $blankAnswer = D("Tpblankanswer")->getBlankAnswerBySchoolId($schoolId,$autoId);
+            D("Tpblankanswer")->addBlankanswer($blankAnswer);
+        }
+        return $result;
+    }
+
+    /**
+     * 提交问卷
+     * @param $username
+     * @author yyn
+     */
+    public function submitPaper($username){
+        $result = D("Tpschoolinfor","Model")->getLatestSchoolByUserName($username);
+        $schoolId = $result["autoId"];
+        //删除选择题正式表中的数据
+        D("Tpchoiceanswer")->deleteTrueChoiceAnswerBySchoolId($schoolId);
+        //添加选择题临时表到正式表
+        $choiceAnawer = D("Tpchoiceanswer")->getTempChoiceAnswerBySchoolId($schoolId);
+        D("Tpchoiceanswer")->addToTrueChoiceAnswer($choiceAnawer);
+
+        //删除填空题正式表中的数据
+        D("Tpblankanswer")->deleteTrueBlankAnswerBySchoolId($schoolId);
+        //添加选择题到正式表中
+        $blankAnswer = D("Tpblankanswer")->getTempBlankAnswerBySchoolId($schoolId);
+        D("Tpblankanswer")->addToTrueBlankanswer($blankAnswer);
+        //修改提交状态
+        D("Tpschoolinfor")->setState($schoolId);
+        return "ok";
+    }
+}

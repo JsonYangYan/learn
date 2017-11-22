@@ -1,0 +1,86 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+.clear {
+	clear: both;
+}
+
+.nav {
+	width: 1000px;
+	margin: auto;
+}
+
+.navbar li {
+	width: 100px;
+	height: 30px;
+	list-style-type: none;
+	float: left;
+	margin-top: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
+	background-color: #3BB2D0;
+	text-align: center;
+	line-height: 30px;
+}
+
+.navbar a {
+	display: block;
+	width: 100px;
+	color: #000000;
+	text-decoration: none;
+	font-size: 20px;
+}
+
+.content {
+	width: 1000px;
+	height: 800px;
+	border: 1px solid #ccc;
+	overflow: auto;
+	margin: auto;
+}
+
+.detail tr {
+	width: 800px;
+	height: 50px;
+	margin-left: 150px;
+	display: flex;
+	justify-content: space-between;
+	line-height: 50px;
+	font-size: 20px;
+}
+
+.detail {
+	display: none;
+}
+
+.detail:last-of-type {
+	display: block;
+}
+
+.detail:target {
+	display: block;
+}
+
+.detail:target ~ .detail {
+	display: none;
+}
+
+.submit {
+	width:800px;
+	margin: auto;
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 20px;
+}
+
+input[type='button'] {
+	color: #000000;
+	background-color: #3BB2D0;
+	width: 100px;
+	height: 50px;
+	font-size: 20px;
+	border: none;
+	cursor: pointer;
+}

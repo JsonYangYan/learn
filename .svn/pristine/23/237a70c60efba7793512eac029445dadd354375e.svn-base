@@ -1,0 +1,53 @@
+<?php
+/**
+ * 三级指标类型的相关操作
+ * User: yan
+ * Date: 2017-8-17
+ * Time: 9:58
+ */
+
+namespace Home\Model;
+
+use Think\Model;
+class TthirdindexModel
+{
+    /**
+     * 获取三级指标类型
+     */
+    public function  getThirdIndexType(){
+        $result = M("Tthirdindex")->field("thirdIndexType")->select();
+        $temp = array();
+        foreach($result as $k=>$v){
+            $temp[]= $v["thirdIndexType"];
+        }
+        return $temp;
+    }
+
+    /**
+     * 根据二级指标Id获取三级指标Id
+     * @param $secondIndexId
+     * @return array
+     */
+    public function getThirdIndexId($secondIndexId){
+        $result = M("Tthirdindex")->field('thirdIndexId')->where("secondIndexId = $secondIndexId")->select();
+        $temp = array();
+        foreach($result as $k=>$v){
+            $temp[]= (int)$v["thirdIndexId"];
+        }
+        return $temp;
+    }
+
+    /**
+     * 根据二级指标Id获取三级指标权重
+     * @param $secondIndexId
+     * @return array
+     */
+    public function getThirdIndexPercent($secondIndexId){
+        $result = M("Tthirdindex")->field('thirdIndexPercent')->where("secondIndexId = $secondIndexId")->select();
+        $temp = array();
+        foreach($result as $k=>$v){
+            $temp[]= (float)$v["thirdIndexPercent"];
+        }
+        return $temp;
+    }
+}

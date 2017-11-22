@@ -1,0 +1,169 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Yan
+ * Date: 2017/11/6
+ * Time: 16:36
+ */
+namespace Home\Model;
+use Think\Model;
+
+class TpblankanswerModel extends Model{
+    /**
+     * 获取指定日期所有区域的得分
+     * @param $currentdate
+     * @return array
+     */
+    public function getOneMonthAllAreasScore($areaName,$currentdate){
+        $sql = "
+                SELECT  e.area_name,e.area_id as id,f.queId,f.value FROM tarea AS e LEFT JOIN
+                    (
+                    SELECT schoolArean,queId,FORMAT(AVG(blankText),2) as value
+                    FROM (
+                            SELECT area_id,autoId,schoolArean
+                            FROM tarea a
+                            LEFT JOIN tpschoolinfor b
+                            ON a.area_name = b.schoolArean
+                            WHERE a.area_id !=13 AND b.userTime LIKE '$currentdate%' AND b.state =1
+                        ) AS c
+                    LEFT JOIN tpblankanswer AS d
+                    ON c.autoId = d.schoolId
+                    GROUP BY queId,area_id
+                    ORDER BY area_id,queId
+                ) as f
+              ON e.area_name = f.schoolArean
+              WHERE e.area_id !=13
+              ORDER BY area_id,queId
+              ";
+        $result = M()->query($sql);
+        $XYCity = array();//襄阳市的总值
+        foreach ($result as $k=>$v) {
+            $XYCity[$v["queId"]] = $XYCity[$v["queId"]] +$v["value"];
+        }
+
+        $XYAvg = array();//用来存襄阳市各填空题的平均值
+        foreach ($XYCity as $k=>$v) {
+            if($k){
+                array_push($XYAvg,round($v/12,2));
+            }
+        }
+        //将区县和得分放到一起
+        $scoreArr = array();
+        foreach($result as $k=>$v) {
+            if($areaName){
+                if($areaName==$v["area_name"]){
+                    $scoreArr[$areaName][] = (float)$v["value"];
+                }
+            }else {
+                $scoreArr[$v["area_name"]][] = $v["value"];
+            }
+        }
+        $resu = array();
+        foreach ($scoreArr as $k=>$v){
+            $arr["area"] = $k;
+            $arr["value"] = $v;
+            array_push($resu, $arr);
+        }
+        $arr["area"] = "襄阳市";
+        $arr["value"] = $XYAvg;
+        array_push($resu,$arr);
+        foreach ($resu as $k=>$v){
+            if (count($v["value"])!=12){
+                for($i=0;$i<12;$i++) {
+                    if(!$resu[$k]["value"][$i]) {
+                        $resu[$k]["value"][$i] = 0;
+                    }
+                }
+            }
+        }
+        return $resu;
+    }
+
+    /**
+     * 得到上个月天空题的一些数据
+     * @param $time
+     * @param $queIds
+     * @param $schoolId
+     * @return mixed
+     * @author yyn
+     */
+    public function getTpLastMonthDate($queIds,$schoolId) {
+        $sql = "
+                SELECT d.queContent,d.unitSymbol,d.queId,IFNULL(c.answer,0) answer FROM tpquestion AS d 
+                LEFT JOIN (
+                          SELECT a.queContent,a.unitSymbol,b.blankText AS answer,a.queId FROM tpquestion AS a 
+                          LEFT JOIN tpblankanswer AS b
+                          ON a.queId = b.queId
+                          WHERE a.queId in ($queIds) AND b.schoolId = $schoolId
+                          ) AS c 
+                ON d.queId = c.queId 
+                WHERE d.queId in ($queIds)
+        ";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+    /**
+     * 得到上个月填空题，并且把学校id换成本月的
+     * @param $schoolId 上个月学校id
+     * @param $autoId 本月学校id
+     * @return mixed
+     * @author yyn
+     */
+    public function getBlankAnswerBySchoolId($schoolId,$autoId) {
+        $result = M("Tpblankanswer")
+            ->field("queId,blankText,blankScore,$autoId as schoolId")
+            ->where("schoolId = $schoolId")->select();
+        return $result;
+    }
+
+    /**
+     * 添加填空题到临时表中
+     * @param $textObject
+     * @author yyn
+     */
+    public function addBlankanswer($textObject){
+        M("Tpblankanswer_temp")->addAll($textObject);
+    }
+
+    /**
+     * 删除临时表中填空题中的答案
+     * @param $schoolId
+     * @author yyn
+     */
+    public function deleteBlankanswerBySchoolId($schoolId){
+        M("Tpblankanswer_temp")->where("schoolId = $schoolId")->delete();
+    }
+
+    /**
+     * 删除正式表中的答案
+     * @param $schoolId
+     * @author yyn
+     */
+    public function deleteTrueBlankAnswerBySchoolId($schoolId){
+        M("Tpblankanswer")->where("schoolId = $schoolId")->delete();
+    }
+
+    /**
+     * 添加填空题到正式表中
+     * @param $textObject
+     * @author yyn
+     */
+    public function addToTrueBlankanswer($textObject){
+        M("Tpblankanswer")->addAll($textObject);
+    }
+
+    /**
+     * 将临时表中的数据取出，然后存到正式表中
+     * @param $schoolId
+     * @return mixed
+     * @author yyn
+     */
+    public function getTempBlankAnswerBySchoolId($schoolId){
+        $result = M("Tpblankanswer_temp")
+            ->field("queId,blankText,blankScore,schoolId")
+            ->where("schoolId = $schoolId")->select();
+        return $result;
+    }
+
+}

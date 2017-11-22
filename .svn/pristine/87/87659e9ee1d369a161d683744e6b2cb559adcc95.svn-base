@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="content-type">
+    <title>襄阳市教育信息化发展水平评估系统</title>
+    <link type="text/css" rel="stylesheet" href="__CSS__/city/base.css" />
+    <link rel="stylesheet" href="__CSS__/city/ranking.css" />
+    <link rel="icon" href="__IMAGE__/icon.png"/>
+    <script type="text/javascript" src="__JS__/jquery1.8.2.min.js"></script>
+    <script type="text/javascript" src="__JS__/trimpath.js"></script>
+    <script type="text/javascript" src="__JS__/highcharts.js"></script>
+   	<script type="text/javascript" src="__JS__/lib/echarts.min.js"></script>
+   	<script type="text/javascript" src="__JS__/paging.js"> </script>
+   	<script type="text/javascript" src="__JS__/jquery.cookie.js"> </script>
+	<script>
+		var getCityScoreAreaNameByCurrentTimeUrl = "{:U('Admin/getCityScoreAreaNameByCurrentTime')}";//排名总表url
+		var getOneIndexScoreUrl = "{:U('Admin/getOneIndexScore')}";//
+		var getMinAvgMaxUpDownScoreUrl = "{:U('Admin/getMinAvgMaxUpDownScore')}";//总分排名右边部分
+	</script>
+</head>
+<body>
+	<div class="header">襄阳市教育信息化发展水平评估系统</div>
+	<div id="container" style="padding-bottom: 20px;">
+		<div id="floatNavRanking">
+			<include file="Common/navigation"/>
+		</div>
+		<div style="height:1px"></div>
+		<div class="total_title">
+			月份：
+	     </div>
+		
+		<div style="width: 998px;float: right;margin-top:20px;margin-right:20px;">
+
+			<div style="border: 1px solid #DCDCDC;margin-bottom: 20px;background: url('__IMAGE__/Admin/score_rangking.png') left top no-repeat">
+		        <div id="histogram2"> </div>
+		        <div id="rightContent">
+		        	<div>最高值:<label id="max_value"></label>(<label id="max_area"></label>)</div>
+		        	<div>最低值:<label id="min_value"></label>(<label id="min_area"></label>)</div>
+		        	<div>平均值:<label id="avg_value"></label></div>
+		        	<div>高于平均值的个数:<label id="up_avg_num"></label></div>
+		        	<div>低于平均值的个数:<label id="down_avg_num"></label></div>
+		        </div>
+		    	<div style="clear: both;height: 20px;"></div>
+		    </div>
+		    
+		    <div id="month_ranking" style="background:url('__IMAGE__/Admin/score_rangking.jpg') left top no-repeat;">
+		   		<div id="month_ranking_center">
+		   		</div>
+		    </div>
+		  
+		   
+			<div style="border: 1px solid #DCDCDC;background: url('__IMAGE__/Admin/class_ranking.png') left top no-repeat">
+		        
+		        <div id="histogram"> </div>
+		        
+		        <div style="float:left">
+		    		<span id="1" onclick="changeHisogram(1)" class="button_style">基础设施</span>
+		    		<span id="2" onclick="changeHisogram(2)" class="button_style">教学信息化应用</span>
+		    		<span id="3" onclick="changeHisogram(3)" class="button_style">教研信息化应用</span>
+		    		<span id="4" onclick="changeHisogram(4)" class="button_style">管理与服务信息化应用</span>
+		    		<span id="5" onclick="changeHisogram(5)" class="button_style">信息化保障</span>
+		    	</div>
+		    	<div style="clear: both;height: 20px;"></div>
+		    </div>
+		    
+	        <!--表格输出区域-->
+	    <div id="table_div">
+
+		</div>  	
+    	</div>
+    	<div class="clear"> </div>
+	</div>
+	<div id="footer">
+		<include file="Common/footer"/>
+	</div>
+</body>
+</html>
+<script type="text/javascript" src="__JS__/city/base.js"></script>
+<script type="text/javascript" src="__JS__/lib/highcharts_func.js"> </script>
+<script type="text/javascript" src="__JS__/city/auto_ranking.js"> </script>
+<script type="text/javascript" src="__JS__/city/ranking.js"></script>

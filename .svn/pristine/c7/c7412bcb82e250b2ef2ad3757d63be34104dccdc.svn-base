@@ -1,0 +1,259 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/8/22
+ * Time: 15:35
+ */
+namespace Home\Model;
+use Think\Model;
+class TpschoolinforModel extends  Model{
+    /**
+     * 根据用户名查看学校是否登陆过
+     * @param $userName
+     * @return mixed
+     * @author yyn
+     */
+    public function getSchoolByUserName($userName) {
+        $result = M("Tpschoolinfor")->where("userName = '$userName'")->select();
+        return $result;
+    }
+
+    /**
+     * 得到教学点学校最新的一条记录
+     * @param $userName
+     * @return mixed
+     * @author yyn
+     */
+    public function getLatestSchoolByUserName($userName){
+        $result = M("Tpschoolinfor")->where("userName = '$userName'")->order("autoId desc")->find();
+        return $result;
+    }
+
+    /**
+     * 添加用户信息到tpschoolinfor表
+     * @param $data
+     * @author yyn
+     */
+    public function addSchoolUser($data) {
+        unset($data["autoId"]);
+        $data["userName"] = session("username");
+        $data["state"] = 0;
+        $data["userTime"] = date("Y-m-d H:i:s",time());
+        $result = M("Tpschoolinfor")->add($data);
+        return $result;
+    }
+
+    /**
+     * 得到用户的提交状态
+     * @author yyn
+     */
+    public function getSchoolCheckStatus() {
+        $userName = session("username");
+        $result = M("Tpschoolinfor")
+            ->field("userTime")
+            ->where("userName = '$userName' and state=1")
+            ->order("autoId desc")
+            ->find();
+        return $result;
+    }
+
+    /**
+     * 得到指定日期提交的教学点数量
+     * @param $currentdate
+     * @return int
+     * author yan
+     */
+    public function getSpecifiedDateSchoolSubmitNum($currentdate) {
+        $count = M("Tpschoolinfor")->where("userTime like '$currentdate%' and state =1")->count();
+        return $count;
+    }
+
+    /**
+     * 得到区域指定日期提交的教学点数量
+     * @param $currentdate
+     * @param $areaName
+     * @return int
+     * author yan
+     */
+    public function getAreaSpecifiedDateSchoolSubmitNum($areaName,$currentdate) {
+        if($areaName!="襄阳市"){
+            $count = M("Tpschoolinfor")->where("state =1 and schoolArean = '$areaName' and userTime like '$currentdate%'")->count();
+        }else{
+            $count = M("Tpschoolinfor")->where("state =1 and userTime like '$currentdate%'")->count();
+        }
+
+        return $count;
+    }
+
+    /**
+     * 各区县在指定时间内的教学点提交情况
+     * @param $currentdate
+     * @return mixed
+     * author yan
+     */
+    public function getAreaSubmit($currentdate) {
+        $sql = "
+            SELECT name,area_total,IFNULL(state_total,0) state_total ,area_id
+            FROM (
+                SELECT b.area_name name,area_total,b.area_id
+                FROM tarea as b
+                LEFT JOIN
+                (SELECT area_id,count(*) area_total FROM tschooluser a  WHERE a.role = 'tpuser' GROUP BY area_id) c
+                ON b.area_id = c.area_id
+                WHERE b.area_id !=13) as e
+            LEFT JOIN (
+                      SELECT a.area_name AS area_name,COUNT(*) AS state_total
+                      FROM tarea as a
+                      LEFT JOIN tpschoolinfor as b
+                      ON a.area_name = b.schoolArean
+                      WHERE b.userTime LIKE '%$currentdate%' and b.state =1 GROUP BY a.area_name
+                      )as f
+            ON e.`name` = f.area_name
+        ";
+        $result = M()->query($sql);
+        foreach ($result as $k=>$v){
+            $value = ($v["state_total"]/$v["area_total"])*100;
+            $value =  round($value,2);
+            $result[$k]["value"] =$value;
+        }
+        return $result;
+    }
+
+    /**
+     * 得到某一个区县，某个月份的具体教学点提交情况
+     * @param $currentdate
+     * @param $area_id
+     * @return mixed
+     * author yan
+     */
+    public function getOneAreaSubmit($currentdate, $area_id) {
+        $sql = "
+               SELECT c.sch_name name,tarea.area_name area,IFNULL(d.state,0) status
+                   FROM tarea, tschooluser c
+                   LEFT JOIN (
+                            SELECT a.username,a.sch_name,b.schoolArean,IFNULL(b.state,0) state, b.userTime
+                                FROM tschooluser a
+                                LEFT JOIN tpschoolinfor b ON a.username=b.userName
+                                WHERE a.area_id =$area_id and b.userTime LIKE '$currentdate%'	AND a.role = 'tpuser'
+                            ) d
+                            ON c.username = d.username
+                WHERE c.area_id= $area_id AND c.role = 'tpuser' and tarea.area_id = $area_id
+                ORDER BY status ASC
+                ";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+    /**
+     * 得到某一个区县，某个月份的具体提交情况以及查询特定教学点的提交情况
+     * autor yan
+     * @param $schoolName
+     * @param $currentdate
+     * @param $area_id
+     * @return mixed
+     */
+    public function getAndsearchAreaSchool($schoolName,$currentdate, $area_id) {
+        if(empty($schoolName)){
+            $sql = "
+               SELECT c.sch_name name,tarea.area_name area,IFNULL(d.state,0) status
+                   FROM tarea, tschooluser c
+                   LEFT JOIN (
+                            SELECT a.username,a.sch_name,b.schoolArean,IFNULL(b.state,0) state, b.userTime
+                                FROM tschooluser a
+                                LEFT JOIN tpschoolinfor b ON a.username=b.userName
+                                WHERE a.area_id =$area_id and b.userTime LIKE '$currentdate%'	AND a.role = 'tpuser'
+                            ) d
+                            ON c.username = d.username
+                WHERE c.area_id= $area_id AND c.role = 'tpuser' and tarea.area_id = $area_id
+                ORDER BY status ASC
+                ";
+        }else{
+            $sql = "
+               SELECT c.sch_name name,tarea.area_name area,IFNULL(d.state,0) status
+                   FROM tarea, tschooluser c
+                   LEFT JOIN (
+                            SELECT a.username,a.sch_name,b.schoolArean,IFNULL(b.state,0) state, b.userTime
+                                FROM tschooluser a
+                                LEFT JOIN tpschoolinfor b ON a.username=b.userName
+                                WHERE a.area_id =$area_id and b.userTime LIKE '$currentdate%'	AND a.role = 'tpuser'
+                            ) d
+                            ON c.username = d.username
+                WHERE c.area_id= $area_id AND c.sch_name LIKE '%".$schoolName."%'AND c.role = 'tpuser' and tarea.area_id = $area_id
+                ORDER BY status ASC
+                ";
+        }
+        $result = M()->query($sql);
+        return $result;
+    }
+
+    /**
+     * 通过用户名，时间得到学校的id
+     * @param $userName
+     * @param $time
+     * @author yyn
+     */
+    public function getTpSchoolIdByUserNameTime($userName,$time) {
+        $result = M("Tpschoolinfor")
+            ->field("autoId")
+            ->where("userName = '$userName' and userTime like '$time%'")
+            ->find();
+        if (!$result)
+            return -1;
+        return $result["autoId"];
+    }
+
+    /**
+     * 修改用户信息
+     * @param $schoolId
+     * @param $data
+     * @return mixed
+     * @author yyn
+     */
+    public function updateTpSchoolinfor($schoolId,$data){
+        $data["userTime"] = date("Y-m-d H:i:s",time());
+        $result = M("Tpschoolinfor")->where("autoId = $schoolId")->save($data);
+        return $result;
+    }
+
+    /**
+     * 根据用户名查找最近提交过的学校的id
+     * @param $userName
+     * @return mixed
+     * @author yyn
+     */
+    public function getNewStateSchoolByUserName($userName) {
+        $result = M("Tpschoolinfor")->where("userName = '$userName' and state = 1")->order("autoId desc")->find();
+        return $result;
+    }
+
+    /**
+     * 通过用户名，时间得到学校的id
+     * @param $userName
+     * @param $time
+     * @author yyn
+     */
+    public function getSchoolIdByUserNameTime($userName,$time) {
+        $result = M("Tpschoolinfor")
+            ->field("autoId")
+            ->where("userName = '$userName' and userTime like '$time%'")
+            ->find();
+        if (!$result)
+            return -1;
+        return $result["autoId"];
+    }
+
+    /**
+     * 修改提交后的状态
+     * @param $schoolId
+     * @author yyn
+     */
+    public function setState($schoolId){
+        $data["state"] = 1;
+        $data["userTime"] = date("Y-m-d H:i:s",time());
+        M("Tpschoolinfor")->where("autoId = $schoolId")->save($data);
+    }
+
+
+
+}

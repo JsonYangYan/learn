@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta name="viewpoint" content="width=device-width; initial-scale=1" />
+	<title>襄阳市教育信息化发展水平评估系统</title>
+	<link rel="icon" href="__IMAGE__/county/dataactuality/icon.png"/>
+	<link type="text/css" rel="stylesheet" href="__CSS__/county/base.css" />
+ 	<link type="text/css" rel="stylesheet" href="__CSS__/county/tpdataactuality.css" />
+	<script src="__JS__/jquery1.8.2.min.js"></script>
+	<script type="text/javascript" src="__JS__/lib/highcharts.js"></script>
+    <script type="text/javascript" src="__JS__/lib/highcharts-more.js"></script>
+	<script src="__JS__/jquery.cookie.js"></script>
+	<script>
+		var getBlankAvgUrl = "{:U('County/getTpOneMonthAreaBlanksScore')}";
+		var getChoiceUrl = "{:U('County/getTpOneQuestionOneMonthScale')}";
+		var getAranNameUrl = "{:U('County/getAranName')}";
+		var getStatisticsUrl = "{:U('County/tpstatistics')}";
+	</script>
+</head>
+<body>
+	<div class="header">襄阳市教育信息化发展水平评估系统<i id="em">教育局欢迎您</i></div>
+	<div id="container">
+		<div id="floatNavStandard">
+			<include file="Common:countyNavigation"/>
+		</div>
+		<div style="border:none;height:1px"></div>
+		<div class="total_title">
+			月份：
+	     </div>
+		<div class="dataactuality">填报统计</div>
+		<div class="content">
+			<div class="nowData">
+				<table class="tab_left">
+
+				</table>
+
+				<table class="tab_right">
+
+				</table>
+			</div>
+			<div class="data_column clearfix">
+				<div id="info_column"><img src="__IMAGE__/Admin/info_now_column.png"/></div>
+				<div id="classroom_form_colum" class="data_left"> </div>	<!--  学校多媒体教室的形态有哪些？		 -->
+				<div id="teacher_resource_colum" class="data_right"> </div>	<!-- 学校建设并应用的数字化教学资源有哪些？-->
+				<div id="teacher_system_colum" class="data_left"> </div>  <!-- 学校应用的数字化教学系统有哪些？ -->
+				<div id="teacher_research_column" class="data_right"> </div>  <!-- 学校建设并应用的数字化教研资源有哪些？ -->
+				<div id="school_research_column" class="data_left"> </div>  <!-- 学校应用的数字化教研系统有哪些？ -->
+				<div id="info_system" class="data_right"> </div>  <!-- 学校应用的信息管理系统有哪些？-->
+				<div id="all_system_colum" class="data_left"> </div>	<!--  学校一卡通系统能够实现的功能包括哪些？		 -->
+				<div id="information_publish_colum" class="data_right"> </div>	<!-- 学校经常运用以下哪种手段进行信息发布与对外宣传？-->
+				<div id="information_expenditure_colum" class="data_left_last"> </div>  <!-- 学校信息化经费主要来源有哪些？ -->
+			
+			</div>
+		</div>
+		<div class="clear"> </div>
+	</div>
+	<div class="clear"> </div>
+	<div id="footer">
+		<include file="Common:footer"/>
+	</div>
+</body>
+</html>
+<script src="__JS__/county/base.js"></script>
+<script src="__JS__/county/tpdataactuality.js"></script>

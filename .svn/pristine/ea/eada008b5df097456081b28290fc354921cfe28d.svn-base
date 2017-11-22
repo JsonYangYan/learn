@@ -1,0 +1,119 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/8/21
+ * Time: 14:37
+ */
+namespace Home\Service;
+
+use Think\Model;
+class TschoolinforService extends Model{
+
+    /**
+     * 典型指标 学校、区域和襄阳市的对比情况
+     * @author yyn
+     */
+    public function typicalIndexContrastBySchoolId($autoId,$userTime) {
+        //getSchoolDetail
+        $schoolInfo = D("Tschoolinfor","Model")->getSchoolInfoByAutoid($autoId);
+        $blankText = D("Tblankanswer","Model")->getBlankTextBySchoolId($autoId);
+        $resultSchool[] = $schoolInfo["schoolName"];
+        $resultSchool[] = $schoolInfo["classNumber"];
+        $resultSchool[] = $schoolInfo["teacherNumber"];
+        $resultSchool[] = $schoolInfo["studentNumber"];
+        $expTitle = $schoolInfo["schoolName"];
+        for ($i=0; $i<count($blankText); $i++){
+            $resultSchool[] = $blankText[$i]["blankText"];
+        }
+        //getAreaDetail
+        $area = $schoolInfo["schoolArean"];
+        $schoolAreaUserTimeCondition["schoolArean"] = array("eq",$area);
+        $schoolAreaUserTimeCondition["userTime"] = array("like",$userTime."%");
+        $schoolAreaUserTimeCondition["state"] = array("eq",1);
+        $schoolsInfo = D("Tschoolinfor","Model")->getSchoolsInforByCondition($schoolAreaUserTimeCondition);
+        $schoolIdsString = D("Tschoolinfor","Model")->getSchoolIdsStringBySchoolAreanUserTime($schoolAreaUserTimeCondition);
+        $blankText = D("Tblankanswer")->getBlankTextBySchoolIdsString($schoolIdsString);
+        $resultArea[] = $area;
+        $resultArea[] = $schoolsInfo["class_sum"];
+        $resultArea[] = $schoolsInfo["teacher_sum"];
+        $resultArea[] = $schoolsInfo["student_sum"];
+        for ($i=0; $i<count($blankText); $i++){
+            $resultArea[] = round($blankText[$i]["avg"],2);
+        }
+        //getAllAreasSchoolDitail
+        $userTimeStateCondition["userTime"] = array("like", $userTime."%");
+        $userTimeStateCondition["state"] = array("eq",1);
+        $schoolsInfo = D("Tschoolinfor","Model")->getSchoolsInforByCondition($userTimeStateCondition);
+        $schoolIdsString = D("Tschoolinfor","Model")->getSchoolIdsStringBySchoolAreanUserTime($userTimeStateCondition);
+        $blankText = D("Tblankanswer")->getBlankTextBySchoolIdsString($schoolIdsString);
+        $resultCity[] = "襄阳市";
+        $resultCity[] = $schoolsInfo["class_sum"];
+        $resultCity[] = $schoolsInfo["teacher_sum"];
+        $resultCity[] = $schoolsInfo["student_sum"];
+        for ($i=0; $i<count($blankText); $i++){
+            $resultCity[] = round($blankText[$i]["avg"],2);
+        }
+        $data[] = $resultSchool;
+        $data[] = $resultArea;
+        $data[] = $resultCity;
+        $sheetData["data"] = $data;
+        $sheetData["sheetName"] = "对比表";
+        $expTableData[] = $sheetData;
+        $expCellName = D("Tblankanswer","Service")->getTblcnkQuestion();
+        D("PHPExcel")->exportExcel($expTitle, $expCellName, $expTableData);
+    }
+
+    /**
+     * 用户登录常态页时，返回学校信息，这个方法包括了从上个月复制一份试卷到本月份
+     * @param $username
+     * @return mixed
+     * @author yyn
+     */
+    public function getTpSchoolByUserName($username) {
+        //检查本月份是否有记录
+        $result = D("Tschoolinfor","Model")->getSchoolByUserName($username);
+        $timestamp = strtotime($result["userTime"]);
+        if (date("Y-m",$timestamp) != date("Y-m",time())){
+            $result = D("Tschoolinfor","Model")->getNewStateSchoolByUserName($username);
+            //没有记录，复制上个月的一份到tschoolinfor
+            $autoId = D("Tschoolinfor","Model")->addSchoolUser($result);//返回学校id
+            //把答案从上个月正式表中复制一份到这个月的临时表中
+            //复制选择题到临时表
+            $schoolId = $result["autoId"];//上个月的学校id
+            $choiceAnawer = D("Tchoiceanswer")->getChoiceAnswerBySchoolId($schoolId,$autoId);
+            D("Tchoiceanswer")->addChoiceAnswer($choiceAnawer);
+            //填空题复制一份
+            $blankAnswer = D("Tblankanswer")->getBlankAnswerBySchoolId($schoolId,$autoId);
+            D("Tblankanswer")->addBlankanswer($blankAnswer);
+        }
+        return $result;
+    }
+
+    /**
+     * 提交问卷
+     * @param $username
+     * @author yyn
+     */
+    public function submitPaper($username){
+        $result = D("Tschoolinfor","Model")->getSchoolByUserName($username);
+        $schoolId = $result["autoId"];
+        //删除选择题正式表中的数据
+        D("Tchoiceanswer")->deleteTrueChoiceAnswerBySchoolId($schoolId);
+        //添加选择题临时表到正式表
+        $choiceAnawer = D("Tchoiceanswer")->getTempChoiceAnswerBySchoolId($schoolId);
+        D("Tchoiceanswer")->addToTrueChoiceAnswer($choiceAnawer);
+
+        //删除填空题正式表中的数据
+        D("Tblankanswer")->deleteTrueBlankAnswerBySchoolId($schoolId);
+        //添加选择题到正式表中
+        $blankAnswer = D("Tblankanswer")->getTempBlankAnswerBySchoolId($schoolId);
+        D("Tblankanswer")->addToTrueBlankanswer($blankAnswer);
+        //修改提交状态
+        D("Tschoolinfor")->setState($schoolId);
+        return "ok";
+    }
+
+
+
+}

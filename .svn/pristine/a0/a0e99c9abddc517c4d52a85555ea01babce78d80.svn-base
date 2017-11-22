@@ -1,0 +1,222 @@
+//判断提交状态  1没有提交过（包括本月和以前） ，2 提交过，且本月提交过，3 提交过，且本月没有提交
+
+$.ajax({
+	url:getSchoolCheckStatusUrl,
+	data:{
+		"school_type":"tp"
+	},
+	type:"post",
+	success:function(data){
+        var fig = data["fig"];
+        if(fig == 1){
+            $(".update_submit a").html("问卷填写");
+            $(".submit").hide();
+            $(".update_submit").show();
+            $(".button_time_diff").hide();
+        }
+        if(fig == 2){
+            $(".submit").hide();
+            var datys = data["days"];
+            $(".update_submit").show();
+            $(".button_time_diff").show();
+            $(".button_time_diff").html("距上次提交"+datys+"天");
+        }
+        if(fig == 3){
+            $(".submit").show();
+            $(".update_submit").show();
+            $(".button_time_diff").hide();
+        }
+	},
+	error:function(){
+		
+	}
+});
+
+$(".submit").click(function(){
+	$.ajax({
+		url:submitTpPaperUrl,
+		type:"post",
+		success:function(data){
+            if(data == "ok"){
+                var txt=  "提交成功";
+                window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.info);
+                $(".submit").hide();
+                $(".button_time_diff").show();
+                $(".update_submit").show();
+                $(".button_time_diff").html("距上次提交0天");
+            }else{
+                console.log("提交失败");
+            }
+		},
+		error:function(){
+			
+		}
+		
+	});
+	
+});
+
+$("#next_information").live("click", function() {
+	
+	$.ajax({
+		type : "POST",
+		url : "../../servlet/SchoolInforServlet",
+		data : {
+			"operation" : "judge",
+		},
+		contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		success : function(data) {
+			window.location.replace("../quiz/quiz.html");
+		},
+		error : function() {
+			//alert("information/连接失败！");
+			var txt=  "information/连接失败！";
+			window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.info);
+		}
+	});
+	
+});
+
+
+//这个方法包括了从数据库中查询本月分是否有上个月的数据，没有就复制一份
+var user_info = function() {
+
+	$.ajax({
+		url: getTpUserInfoFromTschoolinforUrl,
+		type: 'POST',
+		success:function(data) {
+			//将数据原样显示在input中
+			$("#area").html(data.schoolArean);
+			$("#school_addr").html(data.schoolName);
+			$("#staffteacher").html(data.teacherNumber);
+			$("#nativestudent").html(data.studentNumber);
+			$("#relation").html(data.personName);
+			$("#mobile").html(data.telPhone);
+			$("#email").html(data.eMail);
+			$("#class_num").html(data.classNumber);
+			$("#school_area").html(data.schoolTown);
+			$("#school_type").html(data.schoolType);
+		},
+		error:function() {
+			var txt=  "获取用户基本信息连接数据库失败！";
+			window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.info);
+		}
+	});
+}
+
+function showSomeData() {
+	$.ajax({
+		url:getLastMonthDataUrl,
+		type:"post",
+		data:{
+			"operation":"somedata",
+			"type":"tp",
+		},
+		success:function(data){
+			$("#lastMonth").text(data["lastMonth"]);
+			var str = "";
+			for(var i=0;i<data["data"].length;i++){
+				
+				var s = data["data"][i]["unitSymbol"];
+				s = s.substring(0,s.length-1);
+				str+="<tr><td>"+ '*' + data["data"][i]["queContent"] + ':' + "</td>" + "<td>" + data["data"][i]["answer"] + s + "</td></tr>";
+			}
+			$("#somedtab").html(str);
+		},
+		error:function(data){
+			alert("数据库连接失败");
+		}
+	});
+}
+
+function getRanking(selectDate){
+	$.ajax({
+		url:"../../servlet/RankingAndAverageServlet",
+		type:"post",
+		data:{
+			"operation":"shixianrangk",
+			"userTime":selectDate
+		},
+		success:function(data){
+			var data = JSON.parse(data);
+			var shi = data[0]["shi"];
+			var xian = data[0]["xian"];
+			$("#shi").html(shi);
+			$("#xian").html(xian);
+		},
+		error:function(){
+			alert("加载失败");
+		}
+	});
+}
+
+var init = function() {
+	user_info();	//页面初始化---显示用户数据
+	showSomeData();//显示用户的一些数据
+	//getRanking(str_before_month);//求排名
+}
+
+//获取时间月份
+//加载时间
+var data_num = new Date();
+var data_month=data_num.getMonth() + 1;
+var data_year=data_num.getFullYear();
+var str =data_year + "-" + '0' +(data_month);
+var str_before_month =data_year + "-" + '0' +(data_month-1);
+// getRanking(str_before_month);
+
+for(var i=1;i<=12;i++){
+	var data_before=data_month-i;
+
+	if (data_before==0) {
+		var data_before=12;
+		var str_befor=(data_year-1)+ "-" +(data_before);
+//		console.log(str_befor)
+		var option=$("<option>" + str_befor + "</option>")
+		$(".selectAge").append(option);
+		if(option.text() == "2016-12"){
+			break;
+		}
+		$("#drop1 li").eq(0).css("color",'black');
+		$("#drop1 li").eq(0).css("cursor",'pointer');
+		$("#drop1 li").eq(0).click(function(){
+			getRanking($(this).text());
+		});
+		break;
+	} else{
+		var str_befor=data_year + "-" + '0' +(data_before);
+		var option=$("<option>" + str_befor + "</option>")
+		$(".selectAge").append(option);
+		console.log(str_befor)
+		if(option.text() == "2017-01" || option.text() == "2017-02"){
+			break;
+		}
+		$("#drop1 li").eq(data_before).css("color",'black');
+		$("#drop1 li").eq(data_before).css("cursor",'pointer');
+		$("#drop1 li").eq(data_before).click(function(){
+			getRanking($(this).text());
+		})
+	}
+
+}
+
+
+init();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

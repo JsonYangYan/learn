@@ -1,0 +1,52 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: yan
+ * Date: 2017/8/28
+ * Time: 11:59
+ */
+namespace Home\Model;
+use Think\Model;
+class TchoicetrueanswerModel extends Model{
+
+    /**
+     * 根据三级Id获取对应的选择题编号queId
+     * @param $thirdIndexId
+     * @return array
+     */
+    public function getChoiceQueIdByThirdIndexId($thirdIndexId){
+        $result = M("Tchoicetrueanswer")->field('queId')->where("thirdIndexId = $thirdIndexId")->select();
+        $temp = array();
+        foreach($result as $k=>$v){
+            $temp[]= (int)$v["queId"];
+        }
+        return $temp;
+    }
+
+    /**
+     * 根据题号获取每道题的比重
+     * @param $queId
+     * @return float
+     */
+    public function getChoiceAnswerPercentByQueId($queId){
+        $result = M("Tchoicetrueanswer")->field('choiceAnswerPercent')->where("queId = $queId")->select();
+        foreach($result as $k=>$v){
+            $data = (float)$v["choiceAnswerPercent"];
+        }
+        return $data;
+    }
+
+    /**
+     * 根据题号获取每道题的标准答案
+     * @param $queId
+     * @return float
+     */
+    public function getChoiceAnswerContentByQueId($queId){
+        $result = M("Tchoicetrueanswer")->field('choiceAnswerContent')->where("queId = $queId")->select();
+        foreach($result as $k=>$v){
+            $data = $v["choiceAnswerContent"];
+        }
+        $res = explode(',',$data);
+        return $res;
+    }
+}

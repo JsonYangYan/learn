@@ -1,0 +1,230 @@
+<?php
+/**
+ *五大维度指标得分操作
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/8/9
+ * Time: 11:59
+ */
+namespace Home\Model;
+use Think\Model;
+class TareascoreModel extends  Model{
+
+    /**
+     * 根据区域名和时间查找区域的值
+     * @param $areaName
+     * @param $currentTime
+     * @return array
+     */
+    public function getAreaScoreByAreaNameCurrentTime($areaName, $currentTime) {
+        $result = M("Tareascore")
+                ->field("oneone,onetwo,onethree,onefour,onefive")
+                ->where("areaName ='$areaName' and createTime like '$currentTime%'")
+                ->find();
+        if($result) {
+            $arr [] = (float)$result["oneone"];
+            $arr [] = (float)$result["onetwo"];
+            $arr [] = (float)$result["onethree"];
+            $arr [] = (float)$result["onefour"];
+            $arr [] = (float)$result["onefive"];
+        }else{
+            $arr = array(0,0,0,0,0);
+        }
+        return $arr;
+
+    }
+
+    /**
+     * 根据时间查找襄阳市的值
+     * @param $currentTime
+     * @return array
+     */
+    public function getCityScoreByCurrentTime($currentTime) {
+       $result = M("Tareascore")
+            ->field("avg(oneone) as oneone_avg,avg(onetwo) as onetwo_avg,avg(onethree) as onethree_avg,avg(onefour) as onefour_avg,avg(onefive) as onefive_avg")
+            ->where("createTime like '$currentTime%'")
+            ->select();
+        if($result[0]) {
+            $arr [] = round($result[0]["oneone_avg"],2);
+            $arr [] = round($result[0]["onetwo_avg"],2);
+            $arr [] = round($result[0]["onethree_avg"],2);
+            $arr [] = round($result[0]["onefour_avg"],2);
+            $arr [] = round($result[0]["onefive_avg"],2);
+        }else{
+            $arr = array(0,0,0,0,0);
+        }
+        return $arr;
+    }
+
+    /**
+     * 根据时间查找襄阳市的值，全部字段返回
+     * @param $currentTime
+     * @return mixed
+     * @author yyn
+     */
+    public function getCityScoreAreaNameByCurrentTime($currentTime) {
+        $result = M("Tareascore")->where("createTime like '$currentTime%'")->order("comprehensive DESC")->select();
+        return $result;
+    }
+
+    /**
+     * 通过时间得到五大维度的平均值和综合的平均值
+     * @param $currentTime
+     * @return mixed
+     * @author yyn
+     */
+    public function getAvgScoreByCurrentTime($currentTime) {
+        $result = M("Tareascore")->field("AVG(oneone) AS oneone,AVG(onetwo) AS onetwo,AVG(onethree) AS onethree,AVG(onefour) AS onefour,AVG(onefive) AS onefive,AVG(comprehensive) AS comprehensive ")
+                  ->where("createTime like '$currentTime%'")->find();
+        return $result;
+    }
+
+    /**
+     * 得到湖北省五大维度的平均值
+     * @return mixed
+     * @author yyn
+     */
+    public function getHubeiAvgScore() {
+        $result = M("Thubeifirstindexscore")->select();
+        return $result;
+    }
+
+    /**
+     * 得到全国五大维度的平均值
+     * @author yyn
+     */
+    public function getNationAvgScore() {
+        $result = M("Tquanguofirstindexscore")->select();
+        return $result;
+    }
+
+    /**
+     * 根据条件返回 字段
+     * @param $field
+     * @param $where
+     * @author yyn
+     */
+    public function getAllScoreAreaNameCreateTime($field, $where) {
+        $result = M("Tareascore")
+                ->field($field)
+                ->where($where)
+                ->order("createTime")
+                ->select();
+        return $result;
+    }
+
+
+    /**
+     * 得到最高的平均分、区县名
+     * @param $currentTime
+     * @return mixed
+     * @author yyn
+     */
+    public function getMaxScoreAreaNameByCurrentTime($currentTime) {
+        $sql = "
+                SELECT comprehensive,areaName 
+                FROM tareascore 
+                WHERE comprehensive = (
+                                        SELECT max(comprehensive) FROM tareascore WHERE createTime like '$currentTime%'
+                                      ) 
+                                      AND createTime like '$currentTime%'
+        ";
+        return M()->query($sql);
+    }
+    /**
+     * 得到最低的平均分、区县名
+     * @param $currentTime
+     * @return mixed
+     * @author yyn
+     */
+    public function getMinScoreAreaNameByCurrentTime($currentTime) {
+        $sql = "
+                SELECT comprehensive,areaName 
+                FROM tareascore 
+                WHERE comprehensive = (
+                                        SELECT min(comprehensive) FROM tareascore WHERE createTime like '$currentTime%'
+                                      ) 
+                                      AND createTime like '$currentTime%'
+        ";
+        return M()->query($sql);
+    }
+
+    /**
+     * 得到某个月份的综合绩效的平均值
+     * @param $currentTime
+     * @return mixed
+     * @author yyn
+     */
+    public function getComprehensiveAvgScoreByCurrentTime($currentTime) {
+        return M("Tareascore")->field("avg(comprehensive) as avg")->where()->find();
+    }
+
+
+    /**
+     * 得到某个月份下高于平均分的个数
+     * @param $currentTime
+     * @author yyn
+     */
+    public function getUpAvgNum($currentTime) {
+        $sql = "
+                SELECT count(*) sum FROM tareascore 
+                WHERE comprehensive > (
+                                      SELECT avg(comprehensive) FROM tareascore WHERE createTime like '$currentTime%'
+                                      ) 
+                AND createTime like '$currentTime%'
+        ";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+    /**
+     * 得到某个月份下低于平均分的个数
+     * @param $currentTime
+     * @return mixed
+     * @author yyn
+     */
+    public function getDownAvgNum($currentTime) {
+        $sql = "
+                SELECT count(*) sum FROM tareascore 
+                WHERE comprehensive < (
+                                      SELECT avg(comprehensive) FROM tareascore WHERE createTime like '$currentTime%'
+                                      ) 
+                AND createTime like '$currentTime%'
+        ";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+    /**
+     * 插入区域一级指标的分数
+     * @param $areaName
+     * @param $oneone
+     * @param $onetwo
+     * @param $onethree
+     * @param $onefour
+     * @param $onefive
+     * @param $comprehensive
+     * @param $time
+     */
+    public function insertAreanScore($areaName,$oneone,$onetwo,$onethree,$onefour,$onefive,$comprehensive,$time){
+        $data["areaName"] = $areaName;
+        $data["oneone"] = $oneone;
+        $data["onetwo"] = $onetwo;
+        $data["onethree"] = $onethree;
+        $data["onefour"] = $onefour;
+        $data["onefive"] = $onefive;
+        $data["comprehensive"] = $comprehensive;
+        $data["createTime"] = $time;
+        M("Tareascore")->add($data);
+    }
+
+    /**
+     * 根据月份删除一级指标得分
+     * @param $currentTime
+     */
+    public function delAreanScore($currentTime){
+       //M("Tareascore")->where("createTime like '$currentTime%'")->delete();
+        $sql = "DELETE FROM tareascore WHERE createTime LIKE '$currentTime%'";
+        $result = M()->query($sql);
+    }
+}

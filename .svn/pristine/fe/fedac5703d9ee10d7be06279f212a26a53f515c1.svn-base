@@ -1,0 +1,79 @@
+<!--导航-->
+<div id="img_nav" >
+
+	<div id="change_phtot_main"><!--首页-->
+		<img id="img_before_1" src="__IMAGE__/Admin/1_before.jpg" onmouseover="this.src='__IMAGE__/Admin/1_after.jpg'" onmouseout="this.src='__IMAGE__/Admin/1_before.jpg'"/>
+		<img id="img_after_1" src="__IMAGE__/Admin/1_after.jpg" style="display: none"/>
+	</div>
+
+
+	<div id="change_phtot_standard"><!--评分标准-->
+		<img id="img_before_3" src="__IMAGE__/Admin/3_before.jpg" onmouseover="this.src='__IMAGE__/Admin/3_after.jpg'" onmouseout="this.src='__IMAGE__/Admin/3_before.jpg'"/>
+		<img id="img_after_3" src="__IMAGE__/Admin/3_after.jpg" style="display: none"/>
+	</div>
+
+	<div id="change_phtot_statistics"><!--填报统计-->
+		<img id="img_before_2" src="__IMAGE__/Admin/2_before.jpg" onmouseover="this.src='__IMAGE__/Admin/2_after.jpg'" onmouseout="this.src='__IMAGE__/Admin/2_before.jpg'"/>
+		<img id="img_after_2" src="__IMAGE__/Admin/2_after.jpg" style="display: none"/>
+	</div>
+
+
+	<div id="change_phtot_school"><!--学校评估-->
+		<img id="img_before_10" src="__IMAGE__/Admin/10_before.jpg" onmouseover="this.src='__IMAGE__/Admin/10_after.jpg'" onmouseout="this.src='__IMAGE__/Admin/10_before.jpg'"/>
+		<img id="img_after_10" src="__IMAGE__/Admin/10_after.jpg" style="display: none"/>
+	</div>
+
+	<div id="change_phtot_index"><!--退出-->
+		<img id="img_before_8" src="__IMAGE__/Admin/8_before.jpg"/>
+		<img id="img_after_8" src="__IMAGE__/Admin/8_after.jpg"  style="display: none"/>
+	</div>
+</div>
+
+<script>
+
+	$("#change_phtot_main").click(function(){
+        $.cookie("navstation", "img_before_1", { path: "/" });
+		window.location.href = "{:U('County/index')}";
+	});
+    $("#change_phtot_standard").click(function(){
+        $.cookie("navstation", "img_before_3", { path: "/" });
+        window.location.href = "{:U('County/standard')}";
+    });
+    $("#change_phtot_statistics").click(function(){
+        $.cookie("navstation", "img_before_2", { path: "/" });
+        window.location.href = "{:U('County/quiz')}";
+    });
+	$("#change_phtot_dataactuality").click(function(){
+        $.cookie("navstation", "img_before_12", { path: "/" });
+		window.location.href = "{:U('County/dataactuality')}";
+	});
+    $("#change_phtot_tp").click(function(){
+		$.cookie("navstation", "img_before_13", { path: "/" });
+		window.location.href = "{:U('County/tpstatistics')}";
+    });
+    $("#change_phtot_school").click(function(){
+        $.cookie("navstation", "img_before_10", { path: "/" });
+        window.location.href = "{:U('County/school')}";
+    });
+
+    $("#change_phtot_allassessment").click(function(){
+        $.cookie("navstation", "img_before_4", { path: "/" });
+        window.location.href = "{:U('County/allassessment')}";
+    });
+    $("#change_phtot_schRanking").click(function(){
+        $.cookie("navstation", "img_before_11", { path: "/" });
+        window.location.href = "{:U('County/schoolRanking')}";
+    });
+    $("#change_phtot_ranking").click(function(){
+        $.cookie("navstation", "img_before_6", { path: "/" });
+        window.location.href = "{:U('County/ranking')}";
+    });
+    $("#change_phtot_printPDF").click(function(){
+        $.cookie("navstation", "img_before_7", { path: "/" });
+        window.location.href = "{:U('County/printPDF')}";
+    });
+	$("#change_phtot_index").click(function(){
+        $.cookie("navstation", "img_before_8", { path: "/" });
+		window.location.href = "{:U('Index/index')}";
+	});
+</script>

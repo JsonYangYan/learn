@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta name="viewpoint" content="width=device-width; initial-scale=1" />
+	<title>襄阳市教育信息化发展水平评估系统</title>
+	<link rel="icon" href="__IMAGE__/icon.png"/>
+	<link type="text/css" rel="stylesheet" href="__CSS__/school/base.css" />
+	<link type="text/css" rel="stylesheet" href="__CSS__/school/checkLink.css" />
+	<link type="text/css" rel="stylesheet" href="__CSS__/jquery_alert.css" />
+	<script src="__JS__/jquery1.8.2.min.js"></script>
+	<script type="text/javascript" src="__JS__/jquery_alert.js"></script>
+
+  </head>
+  
+  <body>
+  <div class="header">襄阳市教育信息化发展水平评估系统</div>
+	<div style="height:630px;width: 1200px;background:#FFF;margin: 0 auto;font-family: Microsoft yahei;"> 
+	<div style="height:1px"></div>
+		<form method="post" action="{:U('School/doeditpwd')}" id="submit">
+		<div class="containt">
+		<div class="success">
+			重置密码
+			<table>
+				<tr>
+					<td>请输入新密码：</td>
+					<td><input type="password" id="pwd_one" name="pwd"></td>
+				</tr>
+				<tr>
+					<td>请重新输入新密码：</td>
+					<td><input type="password" id="pwd_two" name="pwd2"></td>
+				</tr>
+				<tr>
+					
+					<td colspan="2"><div class="confirm">确定</div></td>
+				</tr>
+			</table>
+			
+		</div>
+	</div>
+		</form>
+	</div>
+	<div class="clear"> </div>
+	<div id="footer">
+		<include file="Common/footer"/>
+	 </div>
+    
+  </body>
+  <script type="text/javascript">
+	  $(".confirm").click(
+		 function () {
+			$.ajax({
+				url:"{:U('School/doeditpwd')}",
+				data:{
+				    "pwd":$("#pwd_one").val(),
+					"pwd2":$("#pwd_two").val()
+				},
+				type:"post",
+				success:function (data) {
+					if (data == "success"){
+                        var txt=  "修改成功，请重新登录！";
+                        alert(txt);
+                        //window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.info);
+					}
+					if (data == "error"){
+                        var txt=  "修改失败！";
+                        alert(txt);
+                        //window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.info);
+					}
+					if (data == "password_error"){
+                        var txt=  "两次输入密码不一致，或者密码为空！";
+                        alert(txt);
+                        //window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.info);
+                        return;
+					}
+					if (data == "link_error"){
+                        var txt=  "链接出现错误或密码已经修改，请重试！";
+                        alert(txt);
+                        //window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.info);
+					}
+					if (data == "link_outdate"){
+                        var txt=  "链接失效，请重新申请！";
+                        alert(txt);
+                        //window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.info);
+					}
+                    window.location.href="{:U('School/index')}";
+
+                },
+				error:function () {
+					
+                }
+			}); 
+         }
+	  );
+  </script>
+</html>

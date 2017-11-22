@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewpoint" content="width=device-width; initial-scale=1" />
+    <title>泛在学习环境评价系统</title>
+    <link rel="icon" href="__IMAGE__/county/icon.png"/>
+    <link type="text/css" rel="stylesheet" href="__CSS__/city/base.css" />
+    <link type="text/css" rel="stylesheet" href="__CSS__/city/schoolRanking.css" />
+    <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
+    <script src="__JS__/jquery1.8.2.min.js"></script>
+    <script type="text/javascript" src="__JS__/trimpath.js"></script>
+    <script type="text/javascript" src="__JS__/paging.js"> </script>
+    <script src="__JS__/jquery.cookie.js"></script>
+    <script>
+        var getAllUserUrl = "{:U('Admin/getAllUser')}";
+    </script>
+</head>
+<body>
+<div class="header">泛在学习环境评价系统</div>
+<div id="container">
+    <div id="floatNavStandard">
+        <include file="Common:navigation"/>
+    </div>
+    <div style="height:1px"></div>
+    <div class="content">
+
+        <div class="middle_score">
+            <div class="school_ranking"> </div>
+            <ul class="ranking_title">
+                <li>排名</li>
+                <li>名称</li>
+                <li>资源</li>
+                <li>服务</li>
+                <li>评价</li>
+                <li>综合得分</li>
+                <li>操作</li>
+            </ul>
+            <div class="middle_80" id="middle_school"> </div>
+            <div id="page_numbers"> </div>
+        </div>
+
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="clear"> </div>
+<div id="footer">
+    <include file="Common:footer"/>
+</div>
+<!-- 学校基本信息表的模版加载 -->
+<div id="list_template" style="display:none">
+    {var j = currentPageNo}
+    {var i = 1}
+    {for s in schoolData}
+
+    {if i%2 == 0}
+    <ul style="background-color: #DCE9F9;">
+        <li >${(j-1)*10+ (i++)}</li>
+        <li >${s.depart}</li>
+        <li >${s.firstScore[0]}</li>
+        <li >${s.firstScore[1]}</li>
+        <li >${s.firstScore[2]}</li>
+        <li >${s.allScore}</li>
+        <li ><a href="{:U('Admin/school_detail')}?val=${s.userId}">详情</a></li>
+    </ul>
+
+    {elseif i%2 == 1}
+    <ul class="temp_list_style" style="">
+        <li >${(j-1)*10+ (i++)}</li>
+        <li >${s.depart}</li>
+        <li >${s.firstScore[0]}</li>
+        <li >${s.firstScore[1]}</li>
+        <li >${s.firstScore[2]}</li>
+        <li >${s.allScore}</li>
+        <li ><a href="{:U('Admin/school_detail')}?val=${s.userId}">详情</a></li>
+    </ul>
+    {/if}
+    {/for}
+</div>
+
+</body>
+</html>
+
+<script src="__JS__/city/schoolRanking.js"></script>

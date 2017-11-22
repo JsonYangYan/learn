@@ -1,0 +1,136 @@
+<?php
+/**
+ * 关于市级管理员、县级管理员、超级管理员的应用
+ * Created by PhpStorm.
+ * User: xgj
+ * Date: 2017/7/26
+ * Time: 19:09
+ */
+namespace Home\Model;
+use Think\Model;
+class TuserModel extends  Model{
+
+    /**
+     * 登录操作
+     * @param $username
+     * @param $password
+     */
+    public function doLogin($username) {
+        //查找用户名
+        $result = M("Tuser")->where("username = '$username'")->find();
+        return $result;
+    }
+
+    /**
+     * 根据登录名获取区域Id
+     * @param $username
+     * author yan
+     */
+    public function getAreaIdByUserName($username){
+        $result = M("Tuser")->field('area_id')->where("username = '$username'")->find();
+        $areaId = $result["area_id"];
+        return $areaId;
+    }
+
+    /**
+     * 根据登录名获取区域名称
+     * @param $username
+     * author yan
+     */
+    public function getAreaNameByUserName($username){
+        $sql = "SELECT area_name FROM tuser,tarea WHERE tarea.area_id=tuser.area_id and username = '$username'";
+        $result = M()->query($sql);
+        $areaName = $result[0]['area_name'];
+        return $areaName;
+    }
+
+    /**
+     * 修改密码
+     * @param $userName
+     * @param $passWord
+     * @return mixed
+     */
+    public function updatePassWord($userName,$passWord){
+        $data["password"] = md5(md5($passWord));
+        $result = M("Tuser")->where("username = '$userName'")->save($data);
+        return $result;
+    }
+
+    /**
+     *重置密码为123456
+     * @param $id
+     * @return mixed
+     */
+    public function resetPsWord($id){
+        $psWord = 123456;
+        $data["password"] = md5(md5($psWord));
+        $result = M("Tuser")->where("id = '$id'")->save($data);
+        if($result){
+            $fig = "success";
+        }
+        return $fig;
+    }
+
+    /**
+     * 获取全部管理员用户（一级、二级）信息
+     */
+    public function getAdminInfor(){
+        $result = M("Tuser")->where("`role` != 'superadmin'")->select();
+        foreach($result as $k=>$v){
+            $arr["id"] = $v["id"];
+            $arr["username"] = $v["username"];
+            $arr["password"] = $v["password"];
+            $arr["role"] = $v["role"];
+            $arr["area_id"] = $v["area_id"];
+            $arr["area_name"] = $v["sch_name"];
+            $arrres[] = $arr;
+        }
+
+        return $arrres;
+    }
+
+    /**
+     * 删除管理员用户
+     * @param $id
+     */
+    public function delAdminUser($id){
+        $result = M("Tuser")->where("id = '$id'")->delete();
+        if($result&&$result!=0){
+            $fig = "ok";
+        }
+        return $fig;
+    }
+
+    /**
+     * 编辑显示一条管理员用户的信息
+     * @param $id
+     * @return array
+     */
+    public function editInfor($id){
+        $sql = "SELECT * FROM tuser,tarea WHERE tuser.area_id=tarea.area_id and id = $id";
+        $result = M()->query($sql);
+        foreach ($result as $k=>$v) {
+            $arr["area_name"] = $v["area_name"];
+            $arr["sch_name"] = $v["sch_name"];
+            $arr["role"] = $v["role"];
+            $arr["username"] = $v["username"];
+            $arrRes[] = $arr;
+        }
+            return $arrRes;
+    }
+
+    /**
+     * 提交更改信息
+     * @param $id
+     * @param $role
+     * @param $areaId
+     * @param $departName
+     */
+    public function editSubmit($id,$role,$areaId,$departName){
+        $data["role"] = $role;
+        $data["area_id"] = $areaId;
+        $data["sch_name"] = $departName;
+        M("Tuser")->where("id = $id")->save($data);
+    }
+
+}

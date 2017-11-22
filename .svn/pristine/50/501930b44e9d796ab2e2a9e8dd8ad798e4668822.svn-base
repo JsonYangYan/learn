@@ -1,0 +1,193 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Jesse
+ * Date: 2017-8-17
+ * Time: 16:43
+ */
+
+namespace Home\Service;
+
+use Think\Model;
+class TschoolindexscoreService extends Model
+{
+    /**
+     * 初始化一个线性表，按绩效顺序存学校名字
+     * @param $areaName
+     * @param $time
+     * @param $order
+     * @return array
+     */
+    public function getinitRank($areaName,$time,$order){
+        $result = D("Tschoolindexscore","Model")->getAranSchoolRank($areaName,$time,$order);
+        $arr = array();
+        foreach($result as $k=>$v){
+            $arr[] = $v["schoolName"];
+        }
+        return $arr;
+    }
+
+    //比较两个数组相同的学校名字排序情况
+    public function contrast($order,$arrCur,$arrLast){
+        $fig = array();
+        if (count($arrLast)) {
+            for ($i=0; $i < count($arrCur); $i++) {
+                for ($j = 0; $j < count($arrLast); $j++) {
+                    if ($arrLast[$j]==$arrCur[$i]) {
+                        if ($order == "DESC") {
+                            if ($i < $j) {
+                                $fig[$i] = 1;
+								break;
+							} else if ($i > $j) {
+                                $fig[$i] = 0;
+								break;
+							} else {
+                                $fig[$i] = 2;
+								break;
+							}
+                        }
+                        if ($order == "ASC") {
+                            if ($i < $j) {
+                                $fig[$i] = 0;
+								break;
+							} else if ($i >$j) {
+                                $fig[$i] = 1;
+								break;
+							} else {
+                                $fig[$i] = 2;
+								break;
+							}
+                        }
+                    }
+                    else{
+                        $fig[$i] = 2;
+					}
+                }
+			}
+		} else {
+            for ($k = 0; $k < count($arrCur); $k++) {
+                $fig[$k] = 2;
+			}
+		}
+        return $fig;
+    }
+
+    public function getRanking($areaName,$currenttime,$lasttime,$order){
+        $arrCur = $this->getinitRank($areaName,$currenttime,$order);
+        $arrLast = $this->getinitRank($areaName,$lasttime,$order);
+        $fig = $this->contrast($order,$arrCur,$arrLast);
+        $result = D("Tschoolindexscore","Model")->getAranSchoolRank($areaName,$currenttime,$order);
+        $i=0;
+        $arrRes = array();
+        foreach($result as $k=>$v){
+            $arr["area_id"] = $v["area_id"];
+            $arr["area_name"] = $v["schoolArean"];
+            $arr["school_name"] = $v["schoolName"];
+            $arr["value"] = $v["schoolScore"];
+            $arr["fig"] =$fig[$i];
+            $i++;
+            $arrRes[]= $arr;
+        }
+
+        return $arrRes;
+    }
+
+    /**
+     * 得到前十、中间的、后十的学校排名
+     * @param $currentTime
+     * @return array
+     * @author yyn
+     */
+    public function getRankingByType($currentTime,$type)
+    {
+        $count = D("Tschoolinfor", "Model")->getSpecifiedDateSchoolSubmitNum($currentTime);
+        //提交的学校个数
+        if ($type == "top") {
+            $start = 0;
+            $end = 10;
+        }
+        if ($type == "middle") {
+            $start = 10;
+            $end = $count - 20;
+        }
+        if ($type == "last") {
+            $start = $count - 10;
+            $end = 10;
+        }
+
+        $schoolScore = D("Tschoolindexscore", "Model")->getSchoolScoreByCondition($currentTime, $start, $end);
+        $data = array();
+        foreach ($schoolScore as $k => $v) {
+            $temp = array();
+            $temp["value"] = $v["schoolScore"];
+            $temp["area_name"] = $v["schoolArean"];
+            $temp["schoolNum"] = $count;
+            $temp["school_name"] = $v["schoolName"];
+            $temp["area_id"] = $v["area_id"];
+            $data[] = $temp;
+        }
+        return $data;
+    }
+
+    //某区域学校一级指标五大维度及综合绩效
+    public function getAreanSocreRank($areaName,$time,$fig){
+        $stringSchooIds = D("Tschoolinfor","Model")->getSchoolIdOrderbySchoolScore($areaName,$time,$fig);
+        $arrRes = array();
+        $temp = D("Tschoolindexscore","Model")->getSchoolNameScoreAreanById($stringSchooIds);
+        foreach($temp as $k=>$v){
+            $arr["area"] = $areaName;
+            $arr["data"] = $v;
+            $arr["schoolName"] = $k;
+            $arrRes[] = $arr;
+        }
+        return $arrRes;
+    }
+
+    //区域绩效最大值、最小值、平均值；绩效最高、最低学校名称；高于、低于平均值的学校数量
+    public function getSchoolScoreDetail($areaName,$time){
+        $arrMax =  D("Tschoolindexscore","Model")->getMaxAndMinSchoolNameScore($areaName,$time,MAX);
+        $arrMin =  D("Tschoolindexscore","Model")->getMaxAndMinSchoolNameScore($areaName,$time,MIN);
+        $avgScore = D("Tschoolindexscore","Model")->getAvgSchoolScore($areaName,$time);
+        $upAvgNum = D("Tschoolindexscore","Model")->getUpAndDownAvgScoreSchNum($areaName,$time,">");
+        $downAvgNum = D("Tschoolindexscore","Model")->getUpAndDownAvgScoreSchNum($areaName,$time,"<");
+
+        $arrRes = array();
+        $arrRes["max_value"] = (float)$arrMax[0]["schoolScore"];
+        $arrRes["min_value"] = (float)$arrMin[0]["schoolScore"];
+        $arrRes["max_school"] = $arrMax[0]["schoolName"];
+        $arrRes["min_school"] = $arrMin[0]["schoolName"];
+        $arrRes["avg_value"] = round($avgScore[0]["num"],2);
+        $arrRes["up_avg_num"] = (int)$upAvgNum[0]["num"];
+        $arrRes["down_avg_num"] = (int)$downAvgNum[0]["num"];
+        $arr[] = $arrRes;
+        return $arr;
+    }
+
+    /**
+     * 得到学校在区县中的排名
+     * @param $time
+     * @return mixed
+     * @author yyn
+     */
+    public function getSchoolCountyRanking($time){
+        $areaName = D("Tschooluser")->getAreaNameByUserName();
+        $schoolIds = D("Tschoolinfor","Model")->getAllSchoolIdsStringByUserTime($time,$areaName);
+        $schoolId = D("Tschoolinfor","Model")->getSchoolIdByUserNameTime(session("username"),$time);
+        $rank = D("Tschoolindexscore","Model")->getSchoolCountyRanking($schoolId,$schoolIds);
+        return $rank;
+    }
+
+    /**
+     * 得到学校在襄阳市中的排名
+     * @param $time
+     * @return mixed
+     * @author yyn
+     */
+    public function getSchoolCityRanking($time){
+        $schoolId = D("Tschoolinfor","Model")->getSchoolIdByUserNameTime(session("username"),$time);
+        $rank = D("Tschoolindexscore","Model")->getSchoolCityRanking($time,$schoolId);
+        return $rank;
+    }
+
+
+}

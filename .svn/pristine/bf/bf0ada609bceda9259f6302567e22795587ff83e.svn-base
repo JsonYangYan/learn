@@ -1,0 +1,229 @@
+<?php
+/**
+ * 获取学校五大维度的得分操作
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/8/9
+ * Time: 20:10
+ */
+namespace Home\Model;
+use Think\Model;
+class TschoolindexscoreModel extends  Model{
+
+    /**
+     * 根据学校id获得一级指标得分
+     * @param $schoolId
+     * @return mixed
+     */
+    public function getIndexScoreBySchoolId($schoolId) {
+        $result = M("Tschoolindexscore")
+                ->field("schoolScore")
+                ->where("schoolId=$schoolId and indexType = 1")
+                ->order("indexType asc")
+                ->select();
+        $data = array();
+        foreach ($result as $K=>$v){
+            $data[] = (int)$v["schoolScore"];
+        }
+        return $data;
+    }
+
+    /**
+     * 获取某个地区的学校综合绩效排名
+     * autor yan
+     * @param $areaName
+     * @param $time
+     * @param $order
+     */
+    public function getAranSchoolRank($areaName,$time,$order){
+        $sql = "SELECT schoolScore,schoolName,schoolArean,area_id from tschoolindexscore,tschoolinfor,tarea WHERE state=1 AND indexType=0 AND tschoolindexscore.schoolId=tschoolinfor.autoId AND tschoolinfor.schoolArean=tarea.area_name AND
+            userTime LIKE '$time%' AND tschoolinfor.schoolArean='$areaName' ORDER BY schoolScore ".$order;
+        $result = M()->query($sql);
+        return $result;
+    }
+
+    /**
+     * 得到排名前10的学校名称、学校区域、区域id、得分
+     * @param $currentTime
+     * @return mixed
+     * @author yyn
+     */
+    public function getSchoolScoreByCondition($currentTime,$start, $end) {
+        $sql = "
+                SELECT schoolScore,schoolName,schoolArean,area_id 
+                from tschoolindexscore,tschoolinfor,tarea 
+                WHERE indexType=0 AND tschoolindexscore.schoolId=tschoolinfor.autoId 
+                AND tschoolinfor.schoolArean=tarea.area_name AND state=1 AND userTime LIKE '$currentTime%' 
+                order by schoolScore DESC limit $start,$end
+        ";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+    /**
+     * 根据学校Id获取学校所在区域、学校一级绩效得分、学校名字
+     * autor yan
+     * @param $schoolId
+     */
+    public function getSchoolNameScoreAreanById($schoolId){
+        $sql = "SELECT schoolArean,schoolScore,schoolName FROM tschoolindexscore,tschoolinfor WHERE (indexType=0 OR indexType =1)
+        AND schoolId IN ($schoolId) AND tschoolinfor.autoId = tschoolindexscore.schoolId ORDER BY tschoolindexscore.autoId";
+        $result = M()->query($sql);
+        foreach($result as $k=>$v){
+            $arr[$v["schoolName"]][] = (float)$v["schoolScore"];
+        }
+        return $arr;
+    }
+
+    /**
+     * 获取区域绩效最大、最小值以及相应的学校名称
+     * autor yan
+     * @param $areaName
+     * @param $time
+     * @param $condition
+     * @return mixed
+     */
+    public function getMaxAndMinSchoolNameScore($areaName,$time,$condition){
+        $sql ="SELECT schoolScore,schoolName FROM tschoolindexscore,tschoolinfor WHERE schoolScore = (SELECT ".$condition."(schoolScore) FROM tschoolindexscore,tschoolinfor
+        WHERE indexType = 0 AND schoolArean = '$areaName' AND tschoolinfor.autoId = schoolId AND userTime LIKE '$time%')
+        AND schoolArean = '$areaName' AND tschoolinfor.autoId = schoolId AND indexType = 0 AND userTime LIKE '$time%'";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+    /**
+     * 获取高于、低于平均绩效的学校数量
+     * autor yan
+     * @param $areaName
+     * @param $time
+     * @param $condition
+     * @return mixed
+     */
+    public function getUpAndDownAvgScoreSchNum($areaName,$time,$condition){
+        $sql = "SELECT COUNT(schoolId) AS num FROM tschoolindexscore,tschoolinfor WHERE schoolScore ".$condition." (SELECT AVG(schoolScore) FROM tschoolindexscore,tschoolinfor
+        WHERE indexType = 0 AND schoolArean = '$areaName' AND tschoolinfor.autoId = schoolId AND userTime LIKE '$time%')
+        AND schoolArean = '$areaName' AND tschoolinfor.autoId = schoolId AND userTime LIKE '$time%' AND indexType = 0";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+    /**
+     * 区域绩效平均值
+     * autor yan
+     * @param $areaName
+     * @param $time
+     * @return mixed
+     */
+    public function getAvgSchoolScore($areaName,$time){
+        $sql = "SELECT AVG(schoolScore) AS num FROM tschoolindexscore,tschoolinfor WHERE indexType = 0 AND schoolArean = '$areaName'
+        AND tschoolinfor.autoId = schoolId AND userTime LIKE '$time%'";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+    /**
+     * 得到学校在县级中的排名
+     * @author yyn
+     */
+    public function getSchoolCountyRanking($schoolId,$schoolIds) {
+        $sql = "
+                select count(*) rank from 
+                tschoolindexscore 
+                where schoolId in (".$schoolIds.") and indexType =0 
+                and schoolScore >
+                (select schoolScore from tschoolindexscore where schoolId=$schoolId and indexType=0)
+        ";
+        $result = M()->query($sql);
+        if (!$result)return 0;
+        return $result[0]["rank"];
+    }
+
+    /**
+     * 得到学校在襄阳市中的排名
+     * @param $time
+     * @param $schoolId
+     * @return int
+     * @author yyn
+     */
+    public function getSchoolCityRanking($time,$schoolId) {
+        $sql = "
+                select count(*) rank from 
+                tschoolindexscore 
+                where createTime LIKE '$time%' and indexType =0 
+                and schoolScore >
+                (select schoolScore from tschoolindexscore where schoolId=$schoolId and indexType=0)
+        ";
+        $result = M()->query($sql);
+        if (!$result)return 0;
+        return $result[0]["rank"];
+    }
+
+    /**
+     * 得到学校的平均值
+     * @author yyn
+     */
+    public function getAvgScoreBySchoolId($schoolId){
+        $result = M("Tschoolindexscore")
+            ->field("schoolScore")
+            ->where("schoolId = $schoolId and indexType=1")
+            ->select();
+        return $result;
+    }
+
+    /**
+     * 根据学校Id获取改校二级指标得分
+     * @param $schoolId
+     * @return array
+     */
+    public function getSecondIndexScoreBySchoolId($schoolId)
+    {
+        $sql = "SELECT schoolScore FROM tschoolindexscore  WHERE schoolId = $schoolId AND indexType = 2 ORDER BY autoId ASC LIMIT 17";
+        $result = M()->query($sql);
+        foreach ($result as $k => $v) {
+            $arrRes[] = (float)$v["schoolScore"];
+        }
+        return $arrRes;
+    }
+
+    /**
+     * 根据学校Id获取改校三级指标得分
+     * @param $schoolId
+     * @return array
+     */
+    public function getThirdIndexScoreBySchoolId($schoolId)
+    {
+        $sql = "SELECT schoolScore FROM tschoolindexscore  WHERE schoolId = $schoolId AND indexType = 3 ORDER BY autoId ASC LIMIT 33";
+        $result = M()->query($sql);
+        foreach ($result as $k => $v) {
+            $arrRes[] = (float)$v["schoolScore"];
+        }
+        return $arrRes;
+    }
+
+    /**
+     * 插入一个学校的绩效得分
+     * @param $schoolId
+     * @param $schoolScore
+     * @param $indexType
+     * @param $currentTime
+     */
+    public function insertSchoolScore($schoolId, $schoolScore, $indexType, $currentTime)
+    {
+        $data["schoolId"] = $schoolId;
+        $data["schoolScore"] = $schoolScore;
+        $data["indexType"] = $indexType;
+        $data["createTime"] = $currentTime;
+        M("Tschoolindexscore")->add($data);
+    }
+
+    /**
+     * 删除该月份绩效
+     * @param $currentTime
+     */
+    public function delSchoolScore($currentTime){
+        //M("Tschoolindexscore")->where("createTime like '$currentTime%'")->delete();
+        $sql = "DELETE FROM tschoolindexscore WHERE createTime LIKE '$currentTime%'";
+        $result = M()->query($sql);
+    }
+
+}

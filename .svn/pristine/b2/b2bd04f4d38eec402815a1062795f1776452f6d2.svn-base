@@ -1,0 +1,138 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/8/27
+ * Time: 11:06
+ */
+namespace Home\Service;
+use Think\Model;
+class TquestionService extends Model{
+
+    /**
+     * 得到用户的答案和问题
+     * @param $schoolId
+     * @param $indexType
+     * @return array
+     * @author yyn
+     */
+    public function getUserAnswerAndQuestion($schoolId,$indexType){
+        $result = D("Tquestion","Model")->getUserAnswerAndQuestion($schoolId,$indexType);
+        foreach ($result as $k=>$v){
+            $tempData[$v["groupId"]."_".$v["testType"]][] = $v;
+        }
+        $userData = array();
+        foreach ($tempData as $k=>$v){
+            $data = array();
+            $arr = explode("_",$k);
+            $data["groupId"] = $arr[0];
+            $test_type = $arr[1];
+            //填空题
+            if ($test_type == 4){
+                $question = array();
+                foreach ($v as $kk=>$vv){
+                    $blankArray["queContent"] = $vv["queContent"];
+                    if($vv["blankText"]=="null")
+                        $blankArray["userAns"] = "";
+                    else
+                        $blankArray["userAns"] = $vv["blankText"];
+                    $zeroOne = array(152,153,154,155,129);//填空题题0和1的判断
+                    $persent = array(124,125,131,14,144,158,145);//填空题是百分比的判断
+                    if(in_array($vv["queId"],$zeroOne)){
+                        $isPersent = 2;
+                    }else if(in_array($vv["queId"],$persent)) {
+                        $isPersent = 1;
+                    }else{
+                        $isPersent = 0;
+                    }
+                    $blankArray["isPercent"] = $isPersent;
+                    $blankArray["indexType"] = $vv["indexType"];
+                    $blankArray["queId"] = $vv["queId"];
+                    $blankArray["groupId"] = $arr[0];
+                    $blankArray["testType"] = $vv["testType"];
+                    $blankArray["unitSymbol"] = $vv["unitSymbol"];
+                    $question[] = $blankArray;
+                }
+                $data["children"] = $question;
+            }else{//选择题
+                if($arr[0] ==14 ){
+                        $other = array();
+                    foreach ($v as $kk=>$vv){
+                        $other[$vv["queContent"]][] = $vv;
+                    }
+                    foreach ($other as $kk=>$vv){
+                        $parentChildren = array();
+                        $tempChildren = array();
+                        $tempChildren["queContent"] = $vv[0]["queContent"];
+                        $tempChildren["indexType"] = $vv[0]["indexType"];
+                        $tempChildren["queId"] = $vv[0]["queId"];
+                        $tempChildren["groupId"] = $arr[0];
+                        $tempChildren["testType"] = $vv[0]["testType"];
+                        $tempChildren["unitSymbol"] = $vv[0]["unitSymbol"];
+                        $children = array();
+                        foreach ($vv as $kkk=>$vvv){
+                            $choiceArr = array();
+                            $choiceArr["choiceId"] = $vvv["choiceId"];
+                            $choiceArr["hasBlank"] = $vvv["hasBlank"];
+                            $choiceArr["queId"] = $vvv["queId"];
+                            $choiceArr["choiceContent"] = $vvv["choiceContent"];
+                            $choiceArr["autoId"] = $vvv["autoId"];
+                            $choiceArr["is_checked"] = $vvv["is_checked"];
+                            $choiceArr["order"] = chr($kkk+65);//将数字转成ASCII值
+                            $children[] = $choiceArr;
+                        }
+                        $tempChildren["children"] = $children;
+                        $parentChildren = $tempChildren;
+                        $data["children"][] = $parentChildren;
+                    }
+                }else{
+                    $parentChildren = array();
+                    $tempChildren = array();
+                    $tempChildren["queContent"] = $v[0]["queContent"];
+                    $tempChildren["indexType"] = $v[0]["indexType"];
+                    $tempChildren["queId"] = $v[0]["queId"];
+                    $tempChildren["groupId"] = $arr[0];
+                    $tempChildren["testType"] = $v[0]["testType"];
+                    $tempChildren["unitSymbol"] = $v[0]["unitSymbol"];
+                    $children = array();
+                    foreach ($v as $kk=>$vv){
+                        $choiceArr = array();
+                        $choiceArr["choiceId"] = $vv["choiceId"];
+                        $choiceArr["hasBlank"] = $vv["hasBlank"];
+                        $choiceArr["queId"] = $vv["queId"];
+                        $choiceArr["choiceContent"] = $vv["choiceContent"];
+                        $choiceArr["autoId"] = $vv["autoId"];
+                        $choiceArr["is_checked"] = $vv["is_checked"];
+                        $choiceArr["order"] = chr($kk+65);//将数字转成ASCII值
+                        $children[] = $choiceArr;
+                    }
+                    $tempChildren["children"] = $children;
+                    $parentChildren[] = $tempChildren;
+                    $data["children"] = $parentChildren;
+                }
+            }
+            $userData[] = $data;
+        }
+        return $userData;
+    }
+
+    /**
+     * 保存用户答案
+     * @param $choiceHtml
+     * @param $textHtml
+     * @author yyn
+     */
+    public function savePaper($choiceHtml,$textHtml){
+        $schoolId = D("Tschoolinfor")->getSchoolIdByUserNameTime(session("username"),date("Y-m",time()));
+        $choiceObject = htmlspecialchars_decode($choiceHtml);
+        $textObject = htmlspecialchars_decode($textHtml);
+        $choiceArray = json_decode($choiceObject,true);
+        $textArray = json_decode($textObject,true);
+        //先删除、在添加
+        D("Tchoiceanswer")->deleteChoiceAnswerBySchoolId($schoolId);
+        D("Tblankanswer")->deleteBlankanswerBySchoolId($schoolId);
+        //添加
+        D("Tchoiceanswer")->addChoiceAnswer($choiceArray);
+        D("Tblankanswer")->addBlankAnswer($textArray);
+    }
+}

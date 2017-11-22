@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type"  content="text/html; charset=utf-8" />
+    <meta name="viewpoint" content="width=device-width; initial-scale=1" />
+    <title>襄阳市教育信息化发展水平评估系统</title>
+    <link rel="icon" href="__IMAGE__/county/allassessment/icon.png"/>
+    <link type="text/css" rel="stylesheet" href="__CSS__/jquery.treeview.css" />
+    <link type="text/css" rel="stylesheet" href="__CSS__/screen.css" />
+    <link type="text/css" rel="stylesheet" href="__CSS__/county/base.css" />
+    <link type="text/css" rel="stylesheet" href="__CSS__/county/allassessment.css" />
+ 
+    <script type="text/javascript" src="__JS__/jquery1.8.2.min.js"></script>
+    <script type="text/javascript" src="__JS__/trimpath.js"></script>
+    <script type="text/javascript" src="__JS__/jquery.treeview.js"></script>
+    <script type="text/javascript" src="__JS__/lib/highcharts.js"></script>
+    <script type="text/javascript" src="__JS__/lib/highcharts-more.js"></script>
+    <script src="__JS__/jquery.cookie.js"></script>
+    <script>
+        var index_arrUrl = "__JSON__/county/index_arr.json";
+        var getXYHuBeiCountyAvgLevelUrl = "{:U('County/XYHuBeiCountyAvgLevel')}";
+        var getFirstIndexTypeScoreUrl = "{:U('County/getFirstIndexTypeScore')}";
+        var getSecondIndexTypeScoreUrl = "{:U('County/getSecondIndexTypeScore')}";
+        var getThirdIndexTypeScoreUrl = "{:U('County/getThirdIndexTypeScore')}";
+        var getAranNameUrl = "{:U('County/getAranName')}";
+    </script>
+</head>
+<body>
+	<div class="header">教育信息化发展水平评估系统<i id="em">教育局欢迎您</i></div>
+    <div id="container">
+        <div id="floatNavStandard">
+            <include file="Common:countyNavigation"/>
+        </div>
+    	<div style="height:1px"></div>
+		<div class="total_title">
+			月份：
+	     </div>
+    	<div class="allassessment_top">
+    		<div class="total_situation" > </div>
+	        <div id="left_side" class="left_side"> </div>
+        </div>
+        <!--  <div id="IndexTitle">一级指标</div> -->
+        <div id="firstIndex" class="one_index"> </div>
+       <!--  <div id="IndexTitle">二级指标</div> --> 
+        <div id="secondIndex" class="two_index"> </div>
+        <!-- <div id="IndexTitle">三级指标</div>   -->
+        <div id="thirdIndex" class="three_index"> </div> 
+        <div class="clear"></div>
+    </div>
+	<div class="clear"> </div>
+    <div id="footer">
+        <include file="Common:footer"/>
+    </div>
+</body>
+</html>
+<script src="__JS__/county/base.js"></script>
+<script type="text/javascript" src="__JS__/highcharts_func.js"></script>
+<script type="text/javascript" src="__JS__/county/allassessment.js"></script>

@@ -1,0 +1,441 @@
+<?php
+/**
+ * 区县管理员操作
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/8/14
+ * Time: 15:37
+ */
+namespace Home\Controller;
+use Think\Controller;
+class CountyController extends Controller {
+
+//    public function __construct()
+//    {
+//        parent::__construct();
+//        if (!session("username")) {
+//            $this->redirect('Index/index');
+//        }
+//    }
+    /**
+     * 获取登录用户的所在区域
+     */
+    public function getAranName(){
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $this->ajaxReturn($areaName);
+    }
+
+    /**
+     * 区县管理员首页
+     * @author:yyn
+     */
+    public function index() {
+        $this->display();
+    }
+
+    /**
+     * 评分标准
+     */
+    public function standard() {
+        $this->display();
+    }
+
+    /**
+     * 填报统计
+     */
+    //填报统计部分 start
+    public function statistics() {
+
+        $this->display();
+    }
+    //整体统计部分
+    public function getWholeStatistics() {
+        $currentdate = I("post.currentdate");
+        $username = session('username');
+        //获取某个区域的名称
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        //获取某个区域的Id
+        $areaId = D("Tuser")->getAreaIdByUserName($username);
+        //获取区域普通学校的个数
+        $totalSchoolNum = D("Tschooluser")->getAreaTotalSchoolNum($areaId);
+        //获取指定日期下区域提交的普通学校的个数
+        $schoolSubmitNum = D("Tschoolinfor")->getAreaSpecifiedDateSchoolSubmitNum($areaName,$currentdate);
+        //已提交占的比例
+        $num = ($schoolSubmitNum / $totalSchoolNum) * 100;
+        $submitValue = sprintf("%.2f", $num);//取两位小数
+        $submitData["totalnum"] = (int)$totalSchoolNum;
+        $submitData["name"] = "已提交";
+        $submitData["subnum"] = (int)$schoolSubmitNum;
+        $submitData["value"] = (float)$submitValue;
+        $submitData["area"] = $areaName;
+        //未提交占的比例
+        $unSubmitValue = 100-$submitValue;
+        $unSubmitData["totalnum"] = (int)$totalSchoolNum;
+        $unSubmitData["name"] = "未提交";
+        $unSubmitData["subnum"] = (int)$schoolSubmitNum;
+        $unSubmitData["value"] = (float)$unSubmitValue;
+        $submitData["area"] = $areaName;
+        $data[0] = $submitData;
+        $data[1] = $unSubmitData;
+        $this->ajaxReturn($data);
+    }
+
+    //分类统计部分
+    public function getAreaSubmit() {
+        $currentdate = I("post.currentdate");
+        $schoolName = I("post.schoolName");
+        $username = session('username');
+        $areaId = D("Tuser")->getAreaIdByUserName($username);
+        $result = D("Tschoolinfor")->getAndsearchAreaSchool($schoolName,$currentdate, $areaId);
+        $this->ajaxReturn($result);
+    }
+
+    //填报统计部分 end
+
+    //教学点填报统计部分 start
+    public function tpstatistics() {
+
+        $this->display();
+    }
+    //教学点整体统计部分
+    public function getTpWholeStatistics() {
+        $currentdate = I("post.currentdate");
+        $username = session('username');
+        //获取某个区域的名称
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        //获取某个区域的Id
+        $areaId = D("Tuser")->getAreaIdByUserName($username);
+        //获取区域教学点学校的个数
+        $totalSchoolNum = D("Tschooluser")->getTpAreaTotalSchoolNum($areaId);
+        //获取指定日期下区域提交的普通学校的个数
+        $schoolSubmitNum = D("Tpschoolinfor")->getAreaSpecifiedDateSchoolSubmitNum($areaName,$currentdate);
+        //已提交占的比例
+        $num = ($schoolSubmitNum / $totalSchoolNum) * 100;
+        $submitValue = sprintf("%.2f", $num);//取两位小数
+        $submitData["totalnum"] = (int)$totalSchoolNum;
+        $submitData["name"] = "已提交";
+        $submitData["subnum"] = (int)$schoolSubmitNum;
+        $submitData["value"] = (float)$submitValue;
+        $submitData["area"] = $areaName;
+        //未提交占的比例
+        $unSubmitValue = 100-$submitValue;
+        $unSubmitData["totalnum"] = (int)$totalSchoolNum;
+        $unSubmitData["name"] = "未提交";
+        $unSubmitData["subnum"] = (int)$schoolSubmitNum;
+        $unSubmitData["value"] = (float)$unSubmitValue;
+        $submitData["area"] = $areaName;
+        $data[0] = $submitData;
+        $data[1] = $unSubmitData;
+        $this->ajaxReturn($data);
+    }
+
+    //教学点分类统计部分
+    public function getTpAreaSubmit() {
+        $currentdate = I("post.currentdate");
+        $schoolName = I("post.schoolName");
+        $username = session('username');
+        $areaId = D("Tuser")->getAreaIdByUserName($username);
+        $result = D("Tpschoolinfor")->getAndsearchAreaSchool($schoolName,$currentdate, $areaId);
+        $this->ajaxReturn($result);
+    }
+
+    //教学点填报统计部分 end
+
+    /**
+     * 现状数据
+     */
+    //普通学校现状数据部分 start
+    public function dataactuality() {
+        $this->display();
+    }
+
+    //普通学校得到某个月份区县所有填空题的平均分
+    public function getOneMonthAreaBlanksScore(){
+        $currentdate = I("post.currentdate","2017-06");
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+
+        $result = D("Tblankanswer")->getOneMonthAllAreasScore($areaName,$currentdate);
+
+        $this->ajaxReturn($result);
+    }
+
+    //普通学校多选题柱状图
+    public function getOneQuestionOneMonthScale() {
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $currentdate = I("post.currentdate","2017-06");
+        $queId = I("post.id",134);
+        $result = D("Tchoiceanswer")->getOneQuestionOneMonthScale($areaName,$queId, $currentdate);
+        $this->ajaxReturn($result);
+    }
+
+    //普通学校教育概况
+    public function getEducationSurvey(){
+        $currentdate = I("post.currentdate","2017-06");
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $arr["highSchoolNum"] = D("Tschoolinfor")->getGradeStudentNum("高中",$areaName,$currentdate);
+        $arr["juniorSchoolNum"] = D("Tschoolinfor")->getGradeStudentNum("初中",$areaName,$currentdate);
+        $arr["primarySchoolNum"] = D("Tschoolinfor")->getGradeStudentNum("小学",$areaName,$currentdate);
+        $arr["otherSchoolNum"] = D("Tschoolinfor")->getGradeStudentNum("其他",$areaName,$currentdate);
+        $arr["teacherNum"] = D("Tschoolinfor")->getTeacherAndStudentNum("teacherNumber",$areaName,$currentdate);
+        $arr["studentNum"] = D("Tschoolinfor")->getTeacherAndStudentNum("studentNumber",$areaName,$currentdate);
+        $arr["townSchoolNum"] = D("Tschoolinfor")->getSchoolTypeNum("城镇",$areaName,$currentdate);
+        $arr["villageSchoolNum"] = D("Tschoolinfor")->getSchoolTypeNum("农村",$areaName,$currentdate);
+        $resu = array();
+        array_push($resu, $arr);
+        $this->ajaxReturn($resu);
+    }
+
+    //普通学校现状数据部分 end
+
+    //教学点现状数据部分 start
+    public function tpdataactuality() {
+        $this->display();
+    }
+
+    //教学点得到某个月份区县所有填空题的平均分
+    public function getTpOneMonthAreaBlanksScore(){
+        $currentdate = I("post.currentdate","2017-06");
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+
+        $result = D("Tpblankanswer")->getOneMonthAllAreasScore($areaName,$currentdate);
+
+        $this->ajaxReturn($result);
+    }
+
+    //教学点多选题柱状图
+    public function getTpOneQuestionOneMonthScale() {
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $currentdate = I("post.currentdate","2017-06");
+        $queId = I("post.id",134);
+        $result = D("Tpchoiceanswer")->getOneQuestionOneMonthScale($areaName,$queId, $currentdate);
+        $this->ajaxReturn($result);
+    }
+
+    //教学点现状数据部分 end
+
+    /**
+     * 学校评估部分
+     */
+    //评估部分 start
+    //根据区域、日期获得所有学校
+    public function getSchoolsByAreaTypeDate() {
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $currentdate = I("post.currentdate",'2017-06');
+        $result = D("Tschoolinfor")->getSchoolsByAreaDate($areaName,$currentdate);
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 根据学校id，时间获取 典型指标 学校的详情
+     */
+    public function getSchoolAreaAllDetails() {
+        $autoid = I("post.id",1850);//学校id
+        $currentTime = I("post.currentTime","2017-06");//时间
+        $schoolDetail = D("Tschoolinfor")->getSchoolDetail($autoid);
+        $areaDetail = D("Tschoolinfor")->getAreaDetail($autoid, $currentTime);
+        $allDetail = D("Tschoolinfor")->getAllAreasSchoolDitail($currentTime);
+        $result[] = $schoolDetail;
+        $result[] = $areaDetail;
+        $result[] = $allDetail;
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 整体情况
+     */
+    public function getAvgScore () {
+        $schoolId = I("post.id",1850);
+        $currentTime = I("post.currentTime","2017-06");//时间
+        $schoolInfo = D("Tschoolinfor")->getSchoolInfoByAutoid($schoolId);
+        $schoolIndexScore = D("Tschoolindexscore")->getIndexScoreBySchoolId($schoolId);
+        $areaName = $schoolInfo["schoolArean"];
+        $schoolName = $schoolInfo["schoolName"];
+        $areaScore = D("Tareascore")->getAreaScoreByAreaNameCurrentTime($areaName,$currentTime);
+        $cityScore = D("Tareascore")->getCityScoreByCurrentTime($currentTime);
+        $result = array();
+        $data["data"] = $schoolIndexScore;
+        $data["name"] = $schoolName;
+        $result[] = $data;
+        $data["data"] = $areaScore;
+        $data["name"] = $areaName;
+        $result[] = $data;
+        $data["data"] = $cityScore;
+        $data["name"] = "襄阳市";
+        $result[] = $data;
+        $this->ajaxReturn($result,"JSON");
+    }
+
+    /**
+     * 数据导出
+     */
+    public function exportTypicalIndexBySchoolIdCurrentTime() {
+        $schoolId = I("post.id",1850);
+        $currentTime = I("post.currentTime","2017-06");//时间
+    }
+    //评估部分 end
+
+    /**
+     * 整体评估
+     */
+    //整体评估start
+    public function allassessment() {
+        $this->display();
+    }
+
+    /**
+     * 雷达图
+     * 根据时间获取襄阳市、湖北省、某区域
+     * @author yan
+     */
+    public function XYHuBeiCountyAvgLevel() {
+        $currentTime = I("post.currentdate","2017-06");
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $result = D("Tareascore","Service")->XYHuBeiCountyAvgLevel($areaName,$currentTime);
+        $this->ajaxReturn($result,"JSON");
+    }
+
+    //一级指标
+    public function getFirstIndexTypeScore(){
+        $currentTime = I("post.currentdate","2017-06");
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $result = D("Tareascore","Service")->getAreanFirstIndexScoreType($areaName,$currentTime);
+        $this->ajaxReturn($result,"JSON");
+    }
+
+    //二级指标
+    public function getSecondIndexTypeScore(){
+        $currentTime = I("post.currentdate","2017-06");
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $result = D("Tareascore","Service")->getAreanSecondIndexScoreType($areaName,$currentTime);
+        $this->ajaxReturn($result,"JSON");
+    }
+
+    //三级指标
+    public function getThirdIndexTypeScore(){
+        $currentTime = I("post.currentdate","2017-06");
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $result = D("Tareascore","Service")->getAreanThirdIndexScoreType($areaName,$currentTime);
+        $this->ajaxReturn($result,"JSON");
+    }
+
+    //整体评估end
+
+    /**
+     * 学校排名
+     */
+    //学校排名start
+    public function schoolRanking(){
+        $this->display();
+    }
+
+    public function  getSchoolRank(){
+        $currentTime = I("post.currentdate","2017-06");
+        $order = I("post.order","DESC");
+        $time=strtotime($currentTime);
+        //获取指定日期的上月，格式 Y-m
+        $firstday=date('Y-m-01',strtotime(date('Y',$time).'-'.(date('m',$time)-1).'-01'));
+        $lastmonth=date('Y-m',strtotime("$firstday +1 month -1 day"));
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $result = D("Tschoolindexscore","Service")->getRanking($areaName,$currentTime,$lastmonth,$order);
+        $this->ajaxReturn($result);
+    }
+
+    //学校排名end
+
+    /**
+     * 绩效排名
+     */
+    //绩效排名start
+    public function ranking(){
+        $this->display();
+    }
+
+    //全部学校在一级指标五个维度及综合绩效
+    public  function getWholeScoreRank(){
+        $currentTime = I("post.currentdate","2017-06");
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $result = D("Tschoolindexscore","Service")->getAreanSocreRank($areaName,$currentTime,1);
+        $this->ajaxReturn($result);
+    }
+
+    //绩效排名前十的学校在一级指标五个维度及综合绩效
+    public  function getTenScoreRank(){
+        $currentTime = I("post.currentdate","2017-06");
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $result = D("Tschoolindexscore","Service")->getAreanSocreRank($areaName,$currentTime,2);
+        $this->ajaxReturn($result);
+    }
+
+    //区域绩效月份对比
+    public function monthContrast(){
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $index = "comprehensive";
+        $field = array($index,"areaName","createTime");//指标位于第一个位置，不能变
+        $Condition["areaName"] = $areaName;
+        $where = $Condition;
+        $result = D("Tareascore","Service")->getOneIndexAllMonthScore($field, $where);
+        $result["area"] = $areaName;
+        /*foreach($tempRes as $k=>$v){
+            $result["area"] = $areaName;
+            $result["listscoe"] = $v;
+            $result["listmonth"] = $v;
+        }*/
+        $arr[] = $result;
+        $this->ajaxReturn($arr);
+    }
+
+    //区域绩效最大值、最小值、平均值；绩效最高、最低学校名称；高于或低于平均绩效的学校数量
+    public function getSchoolScoreDetail(){
+        $currentTime = I("post.currentdate","2017-06");
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $result = D("Tschoolindexscore","Service")->getSchoolScoreDetail($areaName,$currentTime);
+        $this->ajaxReturn($result);
+    }
+
+    //绩效排名end
+
+    /**
+     * 打印报告，下载表格
+     */
+    public function printPDF(){
+        $this->display();
+    }
+
+    //导出excel表格
+    public function exportAreanSchoolBlankTextExcel() {
+        $currentTime = I("get.date","2017-06");
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $fileName = $currentTime.$areaName."教育信息化发展现状数据";
+        D("Tblankanswer","Service")->exportAllSchoolBlankTextExcel($currentTime,$fileName,$areaName);
+    }
+
+    public  function exportPdf(){
+        $currentTime = I("get.date","2017-06");
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        D("Pdf","Service")->printPdf($areaName,$currentTime);
+        //$this->ajaxReturn($result);
+    }
+
+    public function logout() {
+        D("Login","Service");
+        $this->redirect("Index/index","页面跳转中……");
+    }
+}

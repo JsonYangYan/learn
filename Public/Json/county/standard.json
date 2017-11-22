@@ -1,0 +1,393 @@
+{
+    "tb": [
+        {
+            "section_id": "1",
+            "weight_1": "0.208",
+            "rank1": "学习资源",
+            "reg_tb": [
+                {
+                    "id": "1",
+                    "rank2": "无处不在的学习资源",
+                    "weight_2": "0.172",
+                    "detail_tb": [
+                        {
+                            "detail_id": "1",
+                            "up_limit": "85.35",
+                            "weight_3": "1",
+                            "target": "80",
+                            "detail": "在任何时间都可以获取学习资源"
+                        },
+{
+                            "detail_id": "2",
+                            "up_limit": "85.35",
+                            "weight_3": "2",
+                            "target": "80",
+                            "detail": "在任何地点都可以获取学习资源"
+                        },
+{
+                            "detail_id": "3",
+                            "up_limit": "85.35",
+                            "weight_3": "3",
+                            "target": "80",
+                            "detail": "任何物体都可以成为学习资源"
+                        }
+
+                    ]
+                },
+                {
+                    "id": "2",
+                    "rank2": "情境适应的学习资源",
+                    "weight_2": "0.175",
+                    "detail_tb": [
+                        {
+                            "detail_id": "4",
+                            "up_limit": "12.73",
+                            "weight_3": "1",
+                            "target": "80",
+                            "detail": "提供的学习资源与当前学习目标匹配"
+                        },
+{
+                            "detail_id": "5",
+                            "up_limit": "12.73",
+                            "weight_3": "2",
+                            "target": "80",
+                            "detail": "提供的学习资源与当前学习者特征匹配"
+                        },
+{
+                            "detail_id": "6",
+                            "up_limit": "12.73",
+                            "weight_3": "1",
+                            "target": "80",
+                            "detail": "提供的学习资源能够在当前学习设备上自适应呈现"
+                        }
+                    ]
+                },
+                {
+                    "id": "3",
+                    "rank2": "学习资源获取的即时性",
+                    "weight_2": "0.198",
+                    "detail_tb": [
+                        {
+                            "detail_id": "7",
+                            "up_limit": "1.096",
+                            "weight_3": "0.561",
+                            "target": "80",
+                            "detail": "学习者能够实时获取学习资源"
+                        }
+                    ]
+                },
+              {
+                "id": "4",
+                "rank2": "学习资源的社会性",
+                "weight_2": "0.198",
+                "detail_tb": [
+                  {
+                    "detail_id": "8",
+                    "up_limit": "1.096",
+                    "weight_3": "0.561",
+                    "target": "80",
+                    "detail": "可获得来自他人推荐的学习资源"
+                  },
+                  {
+                    "detail_id": "9",
+                    "up_limit": "1.096",
+                    "weight_3": "0.561",
+                    "target": "80",
+                    "detail": "可向他人推荐学习资源"
+                  },
+                  {
+                    "detail_id": "10",
+                    "up_limit": "1.096",
+                    "weight_3": "0.561",
+                    "target": "80",
+                    "detail": "人也是一种学习资源"
+                  }
+
+                ]
+              },
+              {
+                "id": "5",
+                "rank2": "交互式学习资源",
+                "weight_2": "0.198",
+                "detail_tb": [
+                  {
+                    "detail_id": "11",
+                    "up_limit": "1.096",
+                    "weight_3": "0.561",
+                    "target": "80",
+                    "detail": "学习者与学习资源可进行交互，如批注、修改等"
+                  }
+                ]
+              },
+              {
+                "id": "6",
+                "rank2": "学习资源的无缝性",
+                "weight_2": "0.198",
+                "detail_tb": [
+                  {
+                    "detail_id": "12",
+                    "up_limit": "1.096",
+                    "weight_3": "0.561",
+                    "target": "80",
+                    "detail": "学习资源可在不同设备上进行无缝呈现"
+                  },
+                  {
+                    "detail_id": "13",
+                    "up_limit": "1.096",
+                    "weight_3": "0.561",
+                    "target": "80",
+                    "detail": "切换学习情境后，学习资源可与前次学习内容无缝衔接"
+                  }
+                ]
+              }
+
+            ]},
+        {
+            "section_id": "2",
+            "weight_1": "0.190",
+            "rank1": "学习服务",
+            "reg_tb": [
+                {
+                    "id": "7",
+                    "rank2": "无处不在的学习支持服务",
+                    "weight_2": "0.337",
+                    "detail_tb": [
+                        {
+                        "detail_id": "14",
+                        "up_limit": "45.43",
+                        "weight_3": "0.304",
+                        "target": "80",
+                        "detail": "在任何时间都可以获取学习支持服务"
+                      },
+                      {
+                        "detail_id": "15",
+                        "up_limit": "45.43",
+                        "weight_3": "0.304",
+                        "target": "80",
+                        "detail": "在任何地点都可以获取学习支持服务"
+                      }
+                    ]
+                },
+                {
+                    "id": "8",
+                    "rank2": "情境适应的学习学习支持服务",
+                    "weight_2": "0.373",
+                    "detail_tb": [
+                        {
+                            "detail_id": "16",
+                            "up_limit": "2.71",
+                            "weight_3": "1",
+                            "target": "80",
+                            "detail": "能够为学习者推荐当前学习情境相匹配的学习资源"
+                        },
+                      {
+                        "detail_id": "17",
+                        "up_limit": "2.71",
+                        "weight_3": "1",
+                        "target": "80",
+                        "detail": "能够为学习者推荐当前学习情境相匹配的学习活动"
+                      },
+                      {
+                        "detail_id": "18",
+                        "up_limit": "2.71",
+                        "weight_3": "1",
+                        "target": "80",
+                        "detail": "能够为学习者推荐经历过相似学习情境的学习者"
+                      }
+                    ]
+                },
+                {
+                    "id": "9",
+                    "rank2": "学习支持服务的即时性",
+                    "weight_2": "0.290",
+                    "detail_tb": [
+                        {
+                            "detail_id": "19",
+                            "up_limit": "11.56",
+                            "weight_3": "1",
+                            "target": "80",
+                            "detail": "学习者能够实时获取学习支持服务"
+                        }
+
+                    ]
+                },
+              {
+                "id": "10",
+                "rank2": "学习支持服务的社会性",
+                "weight_2": "0.290",
+                "detail_tb": [
+                  {
+                    "detail_id": "19",
+                    "up_limit": "11.56",
+                    "weight_3": "1",
+                    "target": "80",
+                    "detail": "可直接获得他人的学习帮助"
+                  },
+                  {
+                    "detail_id": "20",
+                    "up_limit": "11.56",
+                    "weight_3": "1",
+                    "target": "80",
+                    "detail": "可从与他人的交往中获得学习帮助"
+                  }
+
+                ]
+              },
+              {
+                "id": "11",
+                "rank2": "交互性学习支持服务",
+                "weight_2": "0.290",
+                "detail_tb": [
+                  {
+                    "detail_id": "21",
+                    "up_limit": "11.56",
+                    "weight_3": "1",
+                    "target": "80",
+                    "detail": "提供可人机交互的学习活动，例如概念图等"
+                  }
+                ]
+              },
+              {
+                "id": "12",
+                "rank2": "学习支持服务的无缝性",
+                "weight_2": "0.290",
+                "detail_tb": [
+                  {
+                    "detail_id": "22",
+                    "up_limit": "11.56",
+                    "weight_3": "1",
+                    "target": "80",
+                    "detail": "学习支持服务可在不同设备上进行无缝呈现"
+                  },
+                  {
+                    "detail_id": "23",
+                    "up_limit": "11.56",
+                    "weight_3": "1",
+                    "target": "80",
+                    "detail": "切换学习情境后，学习支持服务可与前次活动无缝衔接"
+                  }
+                ]
+              }
+
+            ]
+        },
+        {
+            "section_id": "3",
+            "weight_1": "0.228",
+            "rank1": "学习评价",
+            "reg_tb": [
+                {
+                    "id": "13",
+                    "rank2": "无处不在的反馈评价",
+                    "weight_2": "0.356",
+                    "detail_tb": [
+                        {
+                        "detail_id": "24",
+                        "up_limit": "49.08",
+                        "weight_3": "0.455",
+                        "target": "80",
+                        "detail": "在任何时间都可以获取反馈评价"
+                      },
+                      {
+                        "detail_id": "24",
+                        "up_limit": "49.08",
+                        "weight_3": "0.455",
+                        "target": "80",
+                        "detail": "在任何地点都可以获取反馈评价"
+                      }
+                    ]
+                },
+                {
+                    "id": "14",
+                    "rank2": "情境适应的反馈评价",
+                    "weight_2": "0.328",
+                    "detail_tb": [
+                        {
+                            "detail_id": "25",
+                            "up_limit": "69.41",
+                            "weight_3": "0.477",
+                            "target": "80",
+                            "detail": "评价标准与当前学习目标匹配"
+                        },
+                      {
+                        "detail_id": "26",
+                        "up_limit": "69.41",
+                        "weight_3": "0.477",
+                        "target": "80",
+                        "detail": "评价标准与当前学习者特征匹配"
+                      }
+                    ]
+                },
+              {
+                "id": "15",
+                "rank2": "反馈评价的即时性",
+                "weight_2": "0.328",
+                "detail_tb": [
+                  {
+                    "detail_id": "27",
+                    "up_limit": "69.41",
+                    "weight_3": "0.477",
+                    "target": "80",
+                    "detail": "学习者能够实时获得反馈评价"
+                  }
+                ]
+              },
+              {
+                "id": "16",
+                "rank2": "反馈评价的社会性",
+                "weight_2": "0.328",
+                "detail_tb": [
+                  {
+                    "detail_id": "28",
+                    "up_limit": "69.41",
+                    "weight_3": "0.477",
+                    "target": "80",
+                    "detail": "可获得他人对自身学习结果的反馈评价"
+                  },
+                  {
+                    "detail_id": "29",
+                    "up_limit": "69.41",
+                    "weight_3": "0.477",
+                    "target": "80",
+                    "detail": "可获得他人对自身学习结果的反馈评价"
+                  }
+                ]
+              },
+              {
+                "id": "16",
+                "rank2": "交互式反馈评价",
+                "weight_2": "0.328",
+                "detail_tb": [
+                  {
+                    "detail_id": "30",
+                    "up_limit": "69.41",
+                    "weight_3": "0.477",
+                    "target": "80",
+                    "detail": "提供交互式的反馈评价方式，例如可回复他人评价等"
+                  }
+
+                ]
+              },
+              {
+                "id": "17",
+                "rank2": "反馈评价的无缝性",
+                "weight_2": "0.328",
+                "detail_tb": [
+                  {
+                    "detail_id": "30",
+                    "up_limit": "69.41",
+                    "weight_3": "0.477",
+                    "target": "80",
+                    "detail": "反馈评价是基于学习全程数据的，与具体学习场景无关"
+                  }
+
+                ]
+              }
+
+
+            ]
+        }
+
+
+    ]
+}

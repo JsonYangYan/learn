@@ -1,0 +1,58 @@
+<?php
+/**
+ * 关于导入导出Excel的操作
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/8/10
+ * Time: 9:39
+ */
+
+namespace Home\Model;
+use Think\Model;
+class PHPExcelModel extends Model{
+
+    /**
+     * 导出数据到Excel
+     * $fileName 文件的名字
+     * $expCellName 格式 ["姓名","性别"]
+     * $expTableData格式[{"data":[["张三","男"],["李四","女"]],"sheetName":"工作区1"},{"data":[["王五","男"],["赵六","女"]],"sheetName":"工作区2"}]
+     */
+    public function exportExcel($fileName, $expCellName, $expTableData) {
+        $cellNum = count($expCellName);
+        vendor("PHPExcel.PHPExcel");
+        $objPHPExcel = new \PHPExcel();
+        $cellName = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AW','AX','AY','AZ');
+        //数据循环 工作区->行列数据
+        foreach($expTableData as $k=>$v) {
+            //表格的第一个sheet不用创建、不用激活
+            if($k!=0){
+                $objPHPExcel->createSheet();
+                $objPHPExcel->setActiveSheetIndex($k);
+            }
+            $objPHPExcel->getActiveSheet($k)->setTitle($v["sheetName"]);
+            for($i=0;$i<$cellNum;$i++){
+                $objPHPExcel->getActiveSheet($k)->setCellValue($cellName[$i]."1", $expCellName[$i]);
+                $objPHPExcel->getActiveSheet($k)->getColumnDimension($cellName[$i])->setAutoSize(true);
+                $objPHPExcel->getActiveSheet($k)->getStyle($cellName[$i]."1")->getAlignment()->setWrapText(true);
+            }
+            foreach ($v["data"] as $kk=>$vv){
+                for($j=0;$j<$cellNum;$j++){
+                    $objPHPExcel->getActiveSheet($k)->setCellValue($cellName[$j].($kk+2), $v["data"][$kk][$j]);
+                    $objPHPExcel->getActiveSheet($k)->getStyle($cellName[$j].($kk+2))->getAlignment()->setWrapText(true);
+                }
+            }
+        }
+        header('pragma:public');
+        header("Content-Disposition:attachment;filename=$fileName.xls");
+        $write = new \PHPExcel_Writer_Excel5($objPHPExcel);
+        $write->save('php://output');
+        exit;
+    }
+
+    /**
+     * 通过Excel导入数据
+     */
+    public function importExcel() {
+
+    }
+}

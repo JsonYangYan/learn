@@ -1,0 +1,409 @@
+<?php
+/**
+ * 学校用户的相关操作
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/8/22
+ * Time: 11:20
+ */
+namespace Home\Controller;
+use Think\Controller;
+class SchoolController extends Controller {
+    public function __construct()
+    {
+        $actions = array("index","login","doFindpwd","editpwd","doeditpwd","course");//不需要验证的方法名
+        parent::__construct();
+        if (!session("username"))
+        if (!(in_array(ACTION_NAME, $actions)))
+        {
+            $this->redirect('School/index');
+        }
+    }
+    /**
+     * 学校用户登录
+     * @author yyn
+     */
+    public function index() {
+        $this->display();
+    }
+    public function course() {
+        $this->display();
+    }
+
+    /**
+     * 学校用户包括教学点的登录动作
+     * @author yyn
+     */
+    public function login() {
+        $name = I("post.name");
+        $password = I("post.password");
+        $result = D("Tschooluser","Service")->doLogin($name, $password);
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 首次登录
+     * @author yyn
+     */
+    public function welcome() {
+        $this->display();
+    }
+
+    /**
+     * 修改密码
+     * @author yyn
+     */
+    public function updatePassword() {
+        $password = I("post.password",123456);
+        $result = D("Tschooluser","Model")->updatePassword($password);
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 从tschoolusre表中得到用户的相关信息
+     * @author yyn
+     */
+    public function getUserInfo() {
+        $result = D("Tschooluser")->getSchoolInforByUserName();
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 用户登录常态页时，返回学校信息，这个方法包括了从上个月复制一份试卷到本月份
+     * @author yyn
+     */
+    public function getUserInfoFromTschoolinfor() {
+        $username = session("username");
+        $result = D("Tschoolinfor","Service")->getSchoolByUserName($username);
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 教学点  用户登录常态页时，返回学校信息，这个方法包括了从上个月复制一份试卷到本月份
+     * @author yyn
+     */
+    public function getTpUserInfoFromTschoolinfor(){
+        $username = session("username");
+        $result = D("TpSchoolinfor","Service")->getTpSchoolByUserName($username);
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 返回学校最近一个月份的id
+     * @return mixed
+     * @author yyn
+     */
+    public function getSchoolId() {
+        $result = D("Tschoolinfor","Model")->getSchoolByUserName(session("username"));
+        $this->ajaxReturn($result["autoId"]);
+    }
+
+    /**
+     * 教学点  返回学校最近一个月份的id
+     * @return mixed
+     * @author yyn
+     */
+    public function getTpSchoolId() {
+        $result = D("Tpschoolinfor","Model")->getLatestSchoolByUserName(session("username"));
+        $this->ajaxReturn($result["autoId"]);
+    }
+
+    /**
+     * 保存用户信息
+     * @author yyn
+     */
+    public function addUserToSchoolInfor() {
+        $data = $_POST;
+        $schoolType = $_POST["school_type_"];//学校类别
+        unset($data["school_type_"]);
+        $result = D("Tschoolinfor","Model")->getSchoolByUserName(session("username"),$schoolType);
+        $timestamp = strtotime($result["userTime"]);
+        if (date("Y-m",$timestamp) == date("Y-m",time()))
+            return "ok";
+        if ($schoolType == "normal") $result = D("Tschoolinfor","Model")->addSchoolUser($data);
+        else $result = D("Tpschoolinfor","Model")->addSchoolUser($data);
+        $this->ajaxReturn("ok");
+    }
+
+    /**
+     * 修改用户信息
+     * @author yyn
+     */
+    public function updateSchoolInfor(){
+        $data = $_POST;
+        $schoolId = D("Tschoolinfor")->getSchoolIdByUserNameTime(session("username"),date("Y-m",time()));
+        $result = D("Tschoolinfor")->updateSchoolinfor($schoolId,$data);
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 教学点  修改用户信息
+     * @author yyn
+     */
+    public function updateTpSchoolInfor(){
+        $data = $_POST;
+        $schoolId = D("Tpschoolinfor")->getTpSchoolIdByUserNameTime(session("username"),date("Y-m",time()));
+        $result = D("Tpschoolinfor")->updateTpSchoolinfor($schoolId,$data);
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 学校用户第二次登录后显示修改信息页面
+     * @author yyn
+     */
+    public function welcome_edit() {
+        $this->display();
+    }
+
+    public function tp_welcome_edit() {
+        $this->display();
+    }
+
+    /**
+     * 得到学校的提交状态
+     * @author yyn
+     */
+    public function getSchoolCheckStatus() {
+        $type = I("post.school_type","normal");
+        if ($type == "normal")
+        $result = D("Tschoolinfor","Model")->getSchoolCheckStatus();
+        else $result = D("Tpschoolinfor","Model")->getSchoolCheckStatus();
+        if ($result){
+            $userTime = $result["userTime"];
+            $time = date("Y-m",strtotime($userTime));
+            $currentTime = date("Y-m",time());
+            if($time == $currentTime)
+            {
+                $data["fig"]=2;//提交过，且本月提交了
+                $data["days"] = date("d",time()) - date("d",strtotime($userTime));
+            } else {
+                $data["fig"]=3;//提交过，且本月没有提交
+            }
+        }else{
+            $data["fig"]=1;//没有提交过
+        }
+        $this->ajaxReturn($data);
+    }
+
+    /**
+     * 得到上个月的一些数据
+     * @author yyn
+     */
+    public function getLastMonthData(){
+        $time = date("Y-m",strtotime("last Month"));
+        $queIds = "121,123,124,125,126,127,128,129,130,131";
+        $result = D("Tblankanswer","Service")->getLastMonthDate($queIds,$time);
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 教学点  得到上个月的一些数据
+     * @author yyn
+     */
+    public function getTpLastMonthData(){
+        $time = date("Y-m",strtotime("last Month"));
+        $queIds = "3,4,5,6,7,8,13,20,21,37,38,39";
+        $result = D("Tpblankanswer","Service")->getTpLastMonthDate($queIds,$time);
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 得到上个月学校在区县中的排名
+     * @author yyn
+     */
+    public function getSchoolRanking() {
+        $time = I("post.userTime",'2017-06');
+        $xian = D("Tschoolindexscore","Service")->getSchoolCountyRanking($time);
+        $shi = D("Tschoolindexscore","Service")->getSchoolCityRanking($time);
+        $data["xian"] = $xian;
+        $data["shi"] = $shi;
+        $this->ajaxReturn($data);
+    }
+
+    /**
+     * 得到学校、区县、市五大维度的平均值
+     * @author yyn
+     */
+    public function getFiveIndexScore() {
+        $time = I("post.userTime","2017-06");
+        $result = D("Tareascore","Service")->getFiveIndexScore($time);
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 退出登录
+     * @author yyn
+     */
+    public function logout() {
+        session(null);
+        $this->redirect("School/index","页面跳转中……");
+    }
+
+    public function quiz() {
+        $this->display();
+    }
+
+    /**
+     * 得到用户的答案和问题
+     * @author yyn
+     */
+    public function getUserAnswerAndQuestion() {
+        $userName = session("username");
+        $time = date("Y-m",time());
+        $schoolId = D("Tschoolinfor","Model")->getSchoolIdByUserNameTime($userName,$time);
+        $indexType = I("post.dt",5);
+        $result = D("Tquestion","Service")->getUserAnswerAndQuestion($schoolId,$indexType);
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 得到 教学点  用户的答案和问题
+     * @author yyn
+     */
+    public function getTpUserAnswerAndQuestion() {
+        $userName = session("username");
+        $time = date("Y-m",time());
+        $schoolId = D("Tpschoolinfor","Model")->getSchoolIdByUserNameTime($userName,$time);
+        $indexType = I("post.dt",5);
+        $result = D("Tpquestion","Service")->getUserAnswerAndQuestion($schoolId,$indexType);
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 保存试卷
+     * @author yyn
+     */
+    public function savePaper() {
+        $choiceHtml = I("post.choice_array");
+        $textHtml = I("post.text_array");
+        D("Tquestion","Service")->savePaper($choiceHtml,$textHtml);
+        $this->ajaxReturn("ok");
+    }
+    /**
+     * 保存试卷  教学点
+     * @author yyn
+     */
+    public function saveTpPaper() {
+        $choiceHtml = I("post.choice_array");
+        $textHtml = I("post.text_array");
+        D("Tpquestion","Service")->savePaper($choiceHtml,$textHtml);
+        $this->ajaxReturn("ok");
+    }
+
+    /**
+ * 提交试卷
+ * @author yyn
+ */
+    public function submitPaper() {
+        $result = D("Tschoolinfor","Service")->submitPaper(session("username"));
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 教学点 提交试卷
+     * @author yyn
+     */
+    public function submitTpPaper() {
+        $result = D("TpSchoolinfor","Service")->submitPaper(session("username"));
+        $this->ajaxReturn($result);
+    }
+
+    public function editUserInfor(){
+        $this->display("userinfo_edit");
+    }
+
+    /**
+     * 得到用户的信息
+     * @author yyn
+     */
+    public function getSchoolInfor(){
+        $username = session("username");
+        $result = D("Tschoolinfor")->getSchoolByUserName($username);
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 教学点  得到用户的信息
+     * @author yyn
+     */
+    public function getTpSchoolInfor(){
+        $username = session("username");
+        $result = D("Tpschoolinfor")->getSchoolByUserName($username);
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 修改密码
+     * @author yyn
+     */
+    public function updatePwd(){
+        $this->display("pwd_edit");
+    }
+
+    /**
+     * 获取用户名
+     * @author yyn
+     */
+    public function getUserName(){
+        $this->ajaxReturn(session("username"));
+    }
+
+    /**
+     * 检查用户名、密码
+     * @author yyn
+     */
+    public function checkBeforePwd(){
+        $val = I("post.val");
+        $result = D("Tschooluser")->checkPwd(session("username"),$val);
+        if ($result)
+            $msg = "ok";
+        else
+            $msg = "error";
+        $this->ajaxReturn($msg);
+    }
+
+    /**
+     * 找回密码操作
+     * @return [type] [description]
+     */
+    public function doFindpwd() {
+        $username = $_POST['username'];
+        $result = D("Tschooluser","Service")->doFindpwd($username);
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 找回密码
+     * @author yyn
+     */
+    public function editpwd() {
+        $_SESSION ['emailpwd'] = array (
+            'key'  => trim(I('get.key')),
+            'info' => trim(I('get.info')),
+            'code' => trim(I('get.code')),
+            'time' => trim(I('get.time'))
+        );
+
+        $this->display ();
+    }
+
+    /**
+     * 修改密码
+     * @author yyn
+     */
+    public function doeditpwd() {
+        $pwd  = I('post.pwd','','trim');
+        $pwd2 = I('post.pwd2','','trim');
+        $result = D("Tschooluser","Service")->doeditpwd($pwd,$pwd2);
+        $this->ajaxReturn($result);
+    }
+
+    /**
+     * 教学点修改学校信息
+     * @author yyn
+     */
+    public function tpUserinfoEdit(){
+        $this->display("tp_userinfo_edit");
+    }
+
+}

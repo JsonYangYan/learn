@@ -1,0 +1,189 @@
+<?php
+/**
+ * 关于普通选择题相关操作
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/7/30
+ * Time: 17:15
+ */
+
+namespace Home\Model;
+use Think\Model;
+class TchoiceanswerModel extends  Model{
+
+    /**
+     * yan
+     * 根据某个选择题、在某个月份、中各个选项、在总提交中所占的比例
+     * @param $currentdate
+     * @return mixed
+     */
+    public function getOneQuestionOneMonthScale($areaName,$queId, $currentdate) {
+        if($areaName!=="襄阳市"){
+            $sql = "SELECT c.*,d.* FROM
+                                (
+                                    SELECT COUNT(*) school_num
+                                    FROM tschoolinfor
+                                    WHERE schoolArean = '$areaName' AND userTime LIKE '$currentdate%' AND state =1
+                                ) AS d,
+                                (
+                                    SELECT a.autoId,a.queId,a.choiceContent,COUNT(*) AS check_sum
+                                    FROM tchoice a
+                                      LEFT JOIN tchoiceanswer b
+                                      ON a.autoId = b.choiceId
+                                    WHERE a.queId = $queId AND b.schoolId IN(SELECT autoId
+                                    FROM tschoolinfor
+                                    WHERE schoolArean = '$areaName' AND userTime LIKE '$currentdate%' AND state =1)AND b.userTime LIKE '$currentdate%'
+                                    GROUP BY a.autoId
+                                ) AS c
+                      ";
+        }else{
+            $sql = "
+                SELECT c.*,d.* FROM
+                                (
+                                    SELECT COUNT(*) school_num
+                                    FROM tschoolinfor
+                                    WHERE userTime LIKE '$currentdate%' AND state =1
+                                ) AS d,
+                                (
+                                    SELECT a.autoId,a.queId,a.choiceContent,COUNT(*) AS check_sum
+                                    FROM tchoice a
+                                      LEFT JOIN tchoiceanswer b
+                                      ON a.autoId = b.choiceId
+                                    WHERE a.queId = $queId AND b.userTime LIKE '$currentdate%'
+                                    GROUP BY a.autoId
+                                ) AS c
+                      ";
+        }
+
+       $result = M()->query($sql);
+        $result_arr = array();
+       foreach ($result as $k=>$v) {
+            $arr["name"] = $v["choiceContent"];
+            $check_sum = $v["check_sum"];
+            $school_sum = $v["school_num"];
+            $score = round(($check_sum / $school_sum) * 100 ,2);
+            $arr["value"] = $score;
+            array_push($result_arr,$arr);
+       }
+       return $result_arr;
+    }
+
+    /**
+     *根据区域名称、日期、选择题id，获取选择题的选项以及选的个数
+     * @param $areaName
+     * @param $currentTime
+     * @param $queId
+     * @return mixed
+     * @author yyn
+     */
+    public function getChoiceIndexByAreaNameCurrentTimeQueId($areaName, $currentTime, $queId) {
+        $sql = "
+                SELECT choiceContent,a.choiceId,count(*) sum  
+                FROM tchoiceanswer as a 
+                LEFT JOIN tchoice AS b ON a.choiceId = b.autoId 
+                LEFT JOIN tschoolinfor AS c ON a.schoolId = c.autoId 
+                WHERE b.queId = $queId AND c.state = 1 AND c.schoolArean='$areaName' AND c.userTime LIKE '$currentTime%'
+                GROUP BY a.choiceId
+        ";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+
+    /**
+     * 根据选择题的id和时间获得这道题的选项以及选这个的人数
+     * @param $queId
+     * @param $currentTime
+     * @return mixed
+     * @author yyn
+     */
+    public function getChoiceContentAndSumByCurrentTimeQueId($queId, $currentTime) {
+        $sql = "
+                SELECT count(*) as sum,a.choiceContent  
+                FROM tchoice as a
+                LEFT JOIN tchoiceanswer as b 
+                ON a.autoId = b.choiceId
+                WHERE a.queId= $queId AND b.userTime like '$currentTime%'
+                GROUP BY a.autoId
+        ";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+    /**
+     * 根据学校的id删除临时表中选择题答案
+     * @author yyn
+     */
+    public function deleteChoiceAnswerBySchoolId($schoolId){
+        M("Tchoiceanswer_temp")->where("schoolId = $schoolId")->delete();
+    }
+
+    /**
+     * 删除正式表中选择题的答案
+     * @param $schoolId
+     * @author yyn
+     */
+    public function deleteTrueChoiceAnswerBySchoolId($schoolId){
+        M("Tchoiceanswer")->where("schoolId = $schoolId")->delete();
+    }
+
+    /**
+     * 将选择题答案存到临时表中
+     * @param $choiceArray
+     * @author yyn
+     */
+    public function addChoiceAnswer($choiceArray) {
+        M("Tchoiceanswer_temp")->addAll($choiceArray);
+    }
+
+    /**
+     * 将选择题答案存到正式表中
+     * @param $choiceArray
+     * @author yyn
+     */
+    public function addToTrueChoiceAnswer($choiceArray){
+        M("Tchoiceanswer")->addAll($choiceArray);
+    }
+
+    /**
+     * 得到上个月选择题，并且把学校id换成本月的
+     * @param $schoolId 上个月的学校id
+     * @param $autoId 本月的学校id
+     * @return mixed
+     * @author yyn
+     */
+    public function getChoiceAnswerBySchoolId($schoolId,$autoId){
+        $result = M("Tchoiceanswer")
+            ->field("queId,is_checked,choiceId,$autoId as schoolId")
+            ->where("schoolId = $schoolId")->select();
+        return $result;
+    }
+
+    /**
+     * 将临时表中的数据取出，然后保存到正式表中
+     * @param $schoolId
+     * @return mixed
+     * @author yyn
+     */
+    public function getTempChoiceAnswerBySchoolId($schoolId){
+        $result = M("Tchoiceanswer_temp")
+            ->field("queId,is_checked,choiceId,schoolId")
+            ->where("schoolId = $schoolId")->select();
+        return $result;
+    }
+
+    /**
+     * 根据queId,schoolId获取某所学校在某道选择题选择了哪些选项choiceId
+     * @param $queId
+     * @param $schoolId
+     */
+    public function getChoiceIdByQueIdSchId($queId,$schoolId){
+        $result = M("Tchoiceanswer")->field("DISTINCT choiceId")->where("queId = $queId and schoolId = $schoolId")->select();
+        $temp = array();
+        foreach($result as $k=>$v){
+            $temp[]= (int)$v["choiceId"];
+        }
+        return $temp;
+    }
+
+}

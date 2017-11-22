@@ -1,0 +1,48 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/8/17
+ * Time: 15:05
+ */
+namespace Home\Model;
+use Think\Model;
+class TsecondareascoreModel extends  Model{
+    /**
+     * autor yan
+     * 获取二级指标的分数
+     * @param $areaName
+     * @param $currentTime
+     */
+    public function  getAreanSecondScore($areaName,$currentTime){
+        $sql = "SELECT secondscore FROM tsecondareascore WHERE areaname = '$areaName' AND createTime LIKE '$currentTime%' ORDER BY autoId";
+        $result = M()->query($sql);
+        $arr = array();
+        foreach($result as $k=>$v){
+            $arr[] = (float)$v["secondscore"];
+        }
+        return $arr;
+    }
+
+    /**
+     * 插入一个区县的二级指标得分
+     * @param $secondScore
+     * @param $areaName
+     * @param $time
+     */
+    public function insertSecondAreaScore($secondScore,$areaName,$time){
+        $data["secondscore"] = (float)$secondScore;
+        $data["areaname"] = $areaName;
+        $data["createTime"] = $time;
+        M("Tsecondareascore")->add($data);
+    }
+
+    /*
+     * 根据时间删除二级指标得分
+     */
+    public function delSecondAreaScoreByTime($currentTime){
+        //M("Tsecondareascore")->where("createTime like '$currentTime%'")->delete();
+        $sql = "DELETE FROM tsecondareascore WHERE createTime LIKE '$currentTime%'";
+        $result = M()->query($sql);
+    }
+}

@@ -1,0 +1,52 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/8/15
+ * Time: 15:24
+ */
+namespace Home\Service;
+use Think\Model;
+class TchoiceanswerService extends Model{
+
+    /**
+     * 根据区域名称、日期、选择题id，获取选择题的选项以及选的个数
+     * @param $areaName
+     * @param $currentTime
+     * @param $queId
+     * @return array
+     * @author yyn
+     */
+    public function getChoiceIndexByAreaNameCurrentTimeQueId($areaName, $currentTime, $queId) {
+        $result = D("Tchoiceanswer", "Model")->getChoiceIndexByAreaNameCurrentTimeQueId($areaName, $currentTime, $queId);
+        $arr = array();
+        foreach ($result as $k=>$v){
+            $temp = array();
+            $temp["name"] = $v["choiceContent"];
+            $temp["value"] = (int)$v["sum"];
+            $arr[] = $temp;
+        }
+        return $arr;
+    }
+
+    /**
+     * 根据时间和问题id计算每个选项选择的比例
+     * @param $queId
+     * @param $currentTime
+     * @author yyn
+     */
+    public function getChoicePercentByCurrentTimeQueId($queId, $currentTime) {
+        //得到某道选择题的选项内容及选该选项的人数
+        $result = D("Tchoiceanswer","Model")->getChoiceContentAndSumByCurrentTimeQueId($queId, $currentTime);
+        //指定日期下提交的学校总数
+        $sum = D("Tschoolinfor","Model")->getSpecifiedDateSchoolSubmitNum($currentTime);
+        $data = array();
+        foreach ($result as $k=>$v) {
+            $temp = array();
+            $temp["name"] = $v["choiceContent"];
+            $temp["value"] = round((($v["sum"] / $sum)*100),2);
+            $data[] = $temp;
+        }
+        return $data;
+    }
+}

@@ -1,0 +1,110 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Jesse
+ * Date: 2017-8-22
+ * Time: 9:10
+ */
+namespace Home\Service;
+use Think\Model;
+class PdfService extends Model{
+
+    /**
+     * 生成pdf
+     * author yan
+     * @param $areaName
+     * @param $time
+     */
+    public function printPdf($areaName,$time){
+        //指定月份学校提交数量
+        $schoolNum = D("Tschoolinfor","Model")->getAreaSpecifiedDateSchoolSubmitNum($areaName,$time);
+        //学校Id字符串
+        if($areaName!="襄阳市"){
+            $condition["schoolArean"] = $areaName;
+            $condition["userTime"] = array("like",$time."%");
+            $condition["state"] = 1;
+        }else{
+            $condition["userTime"] = array("like",$time."%");
+            $condition["state"] = 1;
+        }
+        $strSchooId = D("Tschoolinfor","Model")->getSchoolIdsStringBySchoolAreanUserTime($condition);
+        //校园网宽带
+        for($i=1;$i<4;$i++){
+            if($schoolNum!=0){
+                $arrNetWork[] = round(D("Tblankanswer","Model")->getNetWork($strSchooId,$time,$i)/$schoolNum*100,2);
+            }else{
+                $arrNetWork[] = 0;
+            }
+        }
+        //无线网
+        for($i=1;$i<3;$i++){
+            if($schoolNum!=0){
+                $arrWireless[] = round(D("Tblankanswer","Model")->getWireless($strSchooId,$time,$i)/$schoolNum*100,2);
+            }else{
+                $arrWireless[] = 0;
+            }
+        }
+        //教师终端
+        $arrTerminal = D("Tblankanswer","Service")->getTeacherTerminal($time, "135,136,137",$strSchooId);
+        //数字化教学系统
+        $arrTeachSystem = D("Tchoiceanswer","Model")->getOneQuestionOneMonthScale($areaName,142, $time);
+        //网络学习空间
+        $arrNetWorkSpace["teacher"] =  round(D("Tblankanswer","Model")->getAvgBlabkByqueId(143,$strSchooId,$time),2);
+        $arrNetWorkSpace["student"] =  round(D("Tblankanswer","Model")->getAvgBlabkByqueId(144,$strSchooId,$time),2);
+        //数字化教研资源
+        $arrTeachSource = D("Tchoiceanswer","Model")->getOneQuestionOneMonthScale($areaName,146, $time);
+        //门户网站
+        $arrSchoolWeb = D("Tchoiceanswer","Model")->getOneQuestionOneMonthScale($areaName,152, $time);
+        //对外宣传
+        $arrExternalpublicity = D("Tchoiceanswer","Model")->getOneQuestionOneMonthScale($areaName,150,$time);
+        //校级管理系统
+        $arrSchoolManagerSystem = D("Tchoiceanswer","Model")->getOneQuestionOneMonthScale($areaName,148,$time);
+        //经费
+        $arrFunds["totalFunds"] = round(D("Tblankanswer","Model")->getAvgBlabkByqueId(168,$strSchooId,$time),2);
+        $arrFunds["informationFunds"] = round(D("Tblankanswer","Model")->getAvgBlabkByqueId(169,$strSchooId,$time),2);
+        $arrFunds["equipmentFunds"] = round(D("Tblankanswer","Model")->getAvgBlabkByqueId(170,$strSchooId,$time),2);
+        $arrFunds["sourceFunds"] = round(D("Tblankanswer","Model")->getAvgBlabkByqueId(171,$strSchooId,$time),2);
+        $arrFunds["trainFunds"] = round(D("Tblankanswer","Model")->getAvgBlabkByqueId(172,$strSchooId,$time),2);
+        //培训
+        $arrTain["teacherNum"] = round(D("Tblankanswer","Model")->getAvgBlabkByqueId(183,$strSchooId,$time),2);
+        $arrTain["classNum"] = round(D("Tblankanswer","Model")->getAvgBlabkByqueId(184,$strSchooId,$time),2);
+
+        /*unlink("Public/Image/1.jpg");
+        unlink("Public/Image/2.jpg");
+        unlink("Public/Image/3.jpg");*/
+
+        //生成柱状图
+        //1.数字化教研资源建设应用情况
+        foreach($arrTeachSource as $k=>$v){
+            $arrtitle1[] = $v["name"];
+            $arrvalue1[] = $v["value"];
+        }
+        $steTitle1 = "数字化教研资源建设应用情况";
+        $strBarX1 = "资源类型";
+        $strBarY1 = "百分比(%)";
+        $fig1 = 1;
+        //2.经费
+        $arrtitle2 = array("教育总经费","信息化经费","网络建设与设备购置","资源与平台开发","培训");
+        $arrvalue2 = array($arrFunds["totalFunds"],$arrFunds["informationFunds"],$arrFunds["equipmentFunds"],
+        $arrFunds["sourceFunds"],$arrFunds["trainFunds"]);
+        $steTitle2 = "经费运用情况";
+        $strBarX2 = "经费类型";
+        $strBarY2 = "万元";
+        $fig2 = 2;
+        //createBarChar($arrtitle1,$arrvalue1,$steTitle1,$strBarX1,$strBarY1,$fig1);
+        //createBarChar($arrtitle2,$arrvalue2,$steTitle2,$strBarX2,$strBarY2,$fig2);
+
+        //生成饼状图
+        foreach($arrTeachSystem as $k=>$v){
+            $arrtitle[] = $v["name"];
+            $arrvalue[] = $v["value"];
+        }
+        //createPieChar($arrvalue,$arrtitle,"数字化教学系统建设应用情况",3);
+
+        pdf($time,$areaName,$arrNetWork,$arrWireless,$arrTerminal,$arrTeachSystem,$arrNetWorkSpace,$arrTeachSource,$arrSchoolWeb,$arrExternalpublicity,$arrSchoolManagerSystem,$arrFunds,$arrTain);
+        //return $arrWireless;
+    }
+
+
+
+}

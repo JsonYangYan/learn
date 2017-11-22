@@ -1,0 +1,37 @@
+<?php
+/**
+ * 一级指标类型的相关操作
+ * User: yan
+ * Date: 2017-8-17
+ * Time: 9:58
+ */
+
+namespace Home\Model;
+
+use Think\Model;
+class TfirstindexModel
+{
+    /**
+     * 获取一级指标类型
+     */
+    public function  getFirstIndexType(){
+        $result = M("Tfirstindex")->field("firstIndexType")->select();
+        $temp = array();
+        foreach($result as $k=>$v){
+            $temp[]= $v["firstIndexType"];
+        }
+        return $temp;
+    }
+
+    /**
+     * 获取一级指标权重
+     */
+    public function  getFirstIndexPercent(){
+        $result = M("Tfirstindex")->field("firstIndexPercent")->select();
+        $temp = array();
+        foreach($result as $k=>$v){
+            $temp[]= (float)$v["firstIndexPercent"];
+        }
+        return $temp;
+    }
+}

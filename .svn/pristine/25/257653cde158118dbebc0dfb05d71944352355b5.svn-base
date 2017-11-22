@@ -1,0 +1,68 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/8/17
+ * Time: 15:12
+ */
+namespace Home\Model;
+use Think\Model;
+class TthirdareascoreModel extends  Model{
+
+    /**
+     * 根据日期，区域名字，第几条，返回三维指标得分
+     * @param $currentTime
+     * @param $areaName
+     * @param $id
+     * @return mixed
+     * @author yyn
+     */
+    public function getThirdScoreByCurrentTimeAreaNameId($currentTime,$areaName,$id) {
+        $sql = "
+             SELECT thirdscore FROM tthirdareascore 
+             WHERE areaname ='$areaName'  AND createTime LIKE '$currentTime%' 
+             ORDER BY autoId ASC  
+             LIMIT $id,1   
+        ";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+    /**
+     * autor yan
+     * 获取三级指标的分数
+     * @param $areaName
+     * @param $currentTime
+     */
+    public function  getAreanThirdScore($areaName,$currentTime){
+        $sql = "SELECT thirdscore FROM tthirdareascore WHERE areaname = '$areaName' AND createTime LIKE '$currentTime%' ORDER BY autoId";
+        $result = M()->query($sql);
+        $arr = array();
+        foreach($result as $k=>$v){
+            $arr[] = (float)$v["thirdscore"];
+        }
+        return $arr;
+    }
+
+    /**
+     * 插入一个区县的三级指标得分
+     * @param $secondScore
+     * @param $areaName
+     * @param $time
+     */
+    public function insertThirdAreaScore($thirdscore,$areaName,$time){
+        $data["thirdscore"] = $thirdscore;
+        $data["areaname"] = $areaName;
+        $data["createTime"] = $time;
+        M("Tthirdareascore")->add($data);
+    }
+
+    /*
+     * 根据时间删除三级指标得分
+     */
+    public function delThirdAreaScoreByTime($currentTime){
+        //M("Tthirdareascore")->where("createTime like '$currentTime%'")->delete();
+        $sql = "DELETE FROM tthirdareascore WHERE createTime LIKE '$currentTime%'";
+        $result = M()->query($sql);
+    }
+}

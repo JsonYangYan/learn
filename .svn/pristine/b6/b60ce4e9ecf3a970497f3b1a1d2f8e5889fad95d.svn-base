@@ -1,0 +1,36 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: yan
+ * Date: 2017/8/28
+ * Time: 15:05
+ */
+namespace Home\Model;
+use Think\Model;
+class TquescoreModel extends  Model{
+
+    /**
+     * 插入每道题的得分
+     * @param $queId
+     * @param $schoolId
+     * @param $queScore
+     * @param $time
+     */
+    public function insertQueScore($queId,$schoolId,$queScore,$time){
+        $data["queScore"] = $queScore;
+        $data["queId"] = $queId;
+        $data["schoolId"] = $schoolId;
+        $data["createTime"] = $time;
+        M("Tquescore")->add($data);
+    }
+
+    /**
+     *删除该月份绩效得分
+     * @param $currentTime
+     */
+    public function delQueScore($currentTime){
+        //M("Tquescore")->where("createTime like '$currentTime%'")->delete();
+        $sql = "DELETE FROM tquescore WHERE createTime LIKE '$currentTime%'";
+        $result = M()->query($sql);
+    }
+}

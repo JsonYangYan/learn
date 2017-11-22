@@ -1,0 +1,121 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/8/16
+ * Time: 16:08
+ */
+
+namespace Home\Service;
+use Think\Model;
+class TblankanswerService extends Model{
+
+    /**
+     * 根据日期获得教学用信息化终端设备中，教师专用终端情况
+     * @param $currentTime
+     * @param $queIdString 用逗号分隔的queId
+     * @author yyn
+     */
+    public function getTeacherTerminal($currentTime,$queIdString,$schoolIds) {
+        //得到低于20的个数
+        $ltTwentySum = D("Tblankanswer","Model")->getTeacherTerminalTwenty($currentTime,$queIdString,$schoolIds);
+        //得到20-60之间的个数
+        $twentyToSixty = D("Tblankanswer","Model")->getTeacherTerminalTwentyToSixty($currentTime,$queIdString,$schoolIds);
+        //得到60-90之间的个数
+        $sixtyToEighty = D("Tblankanswer","Model")->getTeacherTerminalSixtyToEighty($currentTime,$queIdString,$schoolIds);
+        //得到高于90的个数
+        $gtEighty = D("Tblankanswer","Model")->getTeacherTerminalGtEighty($currentTime,$queIdString,$schoolIds);
+        $total = $ltTwentySum + $twentyToSixty + $sixtyToEighty + $gtEighty;
+        //求占的比例
+        $ltTwentySum_persent = round(($ltTwentySum / $total ) * 100,2);
+        $twentyToSixty_persent = round(($twentyToSixty / $total)*100,2);
+        $sixtyToEighty_persent = round(($sixtyToEighty / $total)*100,2);
+        $gtEighty_persent = round(($gtEighty / $total)*100,2);
+        $data = array();
+        $temp = array();
+        $temp["name"] = "0-20";
+        $temp["value"] = (float)$ltTwentySum_persent;
+        $data[] = $temp;
+        $temp = array();
+        $temp["name"] = "20-60";
+        $temp["value"] = (float)$twentyToSixty_persent;
+        $data[] = $temp;
+        $temp = array();
+        $temp["name"] = "60-90";
+        $temp["value"] = (float)$sixtyToEighty_persent;
+        $data[] = $temp;
+        $temp = array();
+        $temp["name"] = "大于90";
+        $temp["value"] = (float)$gtEighty_persent;
+        $data[] = $temp;
+        return $data;
+    }
+
+    /**
+     * 打印所有区县的学校填空题到excel中
+     * @param $currentTime
+     * @author yyn
+     */
+    public function exportAllSchoolBlankTextExcel($currentTime,$fileName,$areaName = "") {
+        $result = D("Tblankanswer")->getAllAreaSchoolBlankTextByCurrentTime($currentTime,$areaName);
+        $temp_data = array();
+        foreach($result as $k=>$v) {
+            $temp_data[$v["schoolArean"]][$v["schoolName"]][] = $v;
+        }
+        $data = array();
+        foreach($temp_data as $k=>$v) {
+            $blankData = array();
+            $sheetData = array();
+            foreach($v as $kk=>$vv){
+                $cellData = array();
+                $cellData[] = $vv[0]["schoolName"];
+                $cellData[] = $vv[0]["classNumber"];
+                $cellData[] = $vv[0]["teacherNumber"];
+                $cellData[] = $vv[0]["studentNumber"];
+                foreach($vv as $kkk=>$vvv) {
+                    $cellData[] = $vvv["blankText"];
+                }
+                $blankData[] = $cellData;
+            }
+            $sheetData["data"] = $blankData;
+            $sheetData["sheetName"] = $k;
+            $data[] = $sheetData;
+        }
+        $expCellName = $this->getTblcnkQuestion();
+      D("PHPExcel")->exportExcel($fileName, $expCellName, $data);
+    }
+
+    /**
+     * 填空题的题目
+     * @author yyn
+     */
+    public function getTblcnkQuestion() {
+        $expCellName = array(
+            "学校名称","班级(个)","教师(名)","学生(名)","校园网出口带宽(兆/M)","校园网平均带宽(兆/M)","有线网络的覆盖率(%)",
+            "无线网络的覆盖率(%)","电子备课教室(间)","计算机教室(间)","计算机教室座位(个)","是否联网(是/否)","使用率(课时/周)","非故障电脑比例(%)",
+            "录播教室(间)","多媒体教室(间)","教师终端-台式计算机(台)","教师终端-笔记本电脑(台)","教师终端-平板电脑(台)","学生终端-台式计算机(台)",
+            "学生终端-笔记本电脑(台)","学生终端-平板电脑(台)","教师开通网络学习空间比例(%)","学生开通网络学习空间比例(%)","应用数字化资源的课程比例(%)",
+            "使用互动平台与家长交流的班级比例(%)","去年信息化经费投入经费(万元)","最近一年教育总经费(万元)","信息化经费投入经费(万元)",
+            "网络建设与设备购置的费用(万元)","资源与平台开发的费用(万元)","培训的费用(万元)","运行和维护的费用(万元)","研究及其他费用(万元)",
+            "信息技术课程教师(名)","信息技术课程教师中的专职人员(名)","信息技术课程教师中的兼职人员(名)","信息化支持人员(名)","聘请专职人员(名)",
+            "信息技术专业兼任教师(名)","其他专业兼任教师(名)","参与信息技术能力培训的教师(名)","教师人均参加信息技术能力培训(课时)"
+        );
+        return $expCellName;
+    }
+
+    /**
+     * 获取上一个月的数据
+     * @param $queIds
+     * @param $time
+     * @return mixed
+     * @author yyn
+     */
+    public function getLastMonthDate($queIds,$time) {
+        $userName = session("username");
+        $schoolId = D("Tschoolinfor","Model")->getSchoolIdByUserNameTime($userName,$time);
+        $result = D("Tblankanswer","Model")->getLastMonthDate($queIds,$schoolId);
+        $data["data"] = $result;
+        $data["lastMonth"] = $time;
+        return $data;
+    }
+}

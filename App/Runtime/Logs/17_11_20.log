@@ -1,0 +1,1420 @@
+[ 2017-11-20T15:42:32+08:00 ] ::1 /learn/index.php/Home/Admin/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.016722s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.016830s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000096s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000212s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.117368s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.117443s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000914s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000965s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000956s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001006s ]
+
+[ 2017-11-20T15:42:38+08:00 ] ::1 /learn/index.php/Home/Admin/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000311s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000368s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000098s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000146s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.005360s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.005412s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000169s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000212s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000312s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000354s ]
+
+[ 2017-11-20T15:42:46+08:00 ] ::1 /learn/index.php/Home/Admin/logout.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000312s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000372s ]
+SQL: SHOW COLUMNS FROM `login` [ RunTime:0.022071s ]
+ERR: 1146:Table 'learn.login' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `login`
+
+[ 2017-11-20T15:42:46+08:00 ] ::1 /learn/index.php/Home/Index/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000387s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000461s ]
+NOTIC: [2] Missing argument 1 for Think\Controller::show(), called in D:\phpStudy\PHPTutorial\WWW\learn\App\Home\Controller\IndexController.class.php on line 8 and defined D:\phpStudy\PHPTutorial\WWW\learn\ThinkPHP\Library\Think\Controller.class.php 第 68 行.
+NOTIC: [8] Undefined variable: content D:\phpStudy\PHPTutorial\WWW\learn\ThinkPHP\Library\Think\Controller.class.php 第 69 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000072s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000146s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.030032s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.030109s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000225s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000276s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000403s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000456s ]
+
+[ 2017-11-20T15:42:50+08:00 ] ::1 /learn/index.php/Home/Index/doLogin.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000304s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000359s ]
+SQL: SHOW COLUMNS FROM `login` [ RunTime:0.021302s ]
+ERR: 1146:Table 'learn.login' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `login`
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.085507s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.017158s ]
+SQL: SELECT * FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000730s ]
+
+[ 2017-11-20T15:42:51+08:00 ] ::1 /learn/index.php/Home/County/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000600s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000705s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000092s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000149s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.036497s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.036588s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000198s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000237s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000292s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000334s ]
+
+[ 2017-11-20T15:43:19+08:00 ] ::1 /learn/index.php/Home/County/standard.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000330s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000389s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000124s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000189s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.053355s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.053418s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000181s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000223s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000344s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000390s ]
+
+[ 2017-11-20T15:44:10+08:00 ] ::1 /learn/index.php/Home/County/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000311s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000369s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000095s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000148s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.007106s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007172s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000179s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000221s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000327s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000371s ]
+
+[ 2017-11-20T17:11:01+08:00 ] ::1 /learn/index.php/Home/County/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000330s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000429s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000090s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000148s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.012394s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.012458s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000217s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000256s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000361s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000403s ]
+
+[ 2017-11-20T17:11:03+08:00 ] ::1 /learn/index.php/Home/County/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000304s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000363s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000127s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000187s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.038577s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.038643s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000198s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000241s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000331s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000374s ]
+
+[ 2017-11-20T17:11:04+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000289s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000342s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.024900s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.008238s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000353s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000329s ]
+
+[ 2017-11-20T17:11:08+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000864s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001023s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.034107s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.024901s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000393s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000396s ]
+
+[ 2017-11-20T17:11:11+08:00 ] ::1 /learn/index.php/Home/County/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000525s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000623s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000221s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000328s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.054492s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.054576s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000262s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000308s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000389s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000435s ]
+
+[ 2017-11-20T17:11:12+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000277s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000331s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.031015s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.007973s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000266s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000260s ]
+
+[ 2017-11-20T17:11:13+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000278s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000329s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.035635s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.008817s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000320s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000307s ]
+
+[ 2017-11-20T17:11:13+08:00 ] ::1 /learn/index.php/Home/County/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000308s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000369s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000141s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000198s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.026759s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.026820s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000180s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000247s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000334s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000381s ]
+
+[ 2017-11-20T17:11:14+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000317s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000383s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.036236s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.009262s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000311s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000323s ]
+
+[ 2017-11-20T17:11:15+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000283s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000338s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.034183s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.008199s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000278s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000285s ]
+
+[ 2017-11-20T17:11:18+08:00 ] ::1 /learn/index.php/Home/Index/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000305s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000362s ]
+NOTIC: [2] Missing argument 1 for Think\Controller::show(), called in D:\phpStudy\PHPTutorial\WWW\learn\App\Home\Controller\IndexController.class.php on line 8 and defined D:\phpStudy\PHPTutorial\WWW\learn\ThinkPHP\Library\Think\Controller.class.php 第 68 行.
+NOTIC: [8] Undefined variable: content D:\phpStudy\PHPTutorial\WWW\learn\ThinkPHP\Library\Think\Controller.class.php 第 69 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000055s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000110s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.014832s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.014896s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000182s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000222s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000322s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000366s ]
+
+[ 2017-11-20T17:11:20+08:00 ] ::1 /learn/index.php/Home/Index/doLogin.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000306s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000360s ]
+SQL: SHOW COLUMNS FROM `login` [ RunTime:0.021057s ]
+ERR: 1146:Table 'learn.login' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `login`
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.026074s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.016162s ]
+SQL: SELECT * FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000706s ]
+
+[ 2017-11-20T17:11:20+08:00 ] ::1 /learn/index.php/Home/County/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000530s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000626s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000168s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000266s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.009311s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.009406s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000370s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000452s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000579s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000664s ]
+
+[ 2017-11-20T17:11:21+08:00 ] ::1 /learn/index.php/Home/County/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000313s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000373s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000126s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000182s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.025083s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.025146s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000186s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000229s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000328s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000373s ]
+
+[ 2017-11-20T17:11:22+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000308s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000363s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.030935s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.010324s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000355s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000366s ]
+
+[ 2017-11-20T17:11:24+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000283s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000335s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.036383s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.024902s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000287s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000291s ]
+
+[ 2017-11-20T17:11:34+08:00 ] ::1 /learn/index.php/Home/County/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000852s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001007s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000202s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000279s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.040425s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.040521s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000289s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000357s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000561s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000641s ]
+
+[ 2017-11-20T17:11:35+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000287s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000342s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.033549s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.008912s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000300s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000296s ]
+
+[ 2017-11-20T17:11:36+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000280s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000330s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.037307s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.016451s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000563s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000582s ]
+
+[ 2017-11-20T17:12:09+08:00 ] ::1 /learn/index.php/Home/Index/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000319s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000384s ]
+NOTIC: [2] Missing argument 1 for Think\Controller::show(), called in D:\phpStudy\PHPTutorial\WWW\learn\App\Home\Controller\IndexController.class.php on line 8 and defined D:\phpStudy\PHPTutorial\WWW\learn\ThinkPHP\Library\Think\Controller.class.php 第 68 行.
+NOTIC: [8] Undefined variable: content D:\phpStudy\PHPTutorial\WWW\learn\ThinkPHP\Library\Think\Controller.class.php 第 69 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000055s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000106s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.014983s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.015053s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000424s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000479s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000411s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000476s ]
+
+[ 2017-11-20T17:12:14+08:00 ] ::1 /learn/index.php/Home/Index/doLogin.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000309s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000361s ]
+SQL: SHOW COLUMNS FROM `login` [ RunTime:0.021312s ]
+ERR: 1146:Table 'learn.login' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `login`
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.025870s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.015959s ]
+SQL: SELECT * FROM `tuser` WHERE ( username = 'admin' ) LIMIT 1   [ RunTime:0.000688s ]
+
+[ 2017-11-20T17:12:14+08:00 ] ::1 /learn/index.php/Home/Admin/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000668s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000790s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000214s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000332s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.042242s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.042337s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000201s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000250s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000355s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000403s ]
+
+[ 2017-11-20T17:12:15+08:00 ] ::1 /learn/index.php/Home/Admin/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000304s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000358s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000113s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000173s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.048672s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.048736s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000183s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000226s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000316s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000359s ]
+
+[ 2017-11-20T17:12:16+08:00 ] ::1 /learn/index.php/Home/Admin/getAllUser.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000527s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000621s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.036901s ]
+SQL: SELECT id,depart,all_score,first_score FROM tuser WHERE `role` = 'user' ORDER BY all_score DESC  [ RunTime:0.000743s ]
+
+[ 2017-11-20T17:12:17+08:00 ] ::1 /learn/index.php/Home/Admin/school_detail.html?val=2
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000318s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000376s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000130s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000186s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.030236s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.030301s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000182s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000223s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000338s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000383s ]
+
+[ 2017-11-20T17:12:19+08:00 ] ::1 /learn/index.php/Home/Admin/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000294s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000348s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.036740s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000624s ]
+
+[ 2017-11-20T17:12:20+08:00 ] ::1 /learn/index.php/Home/Admin/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000282s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000336s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.036212s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000667s ]
+
+[ 2017-11-20T17:12:23+08:00 ] ::1 /learn/index.php/Home/Admin/school_detail.html?val=2
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000671s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000795s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000279s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000399s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.039954s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.040104s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000232s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000286s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000372s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000423s ]
+
+[ 2017-11-20T17:12:24+08:00 ] ::1 /learn/index.php/Home/Admin/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000339s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000405s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.036715s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000654s ]
+
+[ 2017-11-20T17:12:25+08:00 ] ::1 /learn/index.php/Home/Admin/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000311s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000368s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.032258s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000417s ]
+
+[ 2017-11-20T17:12:57+08:00 ] ::1 /learn/index.php/Home/Admin/school_detail.html?val=2
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000769s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000913s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000135s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000197s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.031246s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.031341s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000179s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000220s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000322s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000365s ]
+
+[ 2017-11-20T17:12:58+08:00 ] ::1 /learn/index.php/Home/Admin/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000284s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000343s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.037204s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000679s ]
+
+[ 2017-11-20T17:12:59+08:00 ] ::1 /learn/index.php/Home/Admin/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000283s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000338s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.036170s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000677s ]
+
+[ 2017-11-20T17:13:24+08:00 ] ::1 /learn/index.php/Home/Admin/school_detail.html?val=2
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000743s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000867s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000278s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000397s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.042355s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.042446s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000312s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000362s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000419s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000473s ]
+
+[ 2017-11-20T17:13:25+08:00 ] ::1 /learn/index.php/Home/Admin/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000300s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000363s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.033363s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000365s ]
+
+[ 2017-11-20T17:13:26+08:00 ] ::1 /learn/index.php/Home/Admin/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000343s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000397s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.029302s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000313s ]
+
+[ 2017-11-20T17:13:37+08:00 ] ::1 /learn/index.php/Home/Admin/school_detail.html?val=2
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000667s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000789s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000277s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000397s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.036390s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.036482s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000201s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000241s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000358s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000410s ]
+
+[ 2017-11-20T17:13:38+08:00 ] ::1 /learn/index.php/Home/Admin/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000319s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000376s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.026886s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000441s ]
+
+[ 2017-11-20T17:13:39+08:00 ] ::1 /learn/index.php/Home/Admin/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000328s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000392s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.035990s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000659s ]
+
+[ 2017-11-20T17:13:45+08:00 ] ::1 /learn/index.php/Home/Admin/school_detail.html?val=2
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000658s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000780s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000278s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000388s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.045772s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.045876s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000220s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000270s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000447s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000512s ]
+
+[ 2017-11-20T17:13:46+08:00 ] ::1 /learn/index.php/Home/Admin/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000391s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000468s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.036036s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000657s ]
+
+[ 2017-11-20T17:13:47+08:00 ] ::1 /learn/index.php/Home/Admin/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000274s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000324s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.035657s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000650s ]
+
+[ 2017-11-20T17:14:04+08:00 ] ::1 /learn/index.php/Home/Admin/school_detail.html?val=2
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.001240s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001546s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000247s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000354s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.065387s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.065572s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000364s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000440s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000657s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000752s ]
+
+[ 2017-11-20T17:14:05+08:00 ] ::1 /learn/index.php/Home/Admin/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000309s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000372s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.037754s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000663s ]
+
+[ 2017-11-20T17:14:06+08:00 ] ::1 /learn/index.php/Home/Admin/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000300s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000363s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.034259s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000376s ]
+
+[ 2017-11-20T17:14:53+08:00 ] ::1 /learn/index.php/Home/Admin/logout.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000309s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000366s ]
+SQL: SHOW COLUMNS FROM `login` [ RunTime:0.022795s ]
+ERR: 1146:Table 'learn.login' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `login`
+
+[ 2017-11-20T17:14:53+08:00 ] ::1 /learn/index.php/Home/Index/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000512s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000608s ]
+NOTIC: [2] Missing argument 1 for Think\Controller::show(), called in D:\phpStudy\PHPTutorial\WWW\learn\App\Home\Controller\IndexController.class.php on line 8 and defined D:\phpStudy\PHPTutorial\WWW\learn\ThinkPHP\Library\Think\Controller.class.php 第 68 行.
+NOTIC: [8] Undefined variable: content D:\phpStudy\PHPTutorial\WWW\learn\ThinkPHP\Library\Think\Controller.class.php 第 69 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000087s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000167s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.024275s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.024370s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000294s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000362s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000527s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000599s ]
+
+[ 2017-11-20T17:14:56+08:00 ] ::1 /learn/index.php/Home/Index/doLogin.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000307s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000364s ]
+SQL: SHOW COLUMNS FROM `login` [ RunTime:0.020904s ]
+ERR: 1146:Table 'learn.login' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `login`
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.025681s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.016391s ]
+SQL: SELECT * FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000664s ]
+
+[ 2017-11-20T17:14:56+08:00 ] ::1 /learn/index.php/Home/County/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000464s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000550s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000146s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000231s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.008082s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.008168s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000270s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000333s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000467s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000531s ]
+
+[ 2017-11-20T17:14:58+08:00 ] ::1 /learn/index.php/Home/County/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000304s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000359s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000126s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000177s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.024796s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.024859s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000184s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000226s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000327s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000370s ]
+
+[ 2017-11-20T17:14:59+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000393s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000458s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.037267s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.011630s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000369s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000352s ]
+
+[ 2017-11-20T17:15:01+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000323s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000394s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.037358s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.031268s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000331s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000332s ]
+
+[ 2017-11-20T17:17:41+08:00 ] ::1 /learn/index.php/Home/Index/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000876s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001042s ]
+NOTIC: [2] Missing argument 1 for Think\Controller::show(), called in D:\phpStudy\PHPTutorial\WWW\learn\App\Home\Controller\IndexController.class.php on line 8 and defined D:\phpStudy\PHPTutorial\WWW\learn\ThinkPHP\Library\Think\Controller.class.php 第 68 行.
+NOTIC: [8] Undefined variable: content D:\phpStudy\PHPTutorial\WWW\learn\ThinkPHP\Library\Think\Controller.class.php 第 69 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000122s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000251s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.048319s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.048444s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000520s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000612s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000884s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000989s ]
+
+[ 2017-11-20T17:17:44+08:00 ] ::1 /learn/index.php/Home/Index/doLogin.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000305s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000361s ]
+SQL: SHOW COLUMNS FROM `login` [ RunTime:0.020875s ]
+ERR: 1146:Table 'learn.login' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `login`
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.018483s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.008741s ]
+SQL: SELECT * FROM `tuser` WHERE ( username = 'admin' ) LIMIT 1   [ RunTime:0.000368s ]
+
+[ 2017-11-20T17:17:44+08:00 ] ::1 /learn/index.php/Home/Admin/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000417s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000496s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000139s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000227s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.007772s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007848s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000238s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000296s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000469s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000534s ]
+
+[ 2017-11-20T17:17:46+08:00 ] ::1 /learn/index.php/Home/Admin/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000312s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000375s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000108s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000156s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.025305s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.025387s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000213s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000284s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000327s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000371s ]
+
+[ 2017-11-20T17:17:47+08:00 ] ::1 /learn/index.php/Home/Admin/getAllUser.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000312s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000372s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.026304s ]
+SQL: SELECT id,depart,all_score,first_score FROM tuser WHERE `role` = 'user' ORDER BY all_score DESC  [ RunTime:0.000408s ]
+
+[ 2017-11-20T17:18:31+08:00 ] ::1 /learn/index.php/Home/Admin/logout.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000308s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000368s ]
+SQL: SHOW COLUMNS FROM `login` [ RunTime:0.022141s ]
+ERR: 1146:Table 'learn.login' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `login`
+
+[ 2017-11-20T17:18:31+08:00 ] ::1 /learn/index.php/Home/Index/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000350s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000417s ]
+NOTIC: [2] Missing argument 1 for Think\Controller::show(), called in D:\phpStudy\PHPTutorial\WWW\learn\App\Home\Controller\IndexController.class.php on line 8 and defined D:\phpStudy\PHPTutorial\WWW\learn\ThinkPHP\Library\Think\Controller.class.php 第 68 行.
+NOTIC: [8] Undefined variable: content D:\phpStudy\PHPTutorial\WWW\learn\ThinkPHP\Library\Think\Controller.class.php 第 69 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000058s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000113s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.018806s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.018874s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000204s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000249s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000396s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000448s ]
+
+[ 2017-11-20T17:18:39+08:00 ] ::1 /learn/index.php/Home/Index/doLogin.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000301s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000357s ]
+SQL: SHOW COLUMNS FROM `login` [ RunTime:0.021040s ]
+ERR: 1146:Table 'learn.login' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `login`
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.024703s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.010456s ]
+SQL: SELECT * FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000446s ]
+
+[ 2017-11-20T17:18:39+08:00 ] ::1 /learn/index.php/Home/County/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000418s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000493s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000129s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000197s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.006848s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.006913s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000167s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000208s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000316s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000358s ]
+
+[ 2017-11-20T17:18:40+08:00 ] ::1 /learn/index.php/Home/County/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000307s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000365s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000124s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000171s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.025467s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.025531s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000179s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000221s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000326s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000369s ]
+
+[ 2017-11-20T17:18:42+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000378s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000435s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.035036s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.008226s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000275s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000286s ]
+
+[ 2017-11-20T17:18:43+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000301s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000358s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.036309s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.012091s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000369s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000402s ]
+
+[ 2017-11-20T17:19:17+08:00 ] ::1 /learn/index.php/Home/County/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000528s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000626s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000219s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000398s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.042806s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.042888s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000244s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000289s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000440s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000493s ]
+
+[ 2017-11-20T17:19:18+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000286s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000343s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.030257s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.010070s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000376s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000375s ]
+
+[ 2017-11-20T17:19:19+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000311s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000364s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.025212s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.011271s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000391s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000366s ]
+
+[ 2017-11-20T17:20:05+08:00 ] ::1 /learn/index.php/Home/County/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000750s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000877s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000274s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000395s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.040684s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.040794s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000408s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000477s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000529s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000587s ]
+
+[ 2017-11-20T17:20:06+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000301s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000366s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.031380s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.008020s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000263s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000238s ]
+
+[ 2017-11-20T17:20:08+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000299s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000360s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.035698s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.017803s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000559s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000618s ]
+
+[ 2017-11-20T17:47:01+08:00 ] ::1 /learn/index.php/Home/County/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000397s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000473s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000140s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000206s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.035542s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.035615s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000248s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000294s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000476s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000532s ]
+
+[ 2017-11-20T17:47:02+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000345s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000419s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.038840s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.008162s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000320s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000297s ]
+
+[ 2017-11-20T17:47:05+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000381s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000461s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.036920s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.016822s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000553s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000591s ]
+
+[ 2017-11-20T17:47:11+08:00 ] ::1 /learn/index.php/Home/County/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000625s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000740s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000153s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000225s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.043698s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.043788s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000309s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000364s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000478s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000538s ]
+
+[ 2017-11-20T17:47:13+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000298s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000358s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.037484s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.017313s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000554s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000587s ]
+
+[ 2017-11-20T17:47:14+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000314s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000368s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.038059s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.017270s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000555s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000581s ]
+
+[ 2017-11-20T17:47:35+08:00 ] ::1 /learn/index.php/Home/Index/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000306s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000364s ]
+NOTIC: [2] Missing argument 1 for Think\Controller::show(), called in D:\phpStudy\PHPTutorial\WWW\learn\App\Home\Controller\IndexController.class.php on line 8 and defined D:\phpStudy\PHPTutorial\WWW\learn\ThinkPHP\Library\Think\Controller.class.php 第 68 行.
+NOTIC: [8] Undefined variable: content D:\phpStudy\PHPTutorial\WWW\learn\ThinkPHP\Library\Think\Controller.class.php 第 69 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000056s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000115s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.014685s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.014748s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000187s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000226s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000326s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000369s ]
+
+[ 2017-11-20T17:47:37+08:00 ] ::1 /learn/index.php/Home/Index/doLogin.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000302s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000354s ]
+SQL: SHOW COLUMNS FROM `login` [ RunTime:0.021150s ]
+ERR: 1146:Table 'learn.login' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `login`
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.016943s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.009022s ]
+SQL: SELECT * FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000387s ]
+
+[ 2017-11-20T17:47:38+08:00 ] ::1 /learn/index.php/Home/County/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000348s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000415s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000106s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000161s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.022859s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.022932s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000225s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000270s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000320s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000361s ]
+
+[ 2017-11-20T17:47:42+08:00 ] ::1 /learn/index.php/Home/County/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000313s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000373s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000124s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000171s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.025962s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.026028s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000200s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000244s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000335s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000381s ]
+
+[ 2017-11-20T17:47:43+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000306s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000359s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.021934s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.007386s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000260s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000259s ]
+
+[ 2017-11-20T17:47:44+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000272s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000322s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.024522s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.009294s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000315s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000321s ]
+
+[ 2017-11-20T17:47:48+08:00 ] ::1 /learn/index.php/Home/County/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000857s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001010s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000398s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000509s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.034971s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.035075s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000204s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000254s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000368s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000417s ]
+
+[ 2017-11-20T17:47:50+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000370s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000451s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.037078s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.013503s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000310s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000321s ]
+
+[ 2017-11-20T17:47:51+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000281s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000333s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.037429s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.015806s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000365s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000370s ]
+
+[ 2017-11-20T17:48:33+08:00 ] ::1 /learn/index.php/Home/County/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000664s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000790s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000132s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000198s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.030025s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.030113s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000181s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000222s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000356s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000406s ]
+
+[ 2017-11-20T17:48:35+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000284s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000342s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.036740s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.011421s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000320s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000295s ]
+
+[ 2017-11-20T17:48:36+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000302s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000375s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.030723s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.010665s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000362s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000376s ]
+
+[ 2017-11-20T17:49:16+08:00 ] ::1 /learn/index.php/Home/County/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000399s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000458s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000114s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000159s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.026088s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.026149s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000234s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000274s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000421s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000466s ]
+
+[ 2017-11-20T17:49:18+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000325s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000391s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.046209s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.020522s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000327s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000321s ]
+
+[ 2017-11-20T17:49:19+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000361s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000424s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.033940s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.008001s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000277s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000285s ]
+
+[ 2017-11-20T17:50:12+08:00 ] ::1 /learn/index.php/Home/County/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000701s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000829s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000147s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000208s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.029760s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.029850s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000196s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000238s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000336s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000380s ]
+
+[ 2017-11-20T17:50:14+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000342s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000420s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.037405s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.016933s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000553s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000574s ]
+
+[ 2017-11-20T17:50:15+08:00 ] ::1 /learn/index.php/Home/County/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000303s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000355s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.062277s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.016254s ]
+SQL: SELECT `id` FROM `tuser` WHERE ( username = 'yan' ) LIMIT 1   [ RunTime:0.000549s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000579s ]
+
+[ 2017-11-20T17:50:25+08:00 ] ::1 /learn/index.php/Home/Index/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000306s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000367s ]
+NOTIC: [2] Missing argument 1 for Think\Controller::show(), called in D:\phpStudy\PHPTutorial\WWW\learn\App\Home\Controller\IndexController.class.php on line 8 and defined D:\phpStudy\PHPTutorial\WWW\learn\ThinkPHP\Library\Think\Controller.class.php 第 68 行.
+NOTIC: [8] Undefined variable: content D:\phpStudy\PHPTutorial\WWW\learn\ThinkPHP\Library\Think\Controller.class.php 第 69 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000053s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000103s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.015319s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.015384s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000230s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000271s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000362s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000405s ]
+
+[ 2017-11-20T17:50:30+08:00 ] ::1 /learn/index.php/Home/Index/doLogin.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000299s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000350s ]
+SQL: SHOW COLUMNS FROM `login` [ RunTime:0.021166s ]
+ERR: 1146:Table 'learn.login' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `login`
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.016850s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.010175s ]
+SQL: SELECT * FROM `tuser` WHERE ( username = 'admin' ) LIMIT 1   [ RunTime:0.000394s ]
+
+[ 2017-11-20T17:50:30+08:00 ] ::1 /learn/index.php/Home/Admin/index.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000362s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000430s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000118s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000187s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.006475s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.006538s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000200s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000249s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000369s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000420s ]
+
+[ 2017-11-20T17:50:31+08:00 ] ::1 /learn/index.php/Home/Admin/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000302s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000356s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000106s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000153s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.005876s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.005931s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000168s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000208s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000304s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000347s ]
+
+[ 2017-11-20T17:50:33+08:00 ] ::1 /learn/index.php/Home/Admin/getAllUser.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000276s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000327s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.020331s ]
+SQL: SELECT id,depart,all_score,first_score FROM tuser WHERE `role` = 'user' ORDER BY all_score DESC  [ RunTime:0.000418s ]
+
+[ 2017-11-20T17:50:34+08:00 ] ::1 /learn/index.php/Home/Admin/school_detail.html?val=4
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000310s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000368s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000127s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000178s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.030281s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.030345s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000177s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000218s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000323s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000367s ]
+
+[ 2017-11-20T17:50:35+08:00 ] ::1 /learn/index.php/Home/Admin/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000297s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000355s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.036103s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 4 [ RunTime:0.000378s ]
+
+[ 2017-11-20T17:50:36+08:00 ] ::1 /learn/index.php/Home/Admin/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000277s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000330s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.066430s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000675s ]
+
+[ 2017-11-20T18:43:27+08:00 ] ::1 /learn/index.php/Home/Admin/school.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.017166s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.017259s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000105s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000165s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.119004s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.119073s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.010991s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.011076s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.007606s ]
+INFO: [ app_end ] --END-- [ RunTime:0.007671s ]
+
+[ 2017-11-20T18:43:28+08:00 ] ::1 /learn/index.php/Home/Admin/getAllUser.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000325s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000393s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.047501s ]
+SQL: SELECT id,depart,all_score,first_score FROM tuser WHERE `role` = 'user' ORDER BY all_score DESC  [ RunTime:0.000296s ]
+
+[ 2017-11-20T18:43:30+08:00 ] ::1 /learn/index.php/Home/Admin/school_detail.html?val=6
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000311s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000368s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplace [ RunTime:0.000130s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000190s ]
+INFO: Run Behavior\ParseTemplate [ RunTime:0.040863s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.040929s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCache [ RunTime:0.000189s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000239s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTrace [ RunTime:0.000334s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000380s ]
+
+[ 2017-11-20T18:43:31+08:00 ] ::1 /learn/index.php/Home/Admin/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000311s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000388s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.034262s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 6 [ RunTime:0.000322s ]
+
+[ 2017-11-20T18:43:34+08:00 ] ::1 /learn/index.php/Home/Admin/getUserInfor.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCache [ RunTime:0.000414s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000497s ]
+SQL: SHOW COLUMNS FROM `tuser` [ RunTime:0.039156s ]
+SQL: SELECT first_score,second_score,third_score,depart FROM tuser WHERE `role` = 'user' AND id = 2 [ RunTime:0.000648s ]
+

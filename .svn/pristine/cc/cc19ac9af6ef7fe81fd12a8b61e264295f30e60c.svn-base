@@ -1,0 +1,61 @@
+/**
+ * Created by S on 2017/11/14.
+ */
+var myChart = echarts.init(document.getElementById('rador'));
+$(function(){
+    $.ajax({
+        url:getUserInforUrl,
+        type:'post',
+        success:function(data){
+           // alert(data[0].firstScore);
+            myChart.setOption({
+                //title: {
+                //    text: '一级指标',
+                //    left:'left',
+                //    top:'15%'
+                //},
+                tooltip: {},
+                //legend: {
+                //    data: ['预算分配（Allocated Budget）', '实际开销（Actual Spending）']
+                //},
+                radar: {
+                    //shape: 'circle',
+                    name: {
+                        textStyle: {
+                            color: '#B8D3E4',
+                            backgroundColor: '#999',
+                            borderRadius: 3,
+                            padding: [3, 5],
+                            fontSize:16
+                        }
+                    },
+                    indicator: [
+                        { name: '资源', max:10},
+                        { name: '服务', max:10},
+                        { name: '评价', max:10}
+                    ],
+                    splitArea: {
+                        areaStyle: {
+                            color: ['#B8D3E4', '#96C5E3', '#7DB5DA', '#72ACD1']
+                        }
+                    }
+                },
+                series: [{
+                    //name: '预算 vs 开销（Budget vs spending）',
+                    type: 'radar',
+                    // areaStyle: {normal: {}},
+                    data : [
+                        {
+                            name : data[0].depart,
+                            value :data[0].firstScore
+
+                        }
+                    ]
+                }]
+            });
+        },
+        error:function(){
+            alert('ajax调用不成功！');
+        }
+    })
+})

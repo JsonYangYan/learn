@@ -1,0 +1,14 @@
+<?php
+return array(
+	//'配置项'=>'配置值'
+    'APP_DEBUG' => false, // 开启调试模式
+    'DB_TYPE'=> 'mysql',   // 数据库类型
+//    'DB_HOST'=> '122.204.161.236', // 数据库服务器地址
+    'DB_HOST'=> 'localhost', // 数据库服务器地址
+    'DB_NAME'=>'learn',  // 数据库名称
+    'DB_USER'=>'root', // 数据库用户名
+//    'DB_PWD'=>'admin_eitec', // 数据库密码
+    'DB_PWD'=>'root', // 数据库密码
+    'DB_PORT'=>'3306', // 数据库端口
+    'DB_PREFIX'=>'', // 数据表前缀
+);

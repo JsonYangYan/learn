@@ -1,0 +1,216 @@
+<?php
+/**
+ * 关于学校用户的操作
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/7/25
+ * Time: 22:07
+ */
+namespace Home\Model;
+use Think\Model;
+class TschooluserModel extends  Model{
+
+    /**
+     * @param $username
+     * @param $password
+     */
+    public function doLogin($username) {
+        //查找用户名,根据username、tel、email
+        $result = M("Tschooluser")->where("username = '$username' or tel = '$username' or email = '$username'")->find();
+        return $result;
+    }
+
+    /**
+     * 得到普通学校的总个数
+     */
+    public function getTotalSchoolNum() {
+        return M("Tschooluser")->where("role = 'user'")->count();
+    }
+
+    /**
+     * 得到教学点学校的总个数
+     */
+    public function getTpTotalSchoolNum() {
+        return M("Tschooluser")->where("role = 'tpuser'")->count();
+    }
+
+    /**
+     * 得到某区域普通学校的总个数
+     * @param $areaId
+     * @return mixed
+     */
+    public function getAreaTotalSchoolNum($areaId) {
+        return M("Tschooluser")->where("role = 'user'AND area_id = $areaId")->count();
+    }
+
+    /**
+     * 得到某区域普通学校的总个数
+     * @param $areaId
+     * @return mixed
+     */
+    public function getTpAreaTotalSchoolNum($areaId) {
+        return M("Tschooluser")->where("role = 'tpuser'AND area_id = $areaId")->count();
+    }
+
+    /**
+     * 获得学校用户（教学点，非教学点）
+     * @param $search
+     * @param $startNum
+     * @param $offSet
+     */
+    public function showList($search,$startNum,$offSet){
+        $condition['username|sch_name'] = array('like','%'.$search.'%');
+        $result = M("Tschooluser")->field('id,username,sch_name,role')->where($condition)->limit($startNum,$offSet)->select();
+        foreach($result as $k=>$v){
+            $arr["id"] = $v["id"];
+            $arr["username"] = $v["username"];
+            $arr["sch_name"] = $v["sch_name"];
+            $arr["role"] = $v["role"];
+            $arrRes[] = $arr;
+        }
+        return $arrRes;
+    }
+
+    /**
+     * 获得学校用户的个数
+     * @param $search
+     * @return mixed
+     */
+    public function showListCount($search){
+        $condition['username|sch_name'] = array("like","%".$search."%");
+        $result = M("Tschooluser")->where($condition)->count();
+        return $result;
+    }
+
+    /**
+     * 根据id删除学校用户
+     * @param $id
+     * @return string
+     */
+    public function delSchoolUser($id){
+        $result = M("Tschooluser")->where("id = '$id'")->delete();
+        if($result&&$result!=0){
+            $fig = "ok";
+        }
+        return $fig;
+    }
+
+    /**
+     * 学校用户批量删除
+     * @param $ids
+     */
+    public function delBatchSchooluser($ids){
+        $sql = "DELETE FROM tschooluser WHERE id IN($ids)";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+    /**
+     *重置密码为123456
+     * @param $id
+     * @return mixed
+     */
+    public function resetPsWord($id){
+        $psWord = 123456;
+        $data["password"] = md5(md5($psWord));
+        $result = M("Tschooluser")->where("id = '$id'")->save($data);
+        if($result){
+            $fig = "success";
+        }
+        return $fig;
+    }
+
+    /**
+     * 编辑显示一条管理员用户的信息
+     * @param $id
+     * @return array
+     */
+    public function editInfor($id){
+        $sql = "SELECT * FROM tschooluser,tarea WHERE tschooluser.area_id=tarea.area_id and id = $id";
+        $result = M()->query($sql);
+        foreach ($result as $k=>$v) {
+            $arr["sch_name"] = $v["sch_name"];
+            $arr["area_name"] = $v["area_name"];
+            $arr["role"] = $v["role"];
+            $arr["username"] = $v["username"];
+            $arrRes[] = $arr;
+        }
+        return $arrRes;
+    }
+
+    /**
+     * 提交更改信息
+     * @param $id
+     * @param $role
+     * @param $areaId
+     * @param $departName
+     */
+    public function editSubmit($id,$role,$areaId,$schoolName){
+        $data["role"] = $role;
+        $data["area_id"] = $areaId;
+        $data["sch_name"] = $schoolName;
+        M("Tschooluser")->where("id = $id")->save($data);
+    }
+    /**修改密码
+     * @param $password
+     * @return bool
+     * @author yyn
+     */
+    public function updatePassword($password) {
+        $username = session("username");
+        if (!$username) return false;
+        $data["password"] = md5(md5($password));
+        M("Tschooluser")->where("username = '$username'")->save($data);
+        return true;
+    }
+    /**
+     * 得到用户的相关信息
+     * @return mixed
+     * @author yyn
+     */
+    public function getSchoolInforByUserName() {
+        $username = session("username");
+        if (!$username) return false;
+        $sql = "
+               SELECT a.username,a.sch_name,a.role,b.area_name
+               FROM tschooluser a LEFT JOIN tarea b 
+               ON a.area_id = b.area_id 
+               WHERE a.username = '$username' 
+        ";
+        $result = M()->query($sql);
+        return $result;
+    }
+    /**
+     * 根据用户名查询用户所在的区县
+     * @author yyn
+     */
+    public function getAreaNameByUserName() {
+        $username = session("username");
+        $sql = "
+                SELECT b.area_name FROM 
+                tschooluser AS a 
+                LEFT JOIN tarea AS b 
+                ON a.area_id = b.area_id 
+                WHERE a.username = '$username'
+        ";
+        $result = M()->query($sql);
+        return $result[0]["area_name"];
+    }
+    /**
+     * 检查用户名、密码是否正确
+     * @param $username
+     * @param $pwd
+     * @return mixed
+     * @author yyn
+     */
+    public function checkPwd($username,$pwd){
+        $pwd = md5(md5($pwd));
+        $result = M("Tschooluser")->where(array('username'=>$username,"password"=>$pwd))->find();
+        return $result;
+    }
+
+
+
+}
+
+

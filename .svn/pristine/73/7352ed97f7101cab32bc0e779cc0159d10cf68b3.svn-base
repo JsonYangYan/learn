@@ -1,0 +1,34 @@
+<?php
+/**
+ * 三级指标的相关操作
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/8/17
+ * Time: 11:34
+ */
+namespace Home\Service;
+use Think\Model;
+class TthirdareascoreService extends Model{
+
+    /**
+     * 得到所有区县的三维指标得分
+     * @param $currentTime
+     * @param $id
+     * @return mixed
+     * @author yyn
+     */
+    public function getThirdScoreByCurrentTime($currentTime,$id) {
+        $areaArray = D("Tarea","Model")->getAreaName();
+        $area = array();
+        $rule = array();
+        foreach ($areaArray as $k=>$v){
+            $areaName = $v["name"];
+            $areaScore = D("Tthirdareascore","Model")->getThirdScoreByCurrentTimeAreaNameId($currentTime,$areaName,$id);
+            $area[] = $areaName;
+            $rule[] = $areaScore[0]["thirdscore"];
+        }
+        $data["area"] = $area;
+        $data["rule"] = $rule;
+        return $data;
+    }
+}

@@ -1,0 +1,284 @@
+<?php
+/**
+ * 处理五大维度得分相关的逻辑操作
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/8/15
+ * Time: 16:15
+ */
+namespace Home\Service;
+use Think\Model;
+class TareascoreService extends Model{
+
+    /**
+     * 通过时间得到各个城市的平均值和区域名
+     * @param $currentTime
+     * @return array
+     * @author yyn
+     */
+    public function getCityScoreAreaNameByCurrentTime($currentTime) {
+        $result = D("Tareascore","Model")->getCityScoreAreaNameByCurrentTime($currentTime);
+        $data = array();
+        foreach ($result as $k=>$v){
+            $arr = array();
+            $arr [] = (float)$v["oneone"];
+            $arr [] = (float)$v["onetwo"];
+            $arr [] = (float)$v["onethree"];
+            $arr [] = (float)$v["onefour"];
+            $arr [] = (float)$v["onefive"];
+            $arr [] = (float)$v["comprehensive"];
+            $temp["area"] = $v["areaName"];
+            $temp["data"] = $arr;
+            $data[] = $temp;
+        }
+        return $data;
+    }
+
+    /**
+     *根据时间获取襄阳市、湖北省、全国平均水平
+     * @param $currentTime
+     * @return array
+     * @author yyn
+     */
+    public function XYHuBeiNationAvgLevel($currentTime) {
+        //襄阳市的平均值
+        $XYAvgScore = D("Tareascore","Model")->getAvgScoreByCurrentTime($currentTime);
+        $temp = array();
+        foreach ($XYAvgScore as $k=>$v){
+            $temp[] = round($v,2);
+        }
+        $dataXY["data"] = $temp;
+        $dataXY["name"] = "襄阳市";
+        //湖北省的平均值
+        $HubeiAvgScore = D("Tareascore","Model")->getHubeiAvgScore();
+        $temp = array();
+        foreach ($HubeiAvgScore as $k=>$v){
+            $temp[] = round($v["indexScore"],2);
+        }
+        $dataHubei["data"] = $temp;
+        $dataHubei["name"] = "湖北";
+        //全国的平均值
+        $nationAvgScore = D("Tareascore","Model")->getNationAvgScore();
+        $temp = array();
+        foreach ($nationAvgScore as $k=>$v){
+            $temp[] = round($v["indexScore"],2);
+        }
+        $dataNationScore["data"] = $temp;
+        $dataNationScore["name"] = "全国";
+        $data[] = $dataXY;
+        $data[] = $dataHubei;
+        $data[] = $dataNationScore;
+        return $data;
+    }
+
+    /**
+     *根据时间获取襄阳市、湖北省、区域平均水平
+     * @param $currentTime
+     * @return array
+     * @author yan
+     */
+    public function XYHuBeiCountyAvgLevel($areaName,$currentTime) {
+        //襄阳市的平均值
+        $XYAvgScore = D("Tareascore","Model")->getAvgScoreByCurrentTime($currentTime);
+        $temp = array();
+        foreach ($XYAvgScore as $k=>$v){
+            $temp[] = round($v,2);
+        }
+        $dataXY["data"] = $temp;
+        $dataXY["name"] = "襄阳市";
+        //湖北省的平均值
+        $HubeiAvgScore = D("Tareascore","Model")->getHubeiAvgScore();
+        $temp = array();
+        foreach ($HubeiAvgScore as $k=>$v){
+            $temp[] = round($v["indexScore"],2);
+        }
+        $dataHubei["data"] = $temp;
+        $dataHubei["name"] = "湖北";
+        //区域的平均值
+        $countyAvgScore = D("Tareascore","Model")->getAreaScoreByAreaNameCurrentTime($areaName,$currentTime);
+        $temp = array();
+        foreach ($countyAvgScore as $k=>$v){
+            $temp[] = round($v,2);
+        }
+        $dataCountyScore["data"] = $temp;
+        $dataCountyScore["name"] = $areaName;
+        $data[] = $dataXY;
+        $data[] = $dataHubei;
+        $data[] = $dataCountyScore;
+        return $data;
+    }
+
+    /**
+     * 根据日期得到襄阳市各个区县的得分
+     * @author yyn
+     */
+    public function getCityScoreByCurrentTime($currentTime) {
+        $result = D("Tareascore")->getCityScoreAreaNameByCurrentTime($currentTime);
+        $data = array();
+        foreach ($result as $k=>$v) {
+            $name = $v["areaName"];
+            $temp = array();
+            $resu = array();
+            $temp [] = (float)$v["oneone"];
+            $temp [] = (float)$v["onetwo"];
+            $temp [] = (float)$v["onethree"];
+            $temp [] = (float)$v["onefour"];
+            $temp [] = (float)$v["onefive"];
+            $temp [] = (float)$v["comprehensive"];
+            $resu["name"] = $name;
+            $resu["data"] = $temp;
+            $data[] = $resu;
+        }
+        return $data;
+    }
+
+    /**
+     * 获取某个区县的一级指标的类型+得分
+     * @param $areaName
+     * @param $currentTime
+     * autor yan
+     */
+    public function  getAreanFirstIndexScoreType($areaName,$currentTime){
+        $firstIndexScore = D("Tareascore","Model")->getAreaScoreByAreaNameCurrentTime($areaName,$currentTime);
+        $firstIndexType = D("Tfirstindex","Model")->getFirstIndexType();
+        $result = array();
+        for($i=0;$i<count($firstIndexScore);$i++){
+            $temp = array();
+            $temp["type"] = $firstIndexType[$i] ;
+            $temp["value"] = $firstIndexScore[$i];
+            $result[] = $temp;
+        }
+        return $result;
+    }
+
+    /**
+     * 获取某个区县的二级指标的类型+得分
+     * @param $areaName
+     * @param $currentTime
+     * autor yan
+     */
+    public function  getAreanSecondIndexScoreType($areaName,$currentTime){
+        $secondIndexScore = D("Tsecondareascore","Model")->getAreanSecondScore($areaName,$currentTime);
+        $secondIndexType = D("Tsecondindex","Model")->getSecondIndexType();
+        $result = array();
+        for($i=0;$i<count($secondIndexScore);$i++){
+            $temp = array();
+            $temp["type"] = $secondIndexType[$i] ;
+            $temp["value"] = $secondIndexScore[$i];
+            $result[] = $temp;
+        }
+        return $result;
+    }
+
+    /**
+     * 获取某个区县的三级指标的类型+得分
+     * @param $areaName
+     * @param $currentTime
+     * autor yan
+     */
+    public function  getAreanThirdIndexScoreType($areaName,$currentTime){
+        $thirdIndexScore = D("Tthirdareascore","Model")->getAreanThirdScore($areaName,$currentTime);
+        $thirdIndexType = D("Tthirdindex","Model")->getThirdIndexType();
+        $result = array();
+        for($i=0;$i<count($thirdIndexScore);$i++){
+            $temp = array();
+            $temp["type"] = $thirdIndexType[$i] ;
+            $temp["value"] = $thirdIndexScore[$i];
+            $result[] = $temp;
+        }
+        return $result;
+    }
+
+    /**
+     * 得到某一个指标下的所有月份、区域名字，指标得分
+     * @param $field  指标要位于第一个位置，不能变
+     * @author yyn
+     */
+    public function getOneIndexAllMonthScore($field,$where) {
+        $result = D("Tareascore")->getAllScoreAreaNameCreateTime($field, $where);
+        $temp = array();
+        foreach ($result as $k=>$v) {
+            $month = substr($v["createTime"],0,7);
+            $temp[$month][] = $v;
+        }
+        $month = array();
+        $area = array();
+        $listscore = array();
+        $i = 0;
+        $j = 0;
+        foreach($temp as $k=>$v) {
+            $month[] = $k;
+            foreach($v as $kk=>$vv) {
+                if($i<12) {//一共12个区县
+                    $area[] = $vv["areaName"];
+                }
+                $i++;
+                $listscore[$j][] = (float)$vv[$field[0]];
+            }
+            $j++;
+        }
+        $data["area"] = $area;
+        $data["listscore"] = $listscore;
+        $data["listmonth"] = $month;
+        return $data;
+    }
+
+    /**
+     * 得到综合得分的最大值及区县名称、最小值及区县名称、平均值、高于平均值的个数、低于平均值的个数
+     * @param $currentTime
+     * @return mixed
+     * @author yyn
+     */
+    public function getMinAvgMaxUpDownScore($currentTime) {
+        $maxScoreAreaName = D("Tareascore","Model")->getMaxScoreAreaNameByCurrentTime($currentTime);
+        $minScoreAreaName = D("Tareascore","Model")->getMinScoreAreaNameByCurrentTime($currentTime);
+        $avgScore = D("Tareascore","Model")->getComprehensiveAvgScoreByCurrentTime($currentTime);
+        $upAvgNum = D("Tareascore","Model")->getUpAvgNum($currentTime);
+        $downAvgNum = D("Tareascore","Model")->getDownAvgNum($currentTime);
+        $data["max_value"] = round($maxScoreAreaName[0]["comprehensive"],2);
+        $data["max_area"] = $maxScoreAreaName[0]["areaName"];
+        $data["min_area"] = $minScoreAreaName[0]["areaName"];
+        $data["min_value"] = round($minScoreAreaName[0]["comprehensive"],2);
+        $data["up_avg_num"] = $upAvgNum[0]["sum"];
+        $data["down_avg_num"] = $downAvgNum[0]["sum"];
+        $data["avg_value"] = round($avgScore["avg"],2);
+        return $data;
+    }
+
+    /**
+     * 得到学校、区县、市的五大维度的平均值
+     * @param $time
+     * @author yyn
+     */
+    public function getFiveIndexScore($time){
+        //学校
+        $schoolId = D("Tschoolinfor","Model")->getSchoolIdByUserNameTime(session("username"),$time);
+        $schoolScore = D("Tschoolindexscore")->getAvgScoreBySchoolId($schoolId);
+
+        foreach ($schoolScore as $k=>$v){
+            $schoolScoreData[] =(float)$v["schoolScore"];
+        }
+        $schoolinfor = D("Tschoolinfor")->getSchoolInfoByAutoid($schoolId);
+        $schoolName = $schoolinfor["schoolName"];
+        $schoolData["data"] = $schoolScoreData;
+        $schoolData["name"] = $schoolName;
+        $schoolData["type"] = "bar";
+        $data[] = $schoolData;
+        //区县
+        $areaName = D("Tschooluser")->getAreaNameByUserName();
+        $areaScore = D("Tareascore")->getAreaScoreByAreaNameCurrentTime($areaName, $time);
+        $areaData["data"] = $areaScore;
+        $areaData["name"] = $areaName;
+        $areaData["type"] = "bar";
+        $data[] = $areaData;
+        //市
+        $cityScore = D("Tareascore")->getCityScoreByCurrentTime($time);
+        $cityData["data"] = $cityScore;
+        $cityData["name"] = "襄阳市";
+        $cityData["type"] = "bar";
+        $data[] = $cityData;
+        return $data;
+    }
+
+
+}

@@ -1,0 +1,18 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/8/17
+ * Time: 15:05
+ */
+namespace Home\Model;
+use Think\Model;
+class TareaModel extends  Model{
+    /**
+     * 获取区域的名字
+     * @author yyn
+     */
+    public function getAreaName() {
+       return M("Tarea")->field("area_name as name")->where("area_id !=13")->select();
+    }
+}

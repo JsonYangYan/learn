@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type"  content="text/html; charset=utf-8" />
+    <meta name="viewpoint" content="width=device-width; initial-scale=1" />
+    <title>襄阳市教育信息化发展水平评估系统</title>
+    <link rel="icon" href="__IMAGE__/icon.png"/>
+    <link type="text/css" rel="stylesheet" href="__CSS__/jquery.treeview.css" />
+	<link type="text/css" rel="stylesheet" href="__CSS__/screen.css" />
+	<link type="text/css" rel="stylesheet" href="__CSS__/city/base.css" />
+	<link type="text/css" rel="stylesheet" href="__CSS__/city/allassessment.css" />
+	<script type="text/javascript" src="__JS__/jquery1.8.2.min.js"></script>
+	<script type="text/javascript" src="__JS__/trimpath.js"></script>
+	<script type="text/javascript" src="__JS__/jquery.treeview.js"></script>
+	<script type="text/javascript" src="__JS__/lib/highcharts.js"></script>
+	<script type="text/javascript" src="__JS__/lib/highcharts-more.js"></script>
+	<script type="text/javascript" src="__JS__/lib/echarts.min.js"></script>
+	<script type="text/javascript" src="__JS__/jquery.cookie.js"></script>
+	<script>
+		var index_arrUrl = "__JSON__/index_arr.json";
+		var XYHuBeiNationAvgLevelUrl = "{:U('Admin/XYHuBeiNationAvgLevel')}";//襄阳市、湖北省、全国平均水平对比情况url
+		var getAllCityAvgScoreUrl = "{:U('Admin/getAllCityAvgScore')}";//襄阳市各地区对比情况url
+		var getTeacherTerminalUrl = "{:U('Admin/getTeacherTerminal')}";//典型指标 两个饼状图 教师专用终端url
+		var getChoicePercentByCurrentTimeQueIdUrl = "{:U('Admin/getChoicePercentByCurrentTimeQueId')}";//典型指标条形图部分
+		var index_tree_url = "__JSON__/index_tree.json";//详细指标树形url
+		var getThirdIndexScoreByAutoIdCreateTimeUrl = "{:U('Admin/getThirdIndexScoreByAutoIdCreateTime')}";//详细指标中条形图对应的url
+	</script>
+</head>
+<body>
+	<div class="header">襄阳市教育信息化发展水平评估系统</div>
+    <div id="container">
+    	<div id="floatNavAllassessment">
+			<include file="Common/navigation"/>
+		</div>
+    	<div style="height:1px"></div>
+		<div class="total_title">
+			月份：
+	     </div>
+    	<div class="allassessment_top">
+    		<div class="total_situation" > </div>
+	        <div id="left_side" class="left_side"> </div>
+	        <div id="right_side" class="right_side"> </div>
+	        <div class="clear"> </div>
+        </div>
+        <div class="show_pie">
+        	<div class="typical_standard" > </div>
+        	<div class="teacher_terminal">
+        		<div id="teacher_terminal_pie"> </div>
+        	</div>
+        	
+        	<div class="student_terminal">
+        		<div id="student_terminal_pie"> </div>
+        	</div>
+        	<div class="clear"> </div>
+   			<div id="teacher_resources_colum"> </div>	<!--  教师用数字教学资源		 -->
+    		<div id="teacher_practice_colum"> </div>	<!-- 教师使用的信息化教学环节 -->
+        	<div id="school_management_system"> </div>  <!-- 学校使用信息管理系统 -->
+        	<div id="teacher_information_training"> </div>  <!-- 教师参加教育信息化培训 --> 
+        	<div id="Multimedia_class_form"> </div>  <!-- 学校多媒体教室形态 134-->
+        	<div id="manager_system"> </div>  <!-- 学校应用信息管理系统 148-->
+        </div>
+        <div class="show_tree_data">
+        	<div class="detail_standard" > </div>
+        	<!--树形结构-->
+	        <div id="treeview_conainer_12">
+	            <div>襄阳市教育信息化发展绩效评估</div>
+	            <div class="sub_nav_ul treeview" id="treeview_list"> </div>
+	        </div>
+	        <div class="charts_container">       
+	            <div id="container_colum" style="min-width:200px; min-height:200px;overflow: hidden"> </div>
+	            <div id="containeravg" style="display:none; font-weight:bolder;font-size: 18px;color: #333333;"> </div>
+	        </div>       	
+        </div>
+        <div class="clear"> </div>     
+    </div>
+	<div class="clear"> </div>
+	<div id="footer">
+		<include file="Common/footer"/>
+	</div>
+		
+	<!--treeview template-->
+	<textarea id="treeview_template" style="display:none">
+		<ul class="nav_treeview">
+	 	{for nav_1 in quizs.children}
+		   <li>
+		   		<span>${nav_1.rank1}</span>
+		   		<ul>
+	   		   		{for nav_2 in nav_1.children }
+	   		   	    	<li>
+	   		   	    		<a style="text-decoration: none;cursor: pointer" onclick="eventBind(${nav_2.rank2id})">
+	   		   	    			<span id="${nav_2.rank2id}">${nav_2.rank2}</span>
+	   		   	    		</a>
+		   	    		</li>
+	   		  	 	{/for}
+		   		</ul>
+		   	</li>
+		{/for}
+	   	</ul>	
+	</textarea>
+</body>
+</html>
+<script src="__JS__/city/base.js"></script>
+<script type="text/javascript" src="__JS__/lib/highcharts_func.js"></script>
+<script type="text/javascript" src="__JS__/city/allassessment.js"></script>
+<script type="text/javascript" src="__JS__/city/allassessment_pie.js"></script>
+<script type="text/javascript" src="__JS__/city/allassessment_treeview.js"></script>

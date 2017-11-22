@@ -1,0 +1,39 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/8/14
+ * Time: 15:07
+ */
+namespace Home\Service;
+use Think\Model;
+class TestService extends Model{
+
+    public function test() {
+        return M("Tchoiceanswer_temp")->field("queId,is_checked,choiceId,2016 as schoolIds")->where("schoolId = 2600")->select();
+
+    }
+
+
+    /**
+     *
+     * @param $currentTime
+     * @param $where 区县有没有限制
+     * @return mixed
+     * @author yyn
+     */
+    public function getAllAreaSchoolBlankTextByCurrentTime($currentTime,$areaName) {
+        if ($areaName == "") $where = "1=1";
+        else $where = "a.schoolArean = '$areaName'";
+        $sql ="
+                SELECT a.schoolName,a.schoolArean,a.autoId,a.classNumber,a.teacherNumber,a.studentNumber,b.blankText 
+                FROM tschoolinfor as a 
+                LEFT JOIN tblankanswer AS b 
+                ON a.autoId = b.schoolId 
+                WHERE a.state = 1 AND a.userTime LIKE '$currentTime%' AND $where 
+                ORDER BY a.schoolArean,a.schoolName,b.queId
+        ";
+        $result = M()->query($sql);
+        return $result;
+    }
+}

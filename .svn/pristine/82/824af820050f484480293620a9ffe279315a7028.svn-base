@@ -1,0 +1,69 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: yan
+ * Date: 2017/8/28
+ * Time: 11:59
+ */
+namespace Home\Model;
+use Think\Model;
+class TblanktrueanswerModel extends Model{
+
+    /**
+     * 获取所有填空题的queId
+     */
+    public function getBlankQueId(){
+        $result = M("Tblanktrueanswer")->field('queId')->select();
+        return $result[0]["queId"];
+     }
+
+    /**
+     * 更新标准答案
+     * @param $queId
+     * @param $avgBlankAnswerContent
+     */
+    public function updateBlankTrueAnswer($queId,$avgBlankAnswerContent){
+        $data["blankAnswerContent"] = $avgBlankAnswerContent;
+        M("Tblanktrueanswer")->where("queId = $queId ")->save($data);
+    }
+
+    /**
+     * 根据三级Id获取对应的填空题编号queId
+     * @param $thirdIndexId
+     * @return array
+     */
+    public function getBlankQueIdByThirdIndexId($thirdIndexId){
+        $result = M("Tblanktrueanswer")->field('queId')->where("thirdIndexId = $thirdIndexId")->select();
+        $temp = array();
+        foreach($result as $k=>$v){
+            $temp[]= (int)$v["queId"];
+        }
+        return $temp;
+    }
+
+    /**
+     * 根据题号获取标准答案
+     * @param $queId
+     */
+    public function getBlankAnswerContentByQueId($queId){
+        $result = M("Tblanktrueanswer")->field('blankAnswerContent')->where("queId = $queId")->select();
+        foreach($result as $k=>$v){
+            $data = (float)$v["blankAnswerContent"];
+        }
+        return $data;
+    }
+
+    /**
+     * 根据题号获取每道题的比重
+     * @param $queId
+     * @return float
+     */
+    public function getBlankAnswerPercentByQueId($queId){
+        $result = M("Tblanktrueanswer")->field('blankAnswerPercent')->where("queId = $queId")->select();
+        foreach($result as $k=>$v){
+            $data = (float)$v["blankAnswerPercent"];
+        }
+        return $data;
+    }
+
+}

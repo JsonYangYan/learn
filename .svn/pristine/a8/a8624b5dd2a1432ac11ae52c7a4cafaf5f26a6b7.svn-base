@@ -1,0 +1,54 @@
+<?php
+/**
+ * 二级指标类型的相关操作
+ * User: yan
+ * Date: 2017-8-17
+ * Time: 9:58
+ */
+
+namespace Home\Model;
+
+use Think\Model;
+class TsecondindexModel
+{
+    /**
+     * 获取二级指标类型
+     */
+    public function  getSecondIndexType(){
+        $result = M("Tsecondindex")->field("secondIndexType")->select();
+        $temp = array();
+        foreach($result as $k=>$v){
+            $temp[]= $v["secondIndexType"];
+        }
+        return $temp;
+    }
+
+    /**
+     * 根据一级指标Id获取二级指标Id
+     * @param $firstIndexId
+     * @return array
+     */
+    public function getSecondIndexId($firstIndexId){
+        $result = M("Tsecondindex")->field('secondIndexId')->where("firstIndexId = $firstIndexId")->select();
+        $temp = array();
+        foreach($result as $k=>$v){
+            $temp[]= (int)$v["secondIndexId"];
+        }
+        return $temp;
+    }
+
+    /**
+     * 根据一级指标Id获取二级指标权重
+     * @param $firstIndexId
+     * @return array
+     */
+    public function getSecondIndexPercent($firstIndexId){
+        $result = M("Tsecondindex")->field('secondIndexPercent')->where("firstIndexId = $firstIndexId")->select();
+        $temp = array();
+        foreach($result as $k=>$v){
+            $temp[]= (float)$v["secondIndexPercent"];
+        }
+        return $temp;
+    }
+
+}

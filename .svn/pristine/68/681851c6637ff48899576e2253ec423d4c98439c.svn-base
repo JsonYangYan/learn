@@ -1,0 +1,379 @@
+<?php
+/**
+ * 关于普通用户填空题的相关操作
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/7/30
+ * Time: 11:59
+ */
+namespace Home\Model;
+use Think\Model;
+class TblankanswerModel extends  Model{
+
+    /**
+     * 获取指定日期所有区域的得分
+     * @param $currentdate
+     * @return array
+     */
+    public function getOneMonthAllAreasScore($areaName,$currentdate){
+        $sql = "
+                SELECT  e.area_name,e.area_id as id,f.queId,f.value FROM tarea AS e LEFT JOIN 
+                    (
+                    SELECT schoolArean,queId,FORMAT(AVG(blankText),2) as value
+                    FROM (
+                            SELECT area_id,autoId,schoolArean 
+                            FROM tarea a 
+                            LEFT JOIN tschoolinfor b 
+                            ON a.area_name = b.schoolArean  
+                            WHERE a.area_id !=13 AND b.userTime LIKE '$currentdate%' AND b.state =1
+                        ) AS c 
+                    LEFT JOIN tblankanswer AS d 
+                    ON c.autoId = d.schoolId
+                    GROUP BY queId,area_id 
+                    ORDER BY area_id,queId
+                ) as f
+              ON e.area_name = f.schoolArean
+              WHERE e.area_id !=13
+              ORDER BY area_id,queId
+              ";
+        $result = M()->query($sql);
+        $XYCity = array();//襄阳市的总值
+        foreach ($result as $k=>$v) {
+            $XYCity[$v["queId"]] = $XYCity[$v["queId"]] +$v["value"];
+        }
+
+        $XYAvg = array();//用来存襄阳市各填空题的平均值
+        foreach ($XYCity as $k=>$v) {
+            if($k){
+                array_push($XYAvg,round($v/12,2));
+            }
+        }
+        //将区县和得分放到一起
+        $scoreArr = array();
+        foreach($result as $k=>$v) {
+            if($areaName){
+                if($areaName==$v["area_name"]){
+                    $scoreArr[$areaName][] = (float)$v["value"];
+                }
+            }else {
+                $scoreArr[$v["area_name"]][] = $v["value"];
+            }
+        }
+        $resu = array();
+        foreach ($scoreArr as $k=>$v){
+            $arr["area"] = $k;
+            $arr["value"] = $v;
+            array_push($resu, $arr);
+        }
+        $arr["area"] = "襄阳市";
+        $arr["value"] = $XYAvg;
+        array_push($resu,$arr);
+        foreach ($resu as $k=>$v){
+            if (count($v["value"])!=39){
+                for($i=0;$i<39;$i++) {
+                    if(!$resu[$k]["value"][$i]) {
+                        $resu[$k]["value"][$i] = 0;
+                    }
+                }
+            }
+        }
+        return $resu;
+    }
+
+    /**
+     * 根据一个学校id获取填空题的答案
+     * @param $schoolId
+     * @return mixed
+     */
+    public function getBlankTextBySchoolId($schoolId) {
+        $result = M("Tblankanswer")
+                  ->field("blankText")
+                  ->where("schoolId = $schoolId")
+                  ->order("queId")
+                  ->select();
+        return $result;
+    }
+
+    /**
+     * 根据学校id,题号queId获取填空题的答案
+     * @param $schoolId
+     * @return mixed
+     */
+    public function getBlankTextBySchoolIdQueId($queId,$schoolId) {
+        $result = M("Tblankanswer")->field("blankText")->where("schoolId = $schoolId and queId = $queId")->select();
+        $data = (float)$result[0]["blankText"];
+        return $data;
+    }
+
+    /**
+     * 根据以逗号分隔的学校id，获得填空题的平均值
+     * @param $schoolIdsString
+     */
+    public function getBlankTextBySchoolIdsString($schoolIdsString) {
+        $sql = "
+                select avg(blankText) as avg,queId
+                from tblankanswer 
+                WHERE schoolId in ($schoolIdsString) 
+                GROUP BY  queId 
+                ORDER BY queId
+        ";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+    /**
+     * 得到指定问题总数《20的总个数
+     * @param $currentTime
+     * @return mixed
+     * @author yyn
+     */
+    public function getTeacherTerminalTwenty($currentTime,$queIdString,$schoolIds) {
+        $sql = "
+                SELECT count(*) AS total FROM (
+                                    SELECT sum(blankText) AS sum from tblankanswer
+                                    WHERE userTime LIKE '$currentTime%' AND queId in ($queIdString) AND schoolId IN ($schoolIds) GROUP BY schoolId)
+                                    AS a 
+                WHERE a.sum <20
+        ";
+        $count = M()->query($sql);
+        return $count[0]["total"];
+    }
+
+    /**
+     * 得到指定问题总数20-60的总个数
+     * @param $currentTime
+     * @param $queIdString
+     * @return mixed
+     * @author yyn
+     */
+    public function getTeacherTerminalTwentyToSixty($currentTime,$queIdString,$schoolIds) {
+        $sql = "
+                SELECT count(*) AS total FROM (
+                                    SELECT sum(blankText) AS sum from tblankanswer
+                                    WHERE userTime LIKE '$currentTime%' AND queId in ($queIdString) AND schoolId IN ($schoolIds) GROUP BY schoolId)
+                                    AS a 
+                WHERE 20<= a.sum <60
+        ";
+        $count = M()->query($sql);
+        return $count[0]["total"];
+    }
+
+    /**
+     * 得到指定问题总数60-90的总个数
+     * @param $currentTime
+     * @param $queIdString
+     * @return mixed
+     * @author yyn
+     */
+    public function getTeacherTerminalSixtyToEighty($currentTime,$queIdString,$schoolIds) {
+        $sql = "
+                SELECT count(*) AS total FROM (
+                                    SELECT sum(blankText) AS sum from tblankanswer
+                                    WHERE userTime LIKE '$currentTime%' AND queId in ($queIdString) AND schoolId IN ($schoolIds) GROUP BY schoolId)
+                                    AS a 
+                WHERE 60<= a.sum <90
+        ";
+        $count = M()->query($sql);
+        return $count[0]["total"];
+    }
+
+    /**
+     * 得到指定问题总数大于90的总个数
+     * @param $currentTime
+     * @param $queIdString
+     * @return mixed
+     * @author yyn
+     */
+    public function getTeacherTerminalGtEighty($currentTime,$queIdString,$schoolIds) {
+        $sql = "
+                SELECT count(*) AS total FROM (
+                                    SELECT sum(blankText) AS sum from tblankanswer
+                                    WHERE userTime LIKE '$currentTime%' AND queId in ($queIdString) AND schoolId IN ($schoolIds) GROUP BY schoolId)
+                                    AS a 
+                WHERE  a.sum >=90
+        ";
+        $count = M()->query($sql);
+        return $count[0]["total"];
+    }
+
+    /**
+     * 计算校园网宽带在1-20M 20-100M 100M以上各个区间的数量 分别对应fig=1,2,3
+     * @author yan
+     * @param $fig
+     * @param $areaName
+     * @param $time
+     */
+    public function getNetWork($schoolIds,$time,$fig){
+        if($schoolIds){
+            if($fig==1){
+                $sql = "SELECT count(autoId) AS num FROM tblankanswer WHERE userTime LIKE '$time%' AND queId='121'
+                        AND blankText between 1 and 20 AND schoolId in($schoolIds)";
+            }else if($fig==2){
+                $sql = "SELECT count(autoId) AS num FROM tblankanswer WHERE userTime LIKE '$time%' AND queId='121'
+                        AND blankText between 20 and 100 AND schoolId in($schoolIds)";
+            }else if($fig==3){
+                $sql = "SELECT count(autoId) AS num FROM tblankanswer WHERE userTime LIKE '$time%' AND queId='121'
+                        AND blankText>100 schoolId in($schoolIds)";
+            }
+            $result = M()->query($sql);
+            $num = $result[0]["num"];
+        }else{
+            $num = 0;
+        }
+        return $num;
+    }
+
+    /**
+     * 无线网覆盖占有率,fig=1为基本全覆盖，fig=2为基本无覆盖
+     * @param author yan
+     * @param $schoolIds
+     * @param $time
+     * @param $fig
+     * @return int
+     */
+    public function getWireless($schoolIds,$time,$fig){
+        if($schoolIds){
+            if($fig==1){
+                $sql = "SELECT count(autoId) AS num FROM tblankanswer WHERE userTime LIKE '$time%' AND queId='125'
+                        AND blankText>95 AND schoolId in($schoolIds)";
+            }else if($fig==2){
+                $sql = "SELECT count(autoId) AS num FROM tblankanswer WHERE userTime LIKE '$time%' AND queId='121'
+                        AND blankText<10 AND schoolId in($schoolIds)";
+            }
+            $result = M()->query($sql);
+            $num = $result[0]["num"];
+        }else{
+            $num = 0;
+        }
+        return $num;
+    }
+
+    /**
+     * 根据queId,时间，schoolIds串获取每个填空题的平均值
+     * @param author yan
+     * @param $queId
+     * @param $schoolIds
+     * @param $time
+     * @return int
+     */
+    public function getAvgBlabkByqueId($queId,$schoolIds,$time){
+         if($schoolIds){
+             $sql = "SELECT AVG(blankText) AS num FROM tblankanswer WHERE userTime LIKE '$time%' AND queId=$queId
+                     AND schoolId in($schoolIds)";
+             $result = M()->query($sql);
+             $num = $result[0]["num"];
+         }else{
+            $num = 0;
+        }
+        return $num;
+    }
+
+    /**
+     *
+     * @param $currentTime
+     * @param $where 区县有没有限制
+     * @return mixed
+     * @author yyn
+     */
+    public function getAllAreaSchoolBlankTextByCurrentTime($currentTime,$areaName) {
+        if ($areaName == "") $where = "1=1";
+        else $where = "a.schoolArean = '$areaName'";
+        $sql ="
+                SELECT a.schoolName,a.schoolArean,a.autoId,a.classNumber,a.teacherNumber,a.studentNumber,b.blankText 
+                FROM tschoolinfor as a 
+                LEFT JOIN tblankanswer AS b 
+                ON a.autoId = b.schoolId 
+                WHERE a.state = 1 AND a.userTime LIKE '$currentTime%' AND $where 
+                ORDER BY a.schoolArean,a.schoolName,b.queId
+        ";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+    /**
+     * 得到上个月天空题的一些数据
+     * @param $time
+     * @param $queIds
+     * @param $schoolId
+     * @return mixed
+     * @author yyn
+     */
+    public function getLastMonthDate($queIds,$schoolId) {
+        $sql = "
+                SELECT d.queContent,d.unitSymbol,d.queId,IFNULL(c.answer,0) answer FROM tquestion AS d 
+                LEFT JOIN (
+                          SELECT a.queContent,a.unitSymbol,b.blankText AS answer,a.queId FROM tquestion AS a 
+                          LEFT JOIN tblankanswer AS b
+                          ON a.queId = b.queId
+                          WHERE a.queId in ($queIds) AND b.schoolId = $schoolId
+                          ) AS c 
+                ON d.queId = c.queId 
+                WHERE d.queId in ($queIds)
+        ";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+    /**
+ * 删除临时表中填空题中的答案
+ * @param $schoolId
+ * @author yyn
+ */
+    public function deleteBlankanswerBySchoolId($schoolId){
+        M("Tblankanswer_temp")->where("schoolId = $schoolId")->delete();
+    }
+
+    /**
+     * 删除正式表中的答案
+     * @param $schoolId
+     * @author yyn
+     */
+    public function deleteTrueBlankAnswerBySchoolId($schoolId){
+        M("Tblankanswer")->where("schoolId = $schoolId")->delete();
+    }
+
+    /**
+     * 添加填空题到临时表中
+     * @param $textObject
+     * @author yyn
+     */
+    public function addBlankanswer($textObject){
+        M("Tblankanswer_temp")->addAll($textObject);
+    }
+    /**
+     * 添加填空题到正式表中
+     * @param $textObject
+     * @author yyn
+     */
+    public function addToTrueBlankanswer($textObject){
+        M("Tblankanswer")->addAll($textObject);
+    }
+
+    /**
+     * 得到上个月填空题，并且把学校id换成本月的
+     * @param $schoolId 上个月学校id
+     * @param $autoId 本月学校id
+     * @return mixed
+     * @author yyn
+     */
+    public function getBlankAnswerBySchoolId($schoolId,$autoId) {
+        $result = M("Tblankanswer")
+            ->field("queId,blankText,blankScore,$autoId as schoolId")
+            ->where("schoolId = $schoolId")->select();
+        return $result;
+    }
+
+    /**
+     * 将临时表中的数据取出，然后存到正式表中
+     * @param $schoolId
+     * @return mixed
+     * @author yyn
+     */
+    public function getTempBlankAnswerBySchoolId($schoolId){
+        $result = M("Tblankanswer_temp")
+            ->field("queId,blankText,blankScore,schoolId")
+            ->where("schoolId = $schoolId")->select();
+        return $result;
+    }
+
+}

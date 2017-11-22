@@ -1,0 +1,121 @@
+<?php
+/**
+ * 区县管理员操作
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/8/14
+ * Time: 15:37
+ */
+namespace Home\Controller;
+use Think\Controller;
+class CountyController extends Controller {
+
+//    public function __construct()
+//    {
+//        parent::__construct();
+//        if (!session("username")) {
+//            $this->redirect('Index/index');
+//        }
+//    }
+    /**
+     * 获取登录用户的所在区域
+     */
+    public function getAranName(){
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $this->ajaxReturn($areaName);
+    }
+
+    /**
+     * 区县管理员首页
+     * @author:yyn
+     */
+    public function index() {
+        $this->display();
+    }
+
+    /**
+     * 评分标准
+     */
+    public function standard() {
+        $this->display();
+    }
+
+    /**
+     * 填报问卷
+     */
+    public function statistics() {
+        $this->display();
+    }
+
+    //从前端获取每个用户的得分
+    public function getScore() {
+        $username = session('username');
+
+        $this->ajaxReturn();
+    }
+
+
+
+
+
+
+
+
+
+    /**
+     * 评价结果
+     */
+    //整体评估start
+    public function school() {
+        $this->display();
+    }
+
+    /**
+     * 雷达图
+     * 根据时间获取襄阳市、湖北省、某区域
+     * @author yan
+     */
+    public function XYHuBeiCountyAvgLevel() {
+        $currentTime = I("post.currentdate","2017-06");
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $result = D("Tareascore","Service")->XYHuBeiCountyAvgLevel($areaName,$currentTime);
+        $this->ajaxReturn($result,"JSON");
+    }
+
+    //一级指标
+    public function getFirstIndexTypeScore(){
+        $currentTime = I("post.currentdate","2017-06");
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $result = D("Tareascore","Service")->getAreanFirstIndexScoreType($areaName,$currentTime);
+        $this->ajaxReturn($result,"JSON");
+    }
+
+    //二级指标
+    public function getSecondIndexTypeScore(){
+        $currentTime = I("post.currentdate","2017-06");
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $result = D("Tareascore","Service")->getAreanSecondIndexScoreType($areaName,$currentTime);
+        $this->ajaxReturn($result,"JSON");
+    }
+
+    //三级指标
+    public function getThirdIndexTypeScore(){
+        $currentTime = I("post.currentdate","2017-06");
+        $username = session('username');
+        $areaName = D("Tuser")->getAreaNameByUserName($username);
+        $result = D("Tareascore","Service")->getAreanThirdIndexScoreType($areaName,$currentTime);
+        $this->ajaxReturn($result,"JSON");
+    }
+
+    //整体评估end
+
+    //退出
+    public function logout() {
+        D("Login","Service");
+        $this->redirect("Index/index","页面跳转中……");
+    }
+}

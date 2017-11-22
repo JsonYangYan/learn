@@ -1,0 +1,503 @@
+<?php
+/**
+ *tschoolinfo账户表的相关操作
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/7/29
+ * Time: 10:53
+ */
+namespace Home\Model;
+use Think\Model;
+class TschoolinforModel extends  Model{
+
+    /**
+     * 得到指定日期提交的学校数量
+     * @param $currentdate
+     * @return int
+     */
+    public function getSpecifiedDateSchoolSubmitNum($currentdate) {
+        $count = M("Tschoolinfor")->where("userTime like '$currentdate%' and state =1")->count();
+        return $count;
+    }
+
+    /**
+     * 得到区域指定日期提交的学校数量
+     * @param $currentdate
+     * @param $areaName
+     * @return int
+     */
+    public function getAreaSpecifiedDateSchoolSubmitNum($areaName,$currentdate) {
+        if($areaName!="襄阳市"){
+            $count = M("Tschoolinfor")->where("state =1 and schoolArean = '$areaName' and userTime like '$currentdate%'")->count();
+        }else{
+            $count = M("Tschoolinfor")->where("state =1 and userTime like '$currentdate%'")->count();
+        }
+
+        return $count;
+    }
+
+    /**
+     * 各区县在指定时间内的提交情况
+     * @param $currentdate
+     * @return mixed
+     */
+    public function getAreaSubmit($currentdate) {
+        $sql = "
+            SELECT name,area_total,IFNULL(state_total,0) state_total ,area_id 
+            FROM (
+                SELECT b.area_name name,area_total,b.area_id
+                FROM tarea as b 
+                LEFT JOIN 
+                (SELECT area_id,count(*) area_total FROM tschooluser a  WHERE a.role = 'user' GROUP BY area_id) c 
+                ON b.area_id = c.area_id 
+                WHERE b.area_id !=13) as e
+            LEFT JOIN (
+                      SELECT a.area_name AS area_name,COUNT(*) AS state_total
+                      FROM tarea as a 
+                      LEFT JOIN tschoolinfor as b 
+                      ON a.area_name = b.schoolArean 
+                      WHERE b.userTime LIKE '%$currentdate%' and b.state =1 GROUP BY a.area_name
+                      )as f 
+            ON e.`name` = f.area_name
+        ";
+        $result = M()->query($sql);
+        foreach ($result as $k=>$v){
+            $value = ($v["state_total"]/$v["area_total"])*100;
+            $value =  round($value,2);
+            $result[$k]["value"] =$value;
+        }
+        return $result;
+    }
+
+    /**
+     * 得到某一个区县，某个月份的具体提交情况
+     * @param $currentdate
+     * @param $area_id
+     * @return mixed
+     */
+    public function getOneAreaSubmit($currentdate, $area_id) {
+        $sql = "
+               SELECT c.sch_name name,tarea.area_name area,IFNULL(d.state,0) status 
+                   FROM tarea, tschooluser c 
+                   LEFT JOIN (
+                            SELECT a.username,a.sch_name,b.schoolArean,IFNULL(b.state,0) state, b.userTime  
+                                FROM tschooluser a 
+                                LEFT JOIN tschoolinfor b ON a.username=b.userName  
+                                WHERE a.area_id =$area_id and b.userTime LIKE '$currentdate%'	AND a.role = 'user'
+                            ) d 
+                            ON c.username = d.username 
+                WHERE c.area_id= $area_id AND c.role = 'user' and tarea.area_id = $area_id
+                ORDER BY status ASC
+                ";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+    /**
+     * 得到某一个区县，某个月份的具体提交情况以及查询特定学校的提交情况
+     * autor yan
+     * @param $schoolName
+     * @param $currentdate
+     * @param $area_id
+     * @return mixed
+     */
+    public function getAndsearchAreaSchool($schoolName,$currentdate, $area_id) {
+        if(empty($schoolName)){
+            $sql = "
+               SELECT c.sch_name name,tarea.area_name area,IFNULL(d.state,0) status
+                   FROM tarea, tschooluser c
+                   LEFT JOIN (
+                            SELECT a.username,a.sch_name,b.schoolArean,IFNULL(b.state,0) state, b.userTime
+                                FROM tschooluser a
+                                LEFT JOIN tschoolinfor b ON a.username=b.userName
+                                WHERE a.area_id =$area_id and b.userTime LIKE '$currentdate%'	AND a.role = 'user'
+                            ) d
+                            ON c.username = d.username
+                WHERE c.area_id= $area_id AND c.role = 'user' and tarea.area_id = $area_id
+                ORDER BY status ASC
+                ";
+        }else{
+            $sql = "
+               SELECT c.sch_name name,tarea.area_name area,IFNULL(d.state,0) status
+                   FROM tarea, tschooluser c
+                   LEFT JOIN (
+                            SELECT a.username,a.sch_name,b.schoolArean,IFNULL(b.state,0) state, b.userTime
+                                FROM tschooluser a
+                                LEFT JOIN tschoolinfor b ON a.username=b.userName
+                                WHERE a.area_id =$area_id and b.userTime LIKE '$currentdate%'	AND a.role = 'user'
+                            ) d
+                            ON c.username = d.username
+                WHERE c.area_id= $area_id AND c.sch_name LIKE '%".$schoolName."%'AND c.role = 'user' and tarea.area_id = $area_id
+                ORDER BY status ASC
+                ";
+        }
+        $result = M()->query($sql);
+        return $result;
+    }
+
+
+
+    /**
+     * 根据区域、类型、日期获得所有学校
+     * @param $area
+     * @param $schoolType
+     * @param $userTime
+     * @return mixed
+     */
+    public function getSchoolsByAreaTypeDate($area, $schoolType, $userTime) {
+        $sql = "
+                select autoId,userName,$userTime,schoolName as name
+                from tschoolinfor 
+                WHERE schoolArean = '$area' AND  schoolType = '$schoolType' AND  userTime LIKE '$userTime%' AND state = 1
+            ";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+    public function getSchoolsByAreaDate($area,$userTime) {
+        $sql = "
+                select schoolName as name,schoolType as type,schoolArean as area,autoId
+                from tschoolinfor
+                WHERE schoolArean = '$area' AND  userTime LIKE '$userTime%' AND state = 1
+            ";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+
+    /**
+     * 根据学校id获取学校的信息和填空题的信息
+     * @param $autoId
+     * @return mixed
+     */
+    public function getSchoolDetail($autoId) {
+        $schoolInfo = $this->getSchoolInfoByAutoid($autoId);
+        $blankText = D("Tblankanswer")->getBlankTextBySchoolId($autoId);
+        $result["c0"] = 1;
+        $result["c1"] = $schoolInfo["schoolName"];
+        $result["c2"] = $schoolInfo["classNumber"];
+        $result["c3"] = $schoolInfo["teacherNumber"];
+        $result["c4"] = $schoolInfo["studentNumber"];
+        for ($i=0; $i<count($blankText); $i++){
+            $result["c".($i+5).""] = $blankText[$i]["blankText"];
+        }
+        return $result;
+    }
+
+    /**
+     * 根据学校id获取学校名字、班级数量、学生数量、教师数量、学校所在区域
+     * @param $autoId
+     * @return mixed
+     */
+    public function  getSchoolInfoByAutoid($autoId) {
+        $result = M("Tschoolinfor")
+                    ->field("schoolName,classNumber,studentNumber,teacherNumber,schoolArean")
+                    ->where("autoId = $autoId")
+                    ->find();
+        return $result;
+    }
+
+    /**
+     * 获取某个区县里的学校详情
+     * @param $autoId
+     */
+    public function getAreaDetail($autoId, $userTime) {
+        $schoolInfo = $this->getSchoolInfoByAutoid($autoId);
+        $area = $schoolInfo["schoolArean"];
+        $schoolAreaUserTimeCondition["schoolArean"] = array("eq",$area);
+        $schoolAreaUserTimeCondition["userTime"] = array("like",$userTime."%");
+        $schoolAreaUserTimeCondition["state"] = array("eq",1);
+        $schoolsInfo = $this->getSchoolsInforByCondition($schoolAreaUserTimeCondition);
+        $schoolIdsString = $this->getSchoolIdsStringBySchoolAreanUserTime($schoolAreaUserTimeCondition);
+        $blankText = D("Tblankanswer")->getBlankTextBySchoolIdsString($schoolIdsString);
+        $result["c0"] = 1;
+        $result["c1"] = $area;
+        $result["c2"] = $schoolsInfo["class_sum"];
+        $result["c3"] = $schoolsInfo["teacher_sum"];
+        $result["c4"] = $schoolsInfo["student_sum"];
+        for ($i=0; $i<count($blankText); $i++){
+            $result["c".($i+5).""] = round($blankText[$i]["avg"],2);
+        }
+        return $result;
+    }
+
+    /**
+     * 根据条件获取学校班级数量之和、学生数量之和、教师数量之和
+     * @param $condition
+     * @return mixed
+     */
+    public function getSchoolsInforByCondition($condition) {
+        $result = M("tschoolinfor")
+            ->field("sum(classNumber) AS class_sum,sum(studentNumber) AS student_sum,sum(teacherNumber) AS teacher_sum")
+            ->where($condition)->select();
+        return $result[0];
+    }
+
+    /**
+     * 根据区县名和日期获取所有学校的id
+     * @param $condition
+     * @return bool|string
+     * 返回格式1,2,3,4,5
+     */
+    public function getSchoolIdsStringBySchoolAreanUserTime($condition) {
+       $resultArray = M("Tschoolinfor")->field("autoId")
+                         ->where($condition)
+                         ->select();
+       $str = "";
+       foreach ($resultArray as $k=>$v){
+           $str .=$v["autoId"].",";
+       }
+       //去除掉最后一个字符
+        if ($str){
+            $schoolIdsString = substr($str,0,strlen($str)-1);
+        }
+        return $schoolIdsString;
+    }
+
+    /**
+     * 根据区县名、日期获取所有学校的id按综合绩效大小排序
+     * @param $areaName
+     * @param $time
+     * @param $fig
+     * @return string
+     */
+    public function getSchoolIdOrderbySchoolScore($areaName,$time,$fig){
+        //fig=1 获取全部学校Id
+        if($fig==1){
+            $sql = "SELECT distinct schoolId FROM tschoolinfor,tschoolindexscore WHERE tschoolinfor.autoId = schoolId AND indexType=0 AND state=1 AND userTime LIKE '$time%'
+                AND schoolArean='$areaName' ORDER BY schoolScore DESC";
+        }else if($fig==2){  //fig=2,绩效排名前十的学校Id
+            $sql = "SELECT distinct schoolId FROM tschoolinfor,tschoolindexscore WHERE tschoolinfor.autoId = schoolId AND indexType=0 AND state=1 AND userTime LIKE '$time%'
+                AND schoolArean='$areaName' ORDER BY schoolScore DESC LIMIT 0,10";
+        }
+        $result = M()->query($sql);
+        $str = "";
+        foreach ($result as $k=>$v){
+            $str .=$v["schoolId"].",";
+        }
+        //去除掉最后一个字符
+        if ($str){
+            $schoolIdsString = substr($str,0,strlen($str)-1);
+        }
+        return $schoolIdsString;
+    }
+
+    /**
+     * 根据时间获取所有学校id
+     * @param $userTime
+     * @return bool|string
+     * 返回格式 1,2,3,4,5
+     */
+    public function getAllSchoolIdsStringByUserTime($userTime) {
+        $resultArray = M("Tschoolinfor")->field("autoId")
+            ->where("state = 1 and userTime like '$userTime%'")
+            ->select();
+        $str = "";
+        foreach ($resultArray as $k=>$v){
+            $str .=$v["autoId"].",";
+        }
+        //去除掉最后一个字符
+        if ($str){
+            $schoolIdsString = substr($str,0,strlen($str)-1);
+        }
+        return $schoolIdsString;
+    }
+
+    /**
+     * 根据时间获取所有学校id
+     * @param $userTime
+     * @return bool|string
+     * 返回格式 array
+     */
+    public function getAllSchoolIdByUserTime($userTime) {
+        $resultArray = M("Tschoolinfor")->field("autoId")
+            ->where("state = 1 and userTime like '$userTime%'")
+            ->select();
+        foreach ($resultArray as $k=>$v){
+            $arrres[] = (int)$v["autoId"];
+        }
+        return $arrres;
+    }
+
+    /**
+     * 根据时间、地区获取所有学校id
+     * @param $areaName
+     * @param $userTime
+     * @return array
+     */
+    public function getAllSchoolIdByAreaUserTime($areaName,$userTime) {
+        $sql = "SELECT autoId FROM tschoolinfor WHERE state = 1 AND schoolArean = '$areaName' AND userTime LIKE '$userTime%'";
+        $resultArray = M()->query($sql);
+        foreach ($resultArray as $k=>$v){
+            $arrres[] = (int)$v["autoId"];
+        }
+        return $arrres;
+    }
+
+    /**
+     * 根据时间获取襄阳市学校的详情
+     * @param $userTime
+     * @return mixed
+     */
+    public function getAllAreasSchoolDitail($userTime) {
+        $userTimeStateCondition["userTime"] = array("like", $userTime."%");
+        $userTimeStateCondition["state"] = array("eq",1);
+        $schoolsInfo = $this->getSchoolsInforByCondition($userTimeStateCondition);
+        $schoolIdsString = $this->getSchoolIdsStringBySchoolAreanUserTime($userTimeStateCondition);
+        $blankText = D("Tblankanswer")->getBlankTextBySchoolIdsString($schoolIdsString);
+        $result["c0"] = 1;
+        $result["c1"] = "襄阳市";
+        $result["c2"] = $schoolsInfo["class_sum"];
+        $result["c3"] = $schoolsInfo["teacher_sum"];
+        $result["c4"] = $schoolsInfo["student_sum"];
+        for ($i=0; $i<count($blankText); $i++){
+            $result["c".($i+5).""] = round($blankText[$i]["avg"],2);
+        }
+        return $result;
+    }
+
+    /**
+     * 获取某个地区高中、初中、小学、其他类型年级的人数
+     * autor yan
+     * @param $condition
+     * @param $areaName
+     * @param $currentTime
+     * @return mixed
+     */
+    public function getGradeStudentNum($condition,$areaName,$currentTime){
+        $count = M("Tschoolinfor")->WHERE("schoolType = '$condition'AND schoolArean = '$areaName' AND state =1 AND userTime LIKE '$currentTime%'")->count();
+        return $count;
+    }
+
+    /**
+     * 获取某个地区教师和学生的人数
+     * autor yan
+     * @param $condition
+     * @param $areaName
+     * @param $currentTime
+     * @return mixed
+     */
+    public function getTeacherAndStudentNum($condition,$areaName,$currentTime){
+        // M("")->fild("sum('num')")->select();
+        //$result = M("tschoolinfor")->field("sum('$condition') as num")->where("schoolArean = '$areaName' and state = 1 and userTime like '$currentTime%'")->select();
+        $sql = "SELECT SUM(".$condition.") AS num FROM tschoolinfor WHERE schoolArean = '$areaName' AND state =1 AND userTime LIKE '$currentTime%'";
+        $result = M()->query($sql);
+        $num = $result[0]["num"];
+        return $num;
+    }
+
+    /**
+     * 获取某个地区城镇、农村学校类型的数量
+     * autor yan
+     * @param $condition
+     * @param $areaName
+     * @param $currentTime
+     * @return mixed
+     */
+    public function getSchoolTypeNum($condition,$areaName,$currentTime){
+        $count = M("Tschoolinfor")->WHERE("schoolTown = '$condition'AND schoolArean = '$areaName' AND state =1 AND userTime LIKE '$currentTime%'")->count();
+        return $count;
+    }
+
+    /**
+     * 根据tschooluser表的id删除学校用户
+     * @param $ids
+     */
+    public function delSubmitSchUserByuserName($ids){
+        $sql = "DELETE FROM tschoolinfor WHERE userName IN(SELECT username FROM tschooluser WHERE id IN($ids))";
+        $result = M()->query($sql);
+        return $result;
+    }
+    /**
+     * 根据用户名查看学校是否登陆过
+     * @param $userName
+     * @return mixed
+     * @author yyn
+     */
+    public function getSchoolByUserName($userName,$schoolType) {
+        if ($schoolType == "normal"){
+            $result = M("Tschoolinfor")->where("userName = '$userName'")->order("autoId desc")->find();
+        }else{
+            $result = M("Tpschoolinfor")->where("userName = '$userName'")->order("autoId desc")->find();
+        }
+        return $result;
+    }
+    /**
+     * 根据用户名查找最近提交过的学校的id
+     * @param $userName
+     * @return mixed
+     * @author yyn
+     */
+    public function getNewStateSchoolByUserName($userName) {
+        $result = M("Tschoolinfor")->where("userName = '$userName' and state = 1")->order("autoId desc")->find();
+        return $result;
+    }
+
+    /**
+     * 添加用户信息到tpschoolinfor表
+     * @param $data
+     * @author yyn
+     */
+    public function addSchoolUser($data) {
+        unset($data["autoId"]);
+        $data["userName"] = session("username");
+        $data["state"] = 0;
+        $data["userTime"] = date("Y-m-d H:i:s",time());
+        $result = M("Tschoolinfor")->add($data);
+        return $result;
+    }
+    /**
+     * 得到用户的提交状态
+     * @author yyn
+     */
+    public function getSchoolCheckStatus() {
+        $userName = session("username");
+        $result = M("Tschoolinfor")
+            ->field("userTime")
+            ->where("userName = '$userName' and state=1")
+            ->order("autoId desc")
+            ->find();
+        return $result;
+    }
+    /**
+     * 修改用户信息
+     * @param $schoolId
+     * @param $data
+     * @return mixed
+     * @author yyn
+     */
+    public function updateSchoolinfor($schoolId,$data){
+        $data["userTime"] = date("Y-m-d H:i:s",time());
+        $result = M("Tschoolinfor")->where("autoId = $schoolId")->save($data);
+        return $result;
+    }
+    /**
+     * 通过用户名，时间得到学校的id
+     * @param $userName
+     * @param $time
+     * @author yyn
+     */
+    public function getSchoolIdByUserNameTime($userName,$time) {
+        $result = M("Tschoolinfor")
+            ->field("autoId")
+            ->where("userName = '$userName' and userTime like '$time%'")
+            ->find();
+        if (!$result)
+            return -1;
+        return $result["autoId"];
+    }
+
+    /**
+     * 修改提交后的状态
+     * @param $schoolId
+     * @author yyn
+     */
+    public function setState($schoolId){
+        $data["state"] = 1;
+        $data["userTime"] = date("Y-m-d H:i:s",time());
+        M("Tschoolinfor")->where("autoId = $schoolId")->save($data);
+    }
+
+}
+
+

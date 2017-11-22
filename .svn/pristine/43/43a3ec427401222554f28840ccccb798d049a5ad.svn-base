@@ -1,0 +1,26 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/11/7
+ * Time: 20:42
+ */
+namespace Home\Service;
+use Think\Model;
+class TpblankanswerService extends Model{
+    /**
+     * 获取上一个月的数据
+     * @param $queIds
+     * @param $time
+     * @return mixed
+     * @author yyn
+     */
+    public function getTpLastMonthDate($queIds,$time) {
+        $userName = session("username");
+        $schoolId = D("Tpschoolinfor","Model")->getTpSchoolIdByUserNameTime($userName,$time);
+        $result = D("Tpblankanswer","Model")->getTpLastMonthDate($queIds,$schoolId);
+        $data["data"] = $result;
+        $data["lastMonth"] = $time;
+        return $data;
+    }
+}

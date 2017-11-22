@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta name="viewpoint" content="width=device-width; initial-scale=1" />
+	<title>襄阳市教育信息化发展水平评估系统</title>
+	<link rel="icon" href="../images/icon.png"/>
+	<link type="text/css" rel="stylesheet" href="__CSS__/city/base.css" />
+ 	<link type="text/css" rel="stylesheet" href="__CSS__/city/education.css" />
+	<script src="__JS__/jquery1.8.2.min.js"></script>
+	<script src="__JS__/jquery.cookie.js"></script>
+</head>
+<body>
+	<div class="header">襄阳市教育信息化发展水平评估系统</div>
+	<div id="container"> 
+		<div id="floatNavEducation">
+			<include file="Common:navigation"/>
+		</div>
+		<div class="content">
+			<div class="primary">
+				<br/><div class="school_info"><strong>--整体状况</strong></div>
+				<div class="school_info">截至9月份，我市已基本构建比较完善的国民教育体系。全市现有各级各类学校1541所，在校学生84.1万人。其中高校5所，在校生5万余人；
+					中等职业学校30所，在校生2.9万人；普通高中42所，在校生8.9万人；普通初中198所，在校生14.3万人；小学462所，在校生36.2万人；特殊教育学校7所，在校生440人；
+					注册幼儿园797所，在园幼儿16.8万人。全市共有教职员工6.5万人，其中专任教师5.2万人。</div>
+				<div class="line"><img src="__IMAGE__/Admin/line.png"></div>
+				<div class="bar"><img src="__IMAGE__/Admin/bar.png"></div>
+				<div class="clear"></div>
+				<br/><div class="school_info"><strong>--具体详情</strong></div>
+				<div class="school_info">
+					——<i>学前教育</i>毛入园率大幅提升。完成两期学前教育三年行动计划，全市每个乡镇均建有一所以上的公办幼儿园，市区新建住宅小区配建幼儿园工作顺利推进。
+					全市省、市级示范幼儿园达到40所，学前三年毛入园率由2010年的53%上升到目前的85.02%。
+				</div>
+				<div class="school_info">
+					——<i>义务教育</i>均衡发展全面实现。目前，全市所属县（市）区均通过省“县域义务教育均衡发展”评估验收，实现了“普九”有学上到均衡发展“上好学”质的飞跃。小学适龄儿童入学率、巩固率均达到100％；
+					初中学生入学率、三年巩固率分别达100％、100.1%；残疾儿童少年入学率达到95%。
+				</div>
+				<div class="school_info">
+					——<i>普通高中教育</i>质量全省领先。全市省、市级示范高中达到26所（其中省级示范高中6所），优质学校占比62％;高中阶段入学率分别达到95.1%；适龄人口进入高校就读比
+					例达到40％以上。襄阳四中、襄阳五中等一批学校进入全省、全国先进行列，成为享誉全国的基础教育品牌；襄阳三中上重点大学人数首次突破一千人大关。今年，我市高
+					考再次夺得省文科状元，创造了“七年八状元”的襄阳高考现象，上重点线人数首次突破了8000人大关，离“十三.五”末期我们提出的“万名学生上重点大学”目标越来越近。
+				</div>
+				<div class="school_info">
+					——<i>职业教育</i>服务能力显著提高。全市共创建国家级重点中职学校12所、省级重点14所，优质学校占比达到46％。完成了三个职教联盟的组建，继续推进规模化、集团化、
+					集约化发展路子；中高职衔接、普职融通、产教融合进一步推进；年度培养技能型人才5.2万人，农村劳动力转移培训8.5万人，农村实用人才培训20万人，城市职工继
+					续教育和再就业培训4.1万人。策划了襄阳职教园区项目建设，一期总建筑面积30.52万平方米，总投资为14.82亿元，计划迁入六所中职学校（包括一所民办中职），
+					着力建设面向襄阳、服务鄂西北，集职业教育、职业实训、产学研用为一体的综合性职教园区。
+				</div>
+				<div class="school_info">
+					——<i>高等教育综</i>合实力明显增强。全市高校达到5所，年招生2万人，适龄人口进入高校就读比例达到40％，高等教育“大众化”程度进一步提升。
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div id="footer">
+		<include file="Common:footer"/>
+	</div>
+</body>
+</html>
+<script src="__JS__/city/base.js"></script>

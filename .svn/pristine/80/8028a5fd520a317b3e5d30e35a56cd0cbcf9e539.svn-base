@@ -1,0 +1,37 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: yyn
+ * Date: 2017/8/27
+ * Time: 11:07
+ */
+namespace Home\Model;
+use Think\Model;
+class TpquestionModel extends  Model{
+
+    /**
+     * 返回用户的答案和题
+     * @param $schoolId
+     * @param $indexType
+     * @return mixed
+     * @author yyn
+     */
+    public function getUserAnswerAndQuestion($schoolId,$indexType) {
+        $sql = "
+                SELECT a.*,b.blankText,d.choiceContent,d.hasBlank,d.choiceText,d.choiceScore,d.choiceId,IFNULL(d.is_checked,0) is_checked,d.autoId FROM tpquestion AS a LEFT JOIN
+                (SELECT bb.queId,bb.blankText FROM tpblankanswer_temp AS bb WHERE schoolId = $schoolId) AS b
+                ON a.queId = b.queId
+                LEFT JOIN 
+                (SELECT t.choiceId,t.autoId,t.queId,t.choiceContent,t.hasBlank,aa.choiceText,aa.choiceScore,aa.is_checked  
+                FROM tpchoice t LEFT JOIN 
+                (SELECT * FROM tpchoiceanswer_temp WHERE schoolId = $schoolId) AS aa
+                ON t.autoId = aa.choiceId) AS d
+                ON a.queId = d.queId
+                WHERE indexType = $indexType
+        ";
+        $result = M()->query($sql);
+        return $result;
+    }
+
+
+}
