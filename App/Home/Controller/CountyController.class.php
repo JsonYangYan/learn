@@ -110,7 +110,7 @@ class CountyController extends Controller {
 
     //退出
     public function logout() {
-        D("Login","Service");
+        D("Login","Service")->logout();
         $this->redirect("Index/index","页面跳转中……");
     }
 }
